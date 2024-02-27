@@ -35,12 +35,12 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
       - name: Upload coverage to Codecov
-          uses: codecov/codecov-action@v2
-          with:
-            directory: coverage
-            files: ./coverage/.resultset.json
-            flags: unittests
-            name: codecov-umbrella
+        uses: codecov/codecov-action@v2
+        with:
+          directory: coverage
+          files: ./coverage/.resultset.json
+          flags: unittests
+          name: codecov-umbrella
 
   lint:
     runs-on: ubuntu-latest
