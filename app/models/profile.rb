@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Profile < ApplicationRecord
   belongs_to :user
 
@@ -5,19 +7,18 @@ class Profile < ApplicationRecord
   # validates :email, presence: true, uniqueness: true
 
   validates :phone_number_1, presence: true,
-                            uniqueness: true,
-                            length: {
-                              minimum: 10,
-                              maximum: 15
-                            }
+                             uniqueness: true,
+                             length: {
+                               minimum: 10,
+                               maximum: 15
+                             }
 
   validates :phone_number_2, allow_nil: true,
                              length: {
-                              minimum: 10,
-                              maximum: 15
-                            }
+                               minimum: 10,
+                               maximum: 15
+                             }
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-
 end

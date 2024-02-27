@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
     email { FFaker::Internet.email }
@@ -5,7 +7,7 @@ FactoryBot.define do
     confirmed_at { Time.now }
   end
 
-  factory :admin, class: "User" do
+  factory :admin, class: 'User' do
     email { FFaker::Internet.email }
     password { FFaker::Internet.password }
     role { 2 }

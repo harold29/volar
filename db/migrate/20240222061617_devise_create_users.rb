@@ -4,8 +4,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :users, id: :uuid do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: ""
-      t.string :encrypted_password, null: false, default: ""
+      t.string :email,              null: false, default: ''
+      t.string :encrypted_password, null: false, default: ''
 
       ## Recoverable
       t.string   :reset_password_token
@@ -34,8 +34,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.1]
 
       t.integer  :role
 
-      t.string   :first_name, default: ""
-      t.string   :last_name, default: ""
+      t.string   :first_name, default: ''
+      t.string   :last_name, default: ''
 
       t.boolean  :ban, default: false
       t.datetime :banned_at

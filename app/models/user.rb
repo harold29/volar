@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   after_initialize :set_default_role
 
-  enum role: [:user, :super_user, :admin]
+  enum role: %i[user super_user admin]
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -12,5 +14,4 @@ class User < ApplicationRecord
   def set_default_role
     self.role ||= :user
   end
-
 end

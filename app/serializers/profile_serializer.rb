@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProfileSerializer < ApplicationSerializer
   attributes :first_name,
              :last_name,
@@ -8,6 +10,6 @@ class ProfileSerializer < ApplicationSerializer
              :birthday
 
   def birthday
-    object.birthday.blank? ? '' : object.birthday.strftime("%Y-%m-%d")
+    object.birthday.blank? ? '' : object.birthday.strftime('%Y-%m-%d')
   end
 end

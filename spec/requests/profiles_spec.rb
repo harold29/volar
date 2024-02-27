@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "/profiles", type: :request do
-  describe "GET /show" do
+RSpec.describe '/profiles', type: :request do
+  describe 'GET /show' do
     let(:show_profile_url) { '/profile' }
 
     context 'with created profile' do
@@ -33,8 +35,8 @@ RSpec.describe "/profiles", type: :request do
     end
   end
 
-  describe "GET /new" do
-    context "when user is authenticated" do
+  describe 'GET /new' do
+    context 'when user is authenticated' do
       let(:user) { create(:user) }
 
       before do
@@ -42,28 +44,28 @@ RSpec.describe "/profiles", type: :request do
         get new_profile_path
       end
 
-      it "responds with 200 (ok)" do
+      it 'responds with 200 (ok)' do
         expect(response).to have_http_status(:ok)
       end
 
-      it "renders the new template" do
+      it 'renders the new template' do
         expect(response).to render_template(:new)
       end
     end
 
-    context "when user is not authenticated" do
+    context 'when user is not authenticated' do
       before do
         get new_profile_path
       end
 
-      it "redirects to the sign-in page" do
+      it 'redirects to the sign-in page' do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
-  describe "POST /create" do
-    let(:profile_url) { "/profiles" }
+  describe 'POST /create' do
+    let(:profile_url) { '/profiles' }
     let(:valid_attributes) do
       {
         first_name: 'Test1',
@@ -76,16 +78,16 @@ RSpec.describe "/profiles", type: :request do
     end
 
     context 'with valid parameters' do
-      let(:user) { create :user, password: '12345678'}
+      let(:user) { create :user, password: '12345678' }
 
       before do
         sign_in user
       end
 
       it 'creates a new Profile' do
-        expect {
+        expect do
           post profile_url, params: { profile: valid_attributes }
-        }.to change(Profile, :count).by(1)
+        end.to change(Profile, :count).by(1)
       end
 
       it 'Returns 201' do
@@ -113,9 +115,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does not create a new Profile' do
-            expect {
+            expect do
               post profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response with errors for the new profile' do
@@ -141,9 +143,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does not create a new Profile' do
-            expect {
+            expect do
               post profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response with errors for the new profile' do
@@ -170,9 +172,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does not create a new Profile' do
-            expect {
+            expect do
               post profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response with errors for the new profile' do
@@ -199,9 +201,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'creates a new Profile' do
-            expect {
+            expect do
               post profile_url, params: { profile: non_complete_attrs }
-            }.to change(Profile, :count).by(1)
+            end.to change(Profile, :count).by(1)
           end
 
           it 'redirects to new Profile' do
@@ -228,9 +230,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'creates a new Profile' do
-            expect {
+            expect do
               post profile_url, params: { profile: non_complete_attrs }
-            }.to change(Profile, :count).by(1)
+            end.to change(Profile, :count).by(1)
           end
 
           it 'redirects to new Profile' do
@@ -248,7 +250,7 @@ RSpec.describe "/profiles", type: :request do
               last_name: 'Test2',
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
-              gender: 'test',
+              gender: 'test'
             }
           end
 
@@ -257,9 +259,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'creates a new Profile' do
-            expect {
+            expect do
               post profile_url, params: { profile: non_complete_attrs }
-            }.to change(Profile, :count).by(1)
+            end.to change(Profile, :count).by(1)
           end
 
           it 'redirects to new Profile' do
@@ -272,7 +274,7 @@ RSpec.describe "/profiles", type: :request do
     end
 
     context 'without authentication' do
-      let(:user) { create :user, email: 'test@test.com', password: '12345678'}
+      let(:user) { create :user, email: 'test@test.com', password: '12345678' }
       let(:valid_attributes) do
         {
           first_name: 'Test1',
@@ -292,26 +294,26 @@ RSpec.describe "/profiles", type: :request do
     end
   end
 
-  describe "GET /edit" do
-    context "when user is authenticated" do
+  describe 'GET /edit' do
+    context 'when user is authenticated' do
       let(:user) { create(:user) }
-      let!(:profile) { create(:profile, user: user) }
+      let!(:profile) { create(:profile, user:) }
 
       before do
         sign_in user
         get edit_profile_path
       end
 
-      it "responds with 200 (ok)" do
+      it 'responds with 200 (ok)' do
         expect(response).to have_http_status(:ok)
       end
 
-      it "renders the edit template" do
+      it 'renders the edit template' do
         expect(response).to render_template(:edit)
       end
     end
 
-    context "when user is authenticated but has no profile" do
+    context 'when user is authenticated but has no profile' do
       let(:user) { create(:user) }
 
       before do
@@ -319,24 +321,24 @@ RSpec.describe "/profiles", type: :request do
         get edit_profile_path
       end
 
-      it "redirects to the profile creation page" do
+      it 'redirects to the profile creation page' do
         expect(response).to redirect_to(new_profile_path)
       end
     end
 
-    context "when user is not authenticated" do
+    context 'when user is not authenticated' do
       before do
         get edit_profile_path
       end
 
-      it "redirects to the sign-in page" do
+      it 'redirects to the sign-in page' do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
-  describe "PATCH /update" do
-    let(:profile_url) { "/profile" }
+  describe 'PATCH /update' do
+    let(:profile_url) { '/profile' }
     let(:valid_attributes) do
       {
         first_name: 'Test1',
@@ -357,9 +359,9 @@ RSpec.describe "/profiles", type: :request do
       end
 
       it 'updates the existing Profile' do
-        expect {
+        expect do
           patch profile_url, params: { profile: valid_attributes }
-        }.to change(Profile, :count).by(0)
+        end.to change(Profile, :count).by(0)
       end
 
       it 'renders a JSON response with the updated profile' do
@@ -401,9 +403,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
@@ -443,9 +445,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
@@ -485,9 +487,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
@@ -527,9 +529,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: non_complete_attrs }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
@@ -568,9 +570,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: non_complete_attrs }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
@@ -600,7 +602,7 @@ RSpec.describe "/profiles", type: :request do
               last_name: 'Test2',
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
-              gender: 'test',
+              gender: 'test'
             }
           end
 
@@ -609,9 +611,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: non_complete_attrs }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
@@ -653,9 +655,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does not update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'raises an unprocessable entity' do
@@ -683,9 +685,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does not update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'raises an unprocessable entity' do
@@ -713,9 +715,9 @@ RSpec.describe "/profiles", type: :request do
           end
 
           it 'does update the Profile' do
-            expect {
+            expect do
               patch profile_url, params: { profile: invalid_attributes }
-            }.to change(Profile, :count).by(0)
+            end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do

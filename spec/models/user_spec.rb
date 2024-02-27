@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -21,7 +23,7 @@ RSpec.describe User, type: :model do
     context 'User with missing email' do
       let(:user) { build :user, email: nil, password: '12345678' }
 
-      it "User is not saved and return error" do
+      it 'User is not saved and return error' do
         result = user.save
 
         expect(result).to eq(false)
@@ -33,7 +35,7 @@ RSpec.describe User, type: :model do
     context 'User with missing password' do
       let(:user) { build :user, email: 'test@test.com', password: nil }
 
-      it "User is not saved and return error" do
+      it 'User is not saved and return error' do
         result = user.save
 
         expect(result).to eq(false)
@@ -52,7 +54,7 @@ RSpec.describe User, type: :model do
 
         expect(result).to eq(false)
         expect(user.errors).to_not eq(nil)
-        expect(user.errors.full_messages.to_sentence).to eq("Email is invalid")
+        expect(user.errors.full_messages.to_sentence).to eq('Email is invalid')
       end
     end
   end
@@ -66,7 +68,7 @@ RSpec.describe User, type: :model do
 
       user2.save
 
-      expect(user2.errors.full_messages.to_sentence).to eq("Email has already been taken")
+      expect(user2.errors.full_messages.to_sentence).to eq('Email has already been taken')
     end
   end
 end

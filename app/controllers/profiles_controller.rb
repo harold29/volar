@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_profile, only: %i[ show update edit ]
+  before_action :set_profile, only: %i[show update edit]
 
   def show
     if current_user
@@ -21,17 +23,17 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    if current_user
-      @profile = Profile.new(profile_params)
-      @profile.user = current_user
+    return unless current_user
 
-      authorize @profile
+    @profile = Profile.new(profile_params)
+    @profile.user = current_user
 
-      if @profile.save
-        redirect_to @profile
-      else
-        render :new, status: :unprocessable_entity
-      end
+    authorize @profile
+
+    if @profile.save
+      redirect_to @profile
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -40,12 +42,12 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    if current_user
-      if @profile.update(profile_params)
-        redirect_to @profile
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    return unless current_user
+
+    if @profile.update(profile_params)
+      redirect_to @profile
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -60,8 +62,6 @@ class ProfilesController < ApplicationController
   end
 
   def with_error_handler(&block)
-    begin
-      block&.call
-    end
+    block&.call
   end
 end
