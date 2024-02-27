@@ -1,8 +1,8 @@
 class Profile < ApplicationRecord
   belongs_to :user
 
-  validates_format_of :email,:with => Devise::email_regexp
-  validates :email, presence: true, uniqueness: true
+  # validates_format_of :email,:with => Devise::email_regexp
+  # validates :email, presence: true, uniqueness: true
 
   validates :phone_number_1, presence: true,
                             uniqueness: true,
@@ -19,4 +19,5 @@ class Profile < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+
 end

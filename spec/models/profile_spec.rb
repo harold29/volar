@@ -4,7 +4,7 @@ RSpec.describe Profile, type: :model do
   let(:user) { create :user }
 
   describe 'Profile with all params' do
-    let(:profile) { build :profile, first_name: 'Test1', last_name: 'Test2', email: 'test@test.com', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
+    let(:profile) { build :profile, first_name: 'Test1', last_name: 'Test2', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
 
     it 'Save Profile' do
       expect(profile.save).to eq(true)
@@ -13,9 +13,8 @@ RSpec.describe Profile, type: :model do
     it 'Profile is correctly saved' do
       profile.save
 
-      last_profile = Profile.find_by_email('test@test.com')
+      last_profile = Profile.find_by_user_id(profile.user.id)
 
-      expect(last_profile.email).to eq(profile.email)
       expect(last_profile.first_name).to eq(profile.first_name)
       expect(last_profile.last_name).to eq(profile.last_name)
     end
@@ -23,7 +22,7 @@ RSpec.describe Profile, type: :model do
 
   describe 'Profile with missing params' do
     context 'Profile with missing first name' do
-      let(:profile) { build :profile, first_name: nil, last_name: 'Test2', email: 'test@test.com', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user}
+      let(:profile) { build :profile, first_name: nil, last_name: 'Test2', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user}
 
       it "Profile is not saved and return error" do
         result = profile.save
@@ -35,7 +34,7 @@ RSpec.describe Profile, type: :model do
     end
 
     context 'Profile with missing last name' do
-      let(:profile) { build :profile, first_name: "Test1", last_name: nil, email: 'test@test.com', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
+      let(:profile) { build :profile, first_name: "Test1", last_name: nil, phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
 
       it "Profile is not saved and return error" do
         result = profile.save
@@ -46,20 +45,20 @@ RSpec.describe Profile, type: :model do
       end
     end
 
-    context 'Profile with missing email' do
-      let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', email: nil, phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
+    # context 'Profile with missing email' do
+    #   let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
 
-      it "Profile is not saved and return error" do
-        result = profile.save
+    #   it "Profile is not saved and return error" do
+    #     result = profile.save
 
-        expect(result).to eq(false)
-        expect(profile.errors).to_not eq(nil)
-        expect(profile.errors.full_messages.to_sentence).to eq("Email is invalid and Email can't be blank")
-      end
-    end
+    #     expect(result).to eq(false)
+    #     expect(profile.errors).to_not eq(nil)
+    #     expect(profile.errors.full_messages.to_sentence).to eq("Email is invalid and Email can't be blank")
+    #   end
+    # end
 
     context 'Profile with missing phone_number_1' do
-      let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', email: 'test@test.com', phone_number_1: '', phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
+      let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', phone_number_1: '', phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
 
       it "Profile is not saved and return error" do
         result = profile.save
@@ -71,38 +70,38 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  describe 'Profile with malformed params' do
-    context 'Profile with malformed email' do
-      let(:profile) { build :profile, first_name: 'Test1', last_name: 'Test2', email: 'testtest', phone_number_1: "005879823492", user: user }
+  # describe 'Profile with malformed params' do
+  #   context 'Profile with malformed email' do
+  #     let(:profile) { build :profile, first_name: 'Test1', last_name: 'Test2', phone_number_1: "005879823492", user: user }
 
-      it 'Profile is not saved and return error' do
-        result = profile.save
+  #     it 'Profile is not saved and return error' do
+  #       result = profile.save
 
-        expect(result).to eq(false)
-        expect(profile.errors).to_not eq(nil)
-        expect(profile.errors.full_messages.to_sentence).to eq("Email is invalid")
-      end
-    end
-  end
+  #       expect(result).to eq(false)
+  #       expect(profile.errors).to_not eq(nil)
+  #       expect(profile.errors.full_messages.to_sentence).to eq("Email is invalid")
+  #     end
+  #   end
+  # end
 
-  describe 'Profile with duplicated email' do
-    let(:user2) { create :user }
-    let(:profile1) { build :profile, first_name: 'Test1', last_name: 'Test2', email: 'test@test.com', phone_number_1: "005879823492", user: user }
-    let(:profile2) { build :profile, first_name: 'Test2', last_name: 'Test3', email: 'test@test.com', phone_number_1: "005879823493", user: user2 }
+  # describe 'Profile with duplicated email' do
+  #   let(:user2) { create :user }
+  #   let(:profile1) { build :profile, first_name: 'Test1', last_name: 'Test2', phone_number_1: "005879823492", user: user }
+  #   let(:profile2) { build :profile, first_name: 'Test2', last_name: 'Test3', phone_number_1: "005879823493", user: user2 }
 
-    it 'Saves profile 1 but profile 2 fails' do
-      expect(profile1.save).to eq(true)
+  #   it 'Saves profile 1 but profile 2 fails' do
+  #     expect(profile1.save).to eq(true)
 
-      profile2.save
+  #     profile2.save
 
-      expect(profile2.errors.full_messages.to_sentence).to eq("Email has already been taken")
-    end
-  end
+  #     expect(profile2.errors.full_messages.to_sentence).to eq("Email has already been taken")
+  #   end
+  # end
 
   describe 'Profile with duplicated phone number 1' do
     let(:user2) { create :user }
-    let(:profile1) { build :profile, first_name: 'Test1', last_name: 'Test2', email: 'test1@test1.com', phone_number_1: "005879823493", user: user }
-    let(:profile2) { build :profile, first_name: 'Test2', last_name: 'Test3', email: 'test2@test2.com', phone_number_1: "005879823493", user: user2 }
+    let(:profile1) { build :profile, first_name: 'Test1', last_name: 'Test2', phone_number_1: "005879823493", user: user }
+    let(:profile2) { build :profile, first_name: 'Test2', last_name: 'Test3', phone_number_1: "005879823493", user: user2 }
 
     it 'Saves profile 1 but profile 2 fails' do
       expect(profile1.save).to eq(true)

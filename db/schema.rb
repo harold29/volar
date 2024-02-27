@@ -18,7 +18,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_24_180502) do
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "email"
     t.string "phone_number_1"
     t.string "phone_number_2"
     t.string "gender"
