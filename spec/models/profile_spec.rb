@@ -57,7 +57,8 @@ RSpec.describe Profile, type: :model do
     end
 
     # context 'Profile with missing email' do
-    #   let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', phone_number_1: "005879823492", phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
+    #   let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', phone_number_1: "005879823492",
+    #    phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
 
     #   it "Profile is not saved and return error" do
     #     result = profile.save
@@ -79,7 +80,8 @@ RSpec.describe Profile, type: :model do
 
         expect(result).to eq(false)
         expect(profile.errors).to_not eq(nil)
-        expect(profile.errors.full_messages.to_sentence).to eq("Phone number 1 can't be blank and Phone number 1 is too short (minimum is 10 characters)")
+        expect(profile.errors.full_messages.to_sentence)
+          .to eq("Phone number 1 can't be blank and Phone number 1 is too short (minimum is 10 characters)")
       end
     end
   end

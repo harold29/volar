@@ -2,9 +2,16 @@ inherit_from: .rubocop_todo.yml
 
 Metrics/BlockLength:
   Max: 100 # Adjust according to your project's needs
+  Exclude:
+    - 'spec/**/*'
 
 Metrics/MethodLength:
-  Max: 20 # Adjust according to your project's needs
+  Max: 40 # Adjust according to your project's needs
+  Exclude:
+    - 'config/initializers/devise.rb'
 
 Layout/LineLength:
   Max: 150 # Adjust according to your project's needs
+  Exclude:
+    - 'config/initializers/devise.rb'
+    - 'bin/*'
