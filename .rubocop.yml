@@ -1,0 +1,10 @@
+inherit_from: .rubocop_todo.yml
+
+Metrics/BlockLength:
+  Max: 100 # Adjust according to your project's needs
+
+Metrics/MethodLength:
+  Max: 20 # Adjust according to your project's needs
+
+Layout/LineLength:
+  Max: 150 # Adjust according to your project's needs
