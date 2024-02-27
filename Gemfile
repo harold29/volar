@@ -29,6 +29,8 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem 'pundit'
+
+gem 'rack', "3.0.9.1"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
