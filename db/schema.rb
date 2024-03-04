@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_052347) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_055748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -88,6 +88,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_052347) do
     t.index ["currency_id"], name: "index_flight_offers_on_currency_id"
   end
 
+  create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_offer_id", null: false
+    t.decimal "price_total"
+    t.decimal "price_grand_total"
+    t.uuid "price_currency_id"
+    t.uuid "billing_currency_id"
+    t.decimal "base_fare"
+    t.decimal "refundable_taxes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["billing_currency_id"], name: "index_prices_on_billing_currency_id"
+    t.index ["flight_offer_id"], name: "index_prices_on_flight_offer_id"
+    t.index ["price_currency_id"], name: "index_prices_on_price_currency_id"
+  end
+
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -142,5 +157,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_052347) do
   add_foreign_key "airports", "countries"
   add_foreign_key "currencies", "countries"
   add_foreign_key "flight_offers", "currencies"
+  add_foreign_key "prices", "currencies", column: "billing_currency_id"
+  add_foreign_key "prices", "currencies", column: "price_currency_id"
+  add_foreign_key "prices", "flight_offers"
   add_foreign_key "profiles", "users"
 end
