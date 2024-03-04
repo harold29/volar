@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_061729) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "additional_services", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_offer_id", null: false
+    t.string "service_type"
+    t.string "service_description"
+    t.decimal "service_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_offer_id"], name: "index_additional_services_on_flight_offer_id"
+  end
 
   create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "profile_id", null: false
@@ -70,6 +80,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_061729) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["country_id"], name: "index_currencies_on_country_id"
+  end
+
+  create_table "fees", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_offer_id", null: false
+    t.string "fee_type"
+    t.string "fee_description"
+    t.decimal "fee_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_offer_id"], name: "index_fees_on_flight_offer_id"
   end
 
   create_table "flight_offers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -145,6 +165,28 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_061729) do
     t.index ["itinerary_id"], name: "index_segments_on_itinerary_id"
   end
 
+  create_table "stops", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "segment_id", null: false
+    t.uuid "airport_id", null: false
+    t.string "duration"
+    t.datetime "arrival_at"
+    t.datetime "departure_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["airport_id"], name: "index_stops_on_airport_id"
+    t.index ["segment_id"], name: "index_stops_on_segment_id"
+  end
+
+  create_table "taxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_offer_id", null: false
+    t.string "tax_code"
+    t.string "tax_description"
+    t.decimal "tax_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_offer_id"], name: "index_taxes_on_flight_offer_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -179,10 +221,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_061729) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "additional_services", "flight_offers"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "profiles"
   add_foreign_key "airports", "countries"
   add_foreign_key "currencies", "countries"
+  add_foreign_key "fees", "flight_offers"
   add_foreign_key "flight_offers", "currencies"
   add_foreign_key "itineraries", "flight_offers"
   add_foreign_key "prices", "currencies", column: "billing_currency_id"
@@ -193,4 +237,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_061729) do
   add_foreign_key "segments", "airports", column: "departure_airport_id"
   add_foreign_key "segments", "carriers"
   add_foreign_key "segments", "itineraries"
+  add_foreign_key "stops", "airports"
+  add_foreign_key "stops", "segments"
+  add_foreign_key "taxes", "flight_offers"
 end

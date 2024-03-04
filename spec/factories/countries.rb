@@ -4,7 +4,7 @@ FactoryBot.define do
     code { FFaker::Address.country_code }
     phone_code { FFaker::PhoneNumber.area_code }
     language { FFaker::Locale.language }
-    continent { "America" }
+    continent { 'America' }
     time_zone { FFaker::Address.time_zone }
   end
 end
