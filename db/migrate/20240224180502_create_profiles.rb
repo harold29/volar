@@ -11,7 +11,7 @@ class CreateProfiles < ActiveRecord::Migration[7.1]
       t.string :gender
       t.boolean :available
       t.boolean :deleted
-      t.datetime :birthday
+      t.datetime :birthdate
       t.belongs_to :user, null: false, foreign_key: true, type: :uuid
 
       t.timestamps

@@ -7,7 +7,7 @@ FactoryBot.define do
     phone_number_1 { FFaker::PhoneNumberBR.mobile_phone_number }
     phone_number_2 { FFaker::PhoneNumberBR.mobile_phone_number }
     gender { FFaker::Gender.random }
-    birthday { DateTime.parse('2022-01-31') }
+    birthdate { DateTime.parse('2022-01-31') }
     association :user
   end
 end

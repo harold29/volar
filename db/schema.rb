@@ -10,16 +10,65 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_28_022020) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_03_223236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "airlines", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "airports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "city"
+    t.string "iata_code"
+    t.string "icao_code"
+    t.string "time_zone"
+    t.uuid "country_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_airports_on_country_id"
+  end
+
+  create_table "carriers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "countries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.string "phone_code"
+    t.string "language"
+    t.string "continent"
+    t.string "time_zone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "currencies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "symbol"
+    t.string "code"
+    t.uuid "country_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_currencies_on_country_id"
+  end
+
+  create_table "flight_offers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "internal_id"
+    t.string "source"
+    t.boolean "instant_ticketing_required"
+    t.boolean "non_homogeneous"
+    t.boolean "one_way"
+    t.date "last_ticketing_date"
+    t.integer "number_of_bookable_seats"
+    t.decimal "price_total"
+    t.boolean "payment_card_required"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "currency_id", null: false
+    t.index ["currency_id"], name: "index_flight_offers_on_currency_id"
   end
 
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -30,7 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_022020) do
     t.string "gender"
     t.boolean "available"
     t.boolean "deleted"
-    t.datetime "birthday"
+    t.datetime "birthdate"
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -71,5 +120,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_28_022020) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "airports", "countries"
+  add_foreign_key "currencies", "countries"
+  add_foreign_key "flight_offers", "currencies"
   add_foreign_key "profiles", "users"
 end
