@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :flight_offer do
+    internal_id { "MyString" }
     source { "MyString" }
     instant_ticketing_required { false }
     non_homogeneous { false }
