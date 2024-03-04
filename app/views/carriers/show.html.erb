@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @carrier %>
+
+<div>
+  <%= link_to "Edit this carrier", edit_carrier_path(@carrier) %> |
+  <%= link_to "Back to carriers", carriers_path %>
+
+  <%= button_to "Destroy this carrier", @carrier, method: :delete %>
+</div>

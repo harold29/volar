@@ -73,7 +73,7 @@ RSpec.describe '/profiles', type: :request do
         phone_number_1: '005491111111111',
         phone_number_2: '005491122222222',
         gender: 'test',
-        birthday: '2022-01-31'
+        birthdate: '2022-01-31'
       }
     end
 
@@ -106,7 +106,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -134,7 +134,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -163,7 +163,7 @@ RSpec.describe '/profiles', type: :request do
               last_name: 'Test2',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -192,7 +192,7 @@ RSpec.describe '/profiles', type: :request do
               last_name: 'Test2',
               phone_number_1: '005491111111111',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -221,7 +221,7 @@ RSpec.describe '/profiles', type: :request do
               last_name: 'Test2',
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -242,7 +242,7 @@ RSpec.describe '/profiles', type: :request do
           end
         end
 
-        context 'without birthday' do
+        context 'without birthdate' do
           let(:user) { create :user }
           let(:non_complete_attrs) do
             {
@@ -282,7 +282,7 @@ RSpec.describe '/profiles', type: :request do
           phone_number_1: '005491111111111',
           phone_number_2: '005491122222222',
           gender: 'test',
-          birthday: '2022-01-31'
+          birthdate: '2022-01-31'
         }
       end
 
@@ -346,7 +346,7 @@ RSpec.describe '/profiles', type: :request do
         phone_number_1: '005491111111111',
         phone_number_2: '005491122222222',
         gender: 'test',
-        birthday: '2022-01-31'
+        birthdate: '2022-01-31'
       }
     end
 
@@ -380,7 +380,7 @@ RSpec.describe '/profiles', type: :request do
         expect(updated_profile.phone_number_1).to eq(valid_attributes[:phone_number_1])
         expect(updated_profile.phone_number_2).to eq(valid_attributes[:phone_number_2])
         expect(updated_profile.gender).to eq(valid_attributes[:gender])
-        expect(updated_profile.birthday).to eq(DateTime.parse(valid_attributes[:birthday]))
+        expect(updated_profile.birthdate).to eq(DateTime.parse(valid_attributes[:birthdate]))
       end
     end
 
@@ -394,7 +394,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -424,7 +424,7 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(valid_attributes[:phone_number_1])
             expect(updated_profile.phone_number_2).to eq(valid_attributes[:phone_number_2])
             expect(updated_profile.gender).to eq(valid_attributes[:gender])
-            expect(updated_profile.birthday).to eq(DateTime.parse(valid_attributes[:birthday]))
+            expect(updated_profile.birthdate).to eq(DateTime.parse(valid_attributes[:birthdate]))
           end
         end
 
@@ -436,7 +436,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -466,7 +466,7 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(valid_attributes[:phone_number_1])
             expect(updated_profile.phone_number_2).to eq(valid_attributes[:phone_number_2])
             expect(updated_profile.gender).to eq(valid_attributes[:gender])
-            expect(updated_profile.birthday).to eq(DateTime.parse(valid_attributes[:birthday]))
+            expect(updated_profile.birthdate).to eq(DateTime.parse(valid_attributes[:birthdate]))
           end
         end
 
@@ -478,7 +478,7 @@ RSpec.describe '/profiles', type: :request do
               last_name: 'Test2',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -508,7 +508,7 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(profile.phone_number_1)
             expect(updated_profile.phone_number_2).to eq(valid_attributes[:phone_number_2])
             expect(updated_profile.gender).to eq(valid_attributes[:gender])
-            expect(updated_profile.birthday).to eq(DateTime.parse(valid_attributes[:birthday]))
+            expect(updated_profile.birthdate).to eq(DateTime.parse(valid_attributes[:birthdate]))
           end
         end
 
@@ -520,7 +520,7 @@ RSpec.describe '/profiles', type: :request do
               last_name: 'Test2',
               phone_number_1: '005491111111111',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -549,7 +549,7 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(valid_attributes[:phone_number_1])
             expect(updated_profile.phone_number_2).to eq(profile.phone_number_2)
             expect(updated_profile.gender).to eq(valid_attributes[:gender])
-            expect(updated_profile.birthday).to eq(DateTime.parse(valid_attributes[:birthday]))
+            expect(updated_profile.birthdate).to eq(DateTime.parse(valid_attributes[:birthdate]))
           end
         end
 
@@ -561,7 +561,7 @@ RSpec.describe '/profiles', type: :request do
               last_name: 'Test2',
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -590,11 +590,11 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(valid_attributes[:phone_number_1])
             expect(updated_profile.phone_number_2).to eq(valid_attributes[:phone_number_2])
             expect(updated_profile.gender).to eq(profile.gender)
-            expect(updated_profile.birthday).to eq(DateTime.parse(valid_attributes[:birthday]))
+            expect(updated_profile.birthdate).to eq(DateTime.parse(valid_attributes[:birthdate]))
           end
         end
 
-        context 'without birthday' do
+        context 'without birthdate' do
           let(:profile) { create :profile }
           let(:non_complete_attrs) do
             {
@@ -631,7 +631,7 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(valid_attributes[:phone_number_1])
             expect(updated_profile.phone_number_2).to eq(valid_attributes[:phone_number_2])
             expect(updated_profile.gender).to eq(valid_attributes[:gender])
-            expect(updated_profile.birthday).to eq(profile.birthday)
+            expect(updated_profile.birthdate).to eq(profile.birthdate)
           end
         end
       end
@@ -646,7 +646,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -676,7 +676,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '005491111111111',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -706,7 +706,7 @@ RSpec.describe '/profiles', type: :request do
               phone_number_1: '0054911',
               phone_number_2: '005491122222222',
               gender: 'test',
-              birthday: '2022-01-31'
+              birthdate: '2022-01-31'
             }
           end
 
@@ -735,7 +735,7 @@ RSpec.describe '/profiles', type: :request do
             expect(updated_profile.phone_number_1).to eq(profile.phone_number_1)
             expect(updated_profile.phone_number_2).to eq(profile.phone_number_2)
             expect(updated_profile.gender).to eq(profile.gender)
-            expect(updated_profile.birthday).to eq(profile.birthday)
+            expect(updated_profile.birthdate).to eq(profile.birthdate)
           end
         end
 
@@ -749,7 +749,7 @@ RSpec.describe '/profiles', type: :request do
         #       phone_number_1: '005491111111111',
         #       phone_number_2: '0054911',
         #       gender: 'test',
-        #       birthday: '2022-01-31'
+        #       birthdate: '2022-01-31'
         #     }
         #   end
 
@@ -770,7 +770,7 @@ RSpec.describe '/profiles', type: :request do
         #     expect(updated_profile.phone_number_1).to eq(profile.phone_number_1)
         #     expect(updated_profile.phone_number_2).to eq(profile.phone_number_2)
         #     expect(updated_profile.gender).to eq(profile.gender)
-        #     expect(updated_profile.birthday).to eq(profile.birthday)
+        #     expect(updated_profile.birthdate).to eq(profile.birthdate)
         #   end
 
         #   it 'renders a JSON unprocessable entity response without errors' do
@@ -792,7 +792,7 @@ RSpec.describe '/profiles', type: :request do
     #       phone_number_1: '005491111111111',
     #       phone_number_2: '005491122222222',
     #       gender: 'test',
-    #       birthday: '2022-01-31'
+    #       birthdate: '2022-01-31'
     #     }
     #   end
 
