@@ -1,5 +1,6 @@
 class Country < ApplicationRecord
   has_one :currency
+  has_many :addresses
 
   validates :name, presence: true
   validates :code, presence: true

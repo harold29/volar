@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_03_223236) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_052347) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "profile_id", null: false
+    t.string "address_line_1"
+    t.string "address_line_2"
+    t.string "city"
+    t.string "state"
+    t.string "postal_code"
+    t.uuid "country_id", null: false
+    t.integer "address_type", default: 0
+    t.boolean "address_verified"
+    t.boolean "billing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_addresses_on_country_id"
+    t.index ["profile_id"], name: "index_addresses_on_profile_id"
+  end
 
   create_table "airports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
@@ -120,6 +137,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_223236) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "addresses", "countries"
+  add_foreign_key "addresses", "profiles"
   add_foreign_key "airports", "countries"
   add_foreign_key "currencies", "countries"
   add_foreign_key "flight_offers", "currencies"
