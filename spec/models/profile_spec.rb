@@ -8,7 +8,7 @@ RSpec.describe Profile, type: :model do
   describe 'Profile with all params' do
     let(:profile) do
       build :profile, first_name: 'Test1', last_name: 'Test2', phone_number_1: '005879823492',
-                      phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: 'test', user:
+                      phone_number_2: '005491122222222', birthdate: DateTime.parse('2022-01-31'), gender: 'test', user:
     end
 
     it 'Save Profile' do
@@ -29,7 +29,7 @@ RSpec.describe Profile, type: :model do
     context 'Profile with missing first name' do
       let(:profile) do
         build :profile, first_name: nil, last_name: 'Test2', phone_number_1: '005879823492',
-                        phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: 'test', user:
+                        phone_number_2: '005491122222222', birthdate: DateTime.parse('2022-01-31'), gender: 'test', user:
       end
 
       it 'Profile is not saved and return error' do
@@ -44,7 +44,7 @@ RSpec.describe Profile, type: :model do
     context 'Profile with missing last name' do
       let(:profile) do
         build :profile, first_name: 'Test1', last_name: nil, phone_number_1: '005879823492',
-                        phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: 'test', user:
+                        phone_number_2: '005491122222222', birthdate: DateTime.parse('2022-01-31'), gender: 'test', user:
       end
 
       it 'Profile is not saved and return error' do
@@ -58,7 +58,7 @@ RSpec.describe Profile, type: :model do
 
     # context 'Profile with missing email' do
     #   let(:profile) { build :profile, first_name: "Test1", last_name: 'Test2', phone_number_1: "005879823492",
-    #    phone_number_2: '005491122222222', birthday: DateTime.parse('2022-01-31'), gender: "test", user: user }
+    #    phone_number_2: '005491122222222', birthdate: DateTime.parse('2022-01-31'), gender: "test", user: user }
 
     #   it "Profile is not saved and return error" do
     #     result = profile.save
@@ -72,7 +72,7 @@ RSpec.describe Profile, type: :model do
     context 'Profile with missing phone_number_1' do
       let(:profile) do
         build :profile, first_name: 'Test1', last_name: 'Test2', phone_number_1: '', phone_number_2: '005491122222222',
-                        birthday: DateTime.parse('2022-01-31'), gender: 'test', user:
+                        birthdate: DateTime.parse('2022-01-31'), gender: 'test', user:
       end
 
       it 'Profile is not saved and return error' do
