@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_055748) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_04_061729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -88,6 +88,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_055748) do
     t.index ["currency_id"], name: "index_flight_offers_on_currency_id"
   end
 
+  create_table "itineraries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_offer_id", null: false
+    t.string "duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_offer_id"], name: "index_itineraries_on_flight_offer_id"
+  end
+
   create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "flight_offer_id", null: false
     t.decimal "price_total"
@@ -116,6 +124,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_055748) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "segments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "itinerary_id", null: false
+    t.uuid "departure_airport_id"
+    t.uuid "arrival_airport_id"
+    t.datetime "departure_at"
+    t.datetime "arrival_at"
+    t.uuid "carrier_id", null: false
+    t.string "flight_number"
+    t.string "aircraft_code"
+    t.string "duration"
+    t.integer "stops_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["arrival_airport_id"], name: "index_segments_on_arrival_airport_id"
+    t.index ["carrier_id"], name: "index_segments_on_carrier_id"
+    t.index ["departure_airport_id"], name: "index_segments_on_departure_airport_id"
+    t.index ["itinerary_id"], name: "index_segments_on_itinerary_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -157,8 +184,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_055748) do
   add_foreign_key "airports", "countries"
   add_foreign_key "currencies", "countries"
   add_foreign_key "flight_offers", "currencies"
+  add_foreign_key "itineraries", "flight_offers"
   add_foreign_key "prices", "currencies", column: "billing_currency_id"
   add_foreign_key "prices", "currencies", column: "price_currency_id"
   add_foreign_key "prices", "flight_offers"
   add_foreign_key "profiles", "users"
+  add_foreign_key "segments", "airports", column: "arrival_airport_id"
+  add_foreign_key "segments", "airports", column: "departure_airport_id"
+  add_foreign_key "segments", "carriers"
+  add_foreign_key "segments", "itineraries"
 end
