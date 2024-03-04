@@ -2,6 +2,7 @@
 
 class Profile < ApplicationRecord
   belongs_to :user
+  has_many :addresses
 
   # validates_format_of :email,:with => Devise::email_regexp
   # validates :email, presence: true, uniqueness: true
