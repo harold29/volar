@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_05_015244) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_05_030318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -52,6 +52,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_015244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["country_id"], name: "index_airports_on_country_id"
+  end
+
+  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "booking_datetime"
+    t.integer "booking_status", default: 0
+    t.decimal "booking_amount"
+    t.uuid "booking_currency_id", null: false
+    t.boolean "booking_confirmed", default: false
+    t.datetime "booking_confirmation_datetime"
+    t.string "booking_confirmation_number"
+    t.string "payment_type"
+    t.uuid "payment_plan_id", null: false
+    t.integer "total_installments"
+    t.decimal "installments_amount"
+    t.integer "payments_completed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "flight_order_id", null: false
+    t.index ["booking_currency_id"], name: "index_bookings_on_booking_currency_id"
+    t.index ["flight_order_id"], name: "index_bookings_on_flight_order_id"
+    t.index ["payment_plan_id"], name: "index_bookings_on_payment_plan_id"
   end
 
   create_table "carriers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -120,6 +141,43 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_015244) do
     t.index ["currency_id"], name: "index_flight_offers_on_currency_id"
   end
 
+  create_table "flight_orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_offer_id", null: false
+    t.string "order_id"
+    t.datetime "order_datetime"
+    t.integer "order_status"
+    t.decimal "total_price"
+    t.uuid "total_price_currency_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_offer_id"], name: "index_flight_orders_on_flight_offer_id"
+    t.index ["total_price_currency_id"], name: "index_flight_orders_on_total_price_currency_id"
+  end
+
+  create_table "flight_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "origin"
+    t.string "destination"
+    t.date "departure_date"
+    t.date "return_date"
+    t.boolean "one_way"
+    t.integer "adults"
+    t.integer "children"
+    t.integer "infants"
+    t.string "travel_class"
+    t.decimal "max_price"
+    t.uuid "max_price_currency_id", null: false
+    t.integer "max_stops"
+    t.string "max_duration"
+    t.string "max_duration_unit"
+    t.decimal "price_total"
+    t.decimal "price_average"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["max_price_currency_id"], name: "index_flight_searches_on_max_price_currency_id"
+    t.index ["user_id"], name: "index_flight_searches_on_user_id"
+  end
+
   create_table "itineraries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "flight_offer_id", null: false
     t.string "duration"
@@ -140,6 +198,32 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_015244) do
     t.string "payment_terms_conditions_file_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "payments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "flight_order_id", null: false
+    t.uuid "user_id", null: false
+    t.string "payment_method"
+    t.integer "payment_status"
+    t.decimal "payment_amount"
+    t.uuid "payment_currency_id", null: false
+    t.datetime "payment_datetime"
+    t.datetime "confirmed_at"
+    t.boolean "approved"
+    t.boolean "declined"
+    t.boolean "refunded"
+    t.datetime "refunded_at"
+    t.decimal "refunded_amount"
+    t.uuid "refunded_currency_id", null: false
+    t.string "refunded_reason"
+    t.uuid "booking_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
+    t.index ["flight_order_id"], name: "index_payments_on_flight_order_id"
+    t.index ["payment_currency_id"], name: "index_payments_on_payment_currency_id"
+    t.index ["refunded_currency_id"], name: "index_payments_on_refunded_currency_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -278,12 +362,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_015244) do
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "profiles"
   add_foreign_key "airports", "countries"
+  add_foreign_key "bookings", "currencies", column: "booking_currency_id"
+  add_foreign_key "bookings", "flight_orders"
+  add_foreign_key "bookings", "payment_plans"
   add_foreign_key "currencies", "countries"
   add_foreign_key "documents", "countries", column: "issuance_country_id"
   add_foreign_key "documents", "countries", column: "nationality_id"
   add_foreign_key "fees", "flight_offers"
   add_foreign_key "flight_offers", "currencies"
+  add_foreign_key "flight_orders", "currencies", column: "total_price_currency_id"
+  add_foreign_key "flight_orders", "flight_offers"
+  add_foreign_key "flight_searches", "currencies", column: "max_price_currency_id"
+  add_foreign_key "flight_searches", "users"
   add_foreign_key "itineraries", "flight_offers"
+  add_foreign_key "payments", "bookings"
+  add_foreign_key "payments", "currencies", column: "payment_currency_id"
+  add_foreign_key "payments", "currencies", column: "refunded_currency_id"
+  add_foreign_key "payments", "flight_orders"
+  add_foreign_key "payments", "users"
   add_foreign_key "prices", "currencies", column: "billing_currency_id"
   add_foreign_key "prices", "currencies", column: "price_currency_id"
   add_foreign_key "prices", "flight_offers"
