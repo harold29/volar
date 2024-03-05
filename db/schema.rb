@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_05_015244) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -82,6 +82,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
     t.index ["country_id"], name: "index_currencies_on_country_id"
   end
 
+  create_table "documents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "document_type", default: 0, null: false
+    t.string "document_number"
+    t.date "expiration_date"
+    t.uuid "issuance_country_id", null: false
+    t.uuid "nationality_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issuance_country_id"], name: "index_documents_on_issuance_country_id"
+    t.index ["nationality_id"], name: "index_documents_on_nationality_id"
+  end
+
   create_table "fees", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "flight_offer_id", null: false
     t.string "fee_type"
@@ -114,6 +126,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flight_offer_id"], name: "index_itineraries_on_flight_offer_id"
+  end
+
+  create_table "payment_plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "payment_type"
+    t.string "description"
+    t.string "payment_terms"
+    t.string "payment_terms_description"
+    t.string "payment_terms_conditions"
+    t.string "payment_terms_conditions_url"
+    t.string "payment_terms_conditions_file"
+    t.string "payment_terms_conditions_file_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -187,6 +213,33 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
     t.index ["flight_offer_id"], name: "index_taxes_on_flight_offer_id"
   end
 
+  create_table "telephones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "area_code"
+    t.string "phone_number"
+    t.integer "phone_type"
+    t.boolean "phone_verified"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_telephones_on_user_id"
+  end
+
+  create_table "travelers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.integer "traveler_type", default: 0
+    t.date "birthdate"
+    t.uuid "document_id", null: false
+    t.uuid "telephone_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_id"], name: "index_travelers_on_document_id"
+    t.index ["telephone_id"], name: "index_travelers_on_telephone_id"
+    t.index ["user_id"], name: "index_travelers_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -226,6 +279,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
   add_foreign_key "addresses", "profiles"
   add_foreign_key "airports", "countries"
   add_foreign_key "currencies", "countries"
+  add_foreign_key "documents", "countries", column: "issuance_country_id"
+  add_foreign_key "documents", "countries", column: "nationality_id"
   add_foreign_key "fees", "flight_offers"
   add_foreign_key "flight_offers", "currencies"
   add_foreign_key "itineraries", "flight_offers"
@@ -240,4 +295,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_064040) do
   add_foreign_key "stops", "airports"
   add_foreign_key "stops", "segments"
   add_foreign_key "taxes", "flight_offers"
+  add_foreign_key "telephones", "users"
+  add_foreign_key "travelers", "documents"
+  add_foreign_key "travelers", "telephones"
+  add_foreign_key "travelers", "users"
 end
