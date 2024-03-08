@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :fee do
-    association :flight_offer
+    association :price
     fee_type { FFaker::Lorem.word }
     fee_description { FFaker::Lorem.word }
     fee_amount { FFaker::Number.decimal }

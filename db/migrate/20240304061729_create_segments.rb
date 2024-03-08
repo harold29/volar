@@ -11,6 +11,7 @@ class CreateSegments < ActiveRecord::Migration[7.1]
       t.string :aircraft_code
       t.string :duration
       t.integer :stops_number
+      t.boolean :blacklisted_in_eu
 
       t.timestamps
     end

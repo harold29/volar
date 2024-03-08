@@ -1,0 +1,1120 @@
+{
+  "meta": {
+      "count": 4,
+      "links": {
+          "self": "https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=<%= locals[:origin] %>&destinationLocationCode=<%= locals[:destination] %>&departureDate=<%= locals[:departure_date] %>&adults=<%= locals[:adults] %>&nonStop=false&max=250"
+      }
+  },
+  "data": [
+      {
+          "type": "flight-offer",
+          "id": "1",
+          "source": "<%= locals[:origin] %>",
+          "instantTicketingRequired": false,
+          "nonHomogeneous": false,
+          "oneWay": false,
+          "lastTicketingDate": "2024-03-09",
+          "lastTicketingDateTime": "2024-03-09",
+          "numberOfBookableSeats": 9,
+          "itineraries": [
+              {
+                  "duration": "PT28H45M",
+                  "segments": [
+                      {
+                          "departure": {
+                              "iataCode": "EZE",
+                              "at": "<%= locals[:departure_date] %>T23:55:00"
+                          },
+                          "arrival": {
+                              "iataCode": "IST",
+                              "at": "2024-05-03T22:40:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "16",
+                          "aircraft": {
+                              "code": "359"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT16H45M",
+                          "stops": [
+                              {
+                                  "iataCode": "GRU",
+                                  "duration": "PT1H35M",
+                                  "arrivalAt": "2024-05-03T02:30:00",
+                                  "departureAt": "2024-05-03T04:05:00"
+                              }
+                          ],
+                          "id": "108",
+                          "numberOfStops": 1,
+                          "blacklistedInEU": false
+                      },
+                      {
+                          "departure": {
+                              "iataCode": "IST",
+                              "at": "2024-05-04T07:00:00"
+                          },
+                          "arrival": {
+                              "iataCode": "<%= locals[:destination] %>",
+                              "terminal": "1",
+                              "at": "2024-05-04T09:40:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "1821",
+                          "aircraft": {
+                              "code": "333"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT3H40M",
+                          "id": "109",
+                          "numberOfStops": 0,
+                          "blacklistedInEU": false
+                      }
+                  ]
+              }
+          ],
+          "price": {
+              "currency": "EUR",
+              "total": "733.65",
+              "base": "403.00",
+              "fees": [
+                  {
+                      "amount": "0.00",
+                      "type": "SUPPLIER"
+                  },
+                  {
+                      "amount": "0.00",
+                      "type": "TICKETING"
+                  }
+              ],
+              "grandTotal": "733.65"
+          },
+          "pricingOptions": {
+              "fareType": [
+                  "PUBLISHED"
+              ],
+              "includedCheckedBagsOnly": true
+          },
+          "validatingAirlineCodes": [
+              "TK"
+          ],
+          "travelerPricings": [
+              {
+                  "travelerId": "1",
+                  "fareOption": "STANDARD",
+                  "travelerType": "ADULT",
+                  "price": {
+                      "currency": "EUR",
+                      "total": "733.65",
+                      "base": "403.00"
+                  },
+                  "fareDetailsBySegment": [
+                      {
+                          "segmentId": "108",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      },
+                      {
+                          "segmentId": "109",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      }
+                  ]
+              }
+          ]
+      },
+      {
+          "type": "flight-offer",
+          "id": "2",
+          "source": "<%= locals[:origin] %>",
+          "instantTicketingRequired": false,
+          "nonHomogeneous": false,
+          "oneWay": false,
+          "lastTicketingDate": "2024-03-09",
+          "lastTicketingDateTime": "2024-03-09",
+          "numberOfBookableSeats": 9,
+          "itineraries": [
+              {
+                  "duration": "PT30H15M",
+                  "segments": [
+                      {
+                          "departure": {
+                              "iataCode": "EZE",
+                              "at": "<%= locals[:departure_date] %>T23:55:00"
+                          },
+                          "arrival": {
+                              "iataCode": "IST",
+                              "at": "2024-05-03T22:40:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "16",
+                          "aircraft": {
+                              "code": "359"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT16H45M",
+                          "stops": [
+                              {
+                                  "iataCode": "GRU",
+                                  "duration": "PT1H35M",
+                                  "arrivalAt": "2024-05-03T02:30:00",
+                                  "departureAt": "2024-05-03T04:05:00"
+                              }
+                          ],
+                          "id": "46",
+                          "numberOfStops": 1,
+                          "blacklistedInEU": false
+                      },
+                      {
+                          "departure": {
+                              "iataCode": "IST",
+                              "at": "2024-05-04T08:20:00"
+                          },
+                          "arrival": {
+                              "iataCode": "<%= locals[:destination] %>",
+                              "terminal": "1",
+                              "at": "2024-05-04T11:10:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "1831",
+                          "aircraft": {
+                              "code": "321"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT3H50M",
+                          "id": "47",
+                          "numberOfStops": 0,
+                          "blacklistedInEU": false
+                      }
+                  ]
+              }
+          ],
+          "price": {
+              "currency": "EUR",
+              "total": "733.65",
+              "base": "403.00",
+              "fees": [
+                  {
+                      "amount": "0.00",
+                      "type": "SUPPLIER"
+                  },
+                  {
+                      "amount": "0.00",
+                      "type": "TICKETING"
+                  }
+              ],
+              "grandTotal": "733.65"
+          },
+          "pricingOptions": {
+              "fareType": [
+                  "PUBLISHED"
+              ],
+              "includedCheckedBagsOnly": true
+          },
+          "validatingAirlineCodes": [
+              "TK"
+          ],
+          "travelerPricings": [
+              {
+                  "travelerId": "1",
+                  "fareOption": "STANDARD",
+                  "travelerType": "ADULT",
+                  "price": {
+                      "currency": "EUR",
+                      "total": "733.65",
+                      "base": "403.00"
+                  },
+                  "fareDetailsBySegment": [
+                      {
+                          "segmentId": "46",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      },
+                      {
+                          "segmentId": "47",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      }
+                  ]
+              }
+          ]
+      },
+      {
+          "type": "flight-offer",
+          "id": "3",
+          "source": "<%= locals[:origin] %>",
+          "instantTicketingRequired": false,
+          "nonHomogeneous": false,
+          "oneWay": false,
+          "lastTicketingDate": "2024-03-09",
+          "lastTicketingDateTime": "2024-03-09",
+          "numberOfBookableSeats": 9,
+          "itineraries": [
+              {
+                  "duration": "PT31H50M",
+                  "segments": [
+                      {
+                          "departure": {
+                              "iataCode": "EZE",
+                              "at": "<%= locals[:departure_date] %>T23:55:00"
+                          },
+                          "arrival": {
+                              "iataCode": "IST",
+                              "at": "2024-05-03T22:40:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "16",
+                          "aircraft": {
+                              "code": "359"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT16H45M",
+                          "stops": [
+                              {
+                                  "iataCode": "GRU",
+                                  "duration": "PT1H35M",
+                                  "arrivalAt": "2024-05-03T02:30:00",
+                                  "departureAt": "2024-05-03T04:05:00"
+                              }
+                          ],
+                          "id": "120",
+                          "numberOfStops": 1,
+                          "blacklistedInEU": false
+                      },
+                      {
+                          "departure": {
+                              "iataCode": "IST",
+                              "at": "2024-05-04T10:05:00"
+                          },
+                          "arrival": {
+                              "iataCode": "<%= locals[:destination] %>",
+                              "terminal": "1",
+                              "at": "2024-05-04T12:45:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "1823",
+                          "aircraft": {
+                              "code": "333"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT3H40M",
+                          "id": "121",
+                          "numberOfStops": 0,
+                          "blacklistedInEU": false
+                      }
+                  ]
+              }
+          ],
+          "price": {
+              "currency": "EUR",
+              "total": "733.65",
+              "base": "403.00",
+              "fees": [
+                  {
+                      "amount": "0.00",
+                      "type": "SUPPLIER"
+                  },
+                  {
+                      "amount": "0.00",
+                      "type": "TICKETING"
+                  }
+              ],
+              "grandTotal": "733.65"
+          },
+          "pricingOptions": {
+              "fareType": [
+                  "PUBLISHED"
+              ],
+              "includedCheckedBagsOnly": true
+          },
+          "validatingAirlineCodes": [
+              "TK"
+          ],
+          "travelerPricings": [
+              {
+                  "travelerId": "1",
+                  "fareOption": "STANDARD",
+                  "travelerType": "ADULT",
+                  "price": {
+                      "currency": "EUR",
+                      "total": "733.65",
+                      "base": "403.00"
+                  },
+                  "fareDetailsBySegment": [
+                      {
+                          "segmentId": "120",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      },
+                      {
+                          "segmentId": "121",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      }
+                  ]
+              }
+          ]
+      },
+      {
+          "type": "flight-offer",
+          "id": "4",
+          "source": "<%= locals[:origin] %>",
+          "instantTicketingRequired": false,
+          "nonHomogeneous": false,
+          "oneWay": false,
+          "lastTicketingDate": "2024-03-09",
+          "lastTicketingDateTime": "2024-03-09",
+          "numberOfBookableSeats": 9,
+          "itineraries": [
+              {
+                  "duration": "PT36H10M",
+                  "segments": [
+                      {
+                          "departure": {
+                              "iataCode": "EZE",
+                              "at": "<%= locals[:departure_date] %>T23:55:00"
+                          },
+                          "arrival": {
+                              "iataCode": "IST",
+                              "at": "2024-05-03T22:40:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "16",
+                          "aircraft": {
+                              "code": "359"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT16H45M",
+                          "stops": [
+                              {
+                                  "iataCode": "GRU",
+                                  "duration": "PT1H35M",
+                                  "arrivalAt": "2024-05-03T02:30:00",
+                                  "departureAt": "2024-05-03T04:05:00"
+                              }
+                          ],
+                          "id": "32",
+                          "numberOfStops": 1,
+                          "blacklistedInEU": false
+                      },
+                      {
+                          "departure": {
+                              "iataCode": "IST",
+                              "at": "2024-05-04T14:20:00"
+                          },
+                          "arrival": {
+                              "iataCode": "<%= locals[:destination] %>",
+                              "terminal": "1",
+                              "at": "2024-05-04T17:05:00"
+                          },
+                          "carrierCode": "TK",
+                          "number": "1833",
+                          "aircraft": {
+                              "code": "321"
+                          },
+                          "operating": {
+                              "carrierCode": "TK"
+                          },
+                          "duration": "PT3H45M",
+                          "id": "33",
+                          "numberOfStops": 0,
+                          "blacklistedInEU": false
+                      }
+                  ]
+              }
+          ],
+          "price": {
+              "currency": "EUR",
+              "total": "733.65",
+              "base": "403.00",
+              "fees": [
+                  {
+                      "amount": "0.00",
+                      "type": "SUPPLIER"
+                  },
+                  {
+                      "amount": "0.00",
+                      "type": "TICKETING"
+                  }
+              ],
+              "grandTotal": "733.65"
+          },
+          "pricingOptions": {
+              "fareType": [
+                  "PUBLISHED"
+              ],
+              "includedCheckedBagsOnly": true
+          },
+          "validatingAirlineCodes": [
+              "TK"
+          ],
+          "travelerPricings": [
+              {
+                  "travelerId": "1",
+                  "fareOption": "STANDARD",
+                  "travelerType": "ADULT",
+                  "price": {
+                      "currency": "EUR",
+                      "total": "733.65",
+                      "base": "403.00"
+                  },
+                  "fareDetailsBySegment": [
+                      {
+                          "segmentId": "32",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      },
+                      {
+                          "segmentId": "33",
+                          "cabin": "ECONOMY",
+                          "fareBasis": "LV3PXOW",
+                          "brandedFare": "RS",
+                          "brandedFareLabel": "RESTRICTED",
+                          "class": "L",
+                          "includedCheckedBags": {
+                              "quantity": 2
+                          },
+                          "amenities": [
+                              {
+                                  "description": "1 PIECE X 8 KG CABIN BAGGAGE",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "BAG INCLUDED",
+                                  "isChargeable": false,
+                                  "amenityType": "BAGGAGE",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "MEAL SERVICE",
+                                  "isChargeable": false,
+                                  "amenityType": "MEAL",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "STANDART SEAT SELECTION",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "REFUNDABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "CHANGEABLE TICKET",
+                                  "isChargeable": true,
+                                  "amenityType": "BRANDED_FARES",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              },
+                              {
+                                  "description": "ONLINE MESSAGE RIGHT",
+                                  "isChargeable": false,
+                                  "amenityType": "ENTERTAINMENT",
+                                  "amenityProvider": {
+                                      "name": "BrandedFare"
+                                  }
+                              }
+                          ]
+                      }
+                  ]
+              }
+          ]
+      }
+  ],
+  "dictionaries": {
+      "locations": {
+          "ORD": {
+              "cityCode": "CHI",
+              "countryCode": "US"
+          },
+          "EWR": {
+              "cityCode": "NYC",
+              "countryCode": "US"
+          },
+          "ADD": {
+              "cityCode": "ADD",
+              "countryCode": "ET"
+          },
+          "CDG": {
+              "cityCode": "PAR",
+              "countryCode": "FR"
+          },
+          "AMS": {
+              "cityCode": "AMS",
+              "countryCode": "NL"
+          },
+          "SAW": {
+              "cityCode": "IST",
+              "countryCode": "TR"
+          },
+          "IST": {
+              "cityCode": "IST",
+              "countryCode": "TR"
+          },
+          "GRU": {
+              "cityCode": "SAO",
+              "countryCode": "BR"
+          },
+          "AEP": {
+              "cityCode": "BUE",
+              "countryCode": "AR"
+          },
+          "IAD": {
+              "cityCode": "WAS",
+              "countryCode": "US"
+          },
+          "EZE": {
+              "cityCode": "BUE",
+              "countryCode": "AR"
+          },
+          "MAD": {
+              "cityCode": "MAD",
+              "countryCode": "ES"
+          },
+          "IAH": {
+              "cityCode": "HOU",
+              "countryCode": "US"
+          },
+          "FCO": {
+              "cityCode": "ROM",
+              "countryCode": "IT"
+          },
+          "FRA": {
+              "cityCode": "FRA",
+              "countryCode": "DE"
+          },
+          "ORY": {
+              "cityCode": "PAR",
+              "countryCode": "FR"
+          },
+          "YYZ": {
+              "cityCode": "YTO",
+              "countryCode": "CA"
+          },
+          "SCL": {
+              "cityCode": "SCL",
+              "countryCode": "CL"
+          }
+      },
+      "aircraft": {
+          "32A": "AIRBUS A320 (SHARKLETS)",
+          "74H": "BOEING 747-8",
+          "73H": "BOEING 737-800 (WINGLETS)",
+          "350": "AIRBUS INDUSTRIE A350",
+          "330": "AIRBUS INDUSTRIE A330",
+          "781": "BOEING 787-10",
+          "320": "AIRBUS A320",
+          "321": "AIRBUS A321",
+          "32Q": "AIRBUS A321NEO",
+          "333": "AIRBUS A330-300",
+          "223": "AIRBUS  A220-300",
+          "32S": "AIRBUS INDUSTRIE A318/A319/A320/A321",
+          "787": "787  ALL SERIES PASSENGER",
+          "359": "AIRBUS A350-900",
+          "744": "BOEING 747-400",
+          "777": "BOEING 777-200/300",
+          "788": "BOEING 787-8",
+          "77W": "BOEING 777-300ER",
+          "789": "BOEING 787-9",
+          "319": "AIRBUS A319",
+          "738": "BOEING 737-800",
+          "739": "BOEING 737-900"
+      },
+      "currencies": {
+          "EUR": "EURO"
+      },
+      "carriers": {
+          "KL": "KLM ROYAL DUTCH AIRLINES",
+          "AC": "AIR CANADA",
+          "UX": "AIR EUROPA",
+          "AF": "AIR FRANCE",
+          "I2": "IBERIA EXPRESS",
+          "UA": "UNITED AIRLINES",
+          "ET": "ETHIOPIAN AIRLINES",
+          "AR": "AEROLINEAS ARGENTINAS",
+          "LA": "LATAM AIRLINES GROUP",
+          "TK": "TURKISH AIRLINES",
+          "AZ": "ITA AIRWAYS",
+          "IB": "IBERIA",
+          "LH": "LUFTHANSA"
+      }
+  }
+}

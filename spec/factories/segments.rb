@@ -10,5 +10,6 @@ FactoryBot.define do
     aircraft_code { FFaker::NatoAlphabet.code }
     duration { '8H4M5S' }
     stops_number { 1 }
+    blacklisted_in_eu { false }
   end
 end
