@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :flight_offers
   resources :carriers
   devise_for :users
+
+  get 'flights_search', to: 'flights_search#search'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

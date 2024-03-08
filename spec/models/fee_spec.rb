@@ -20,8 +20,8 @@ RSpec.describe Fee, type: :model do
     expect(fee).to_not be_valid
   end
 
-  it 'is not valid without a flight_offer' do
-    fee = build(:fee, flight_offer: nil)
+  it 'is not valid without a price' do
+    fee = build(:fee, price: nil)
     expect(fee).to_not be_valid
   end
 
