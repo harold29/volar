@@ -6,4 +6,8 @@ module HelperMethods
     erb_template = File.read(template_path)
     ERB.new(erb_template).result(binding)
   end
+
+  def build_query_string(params)
+    params.map { |k, v| "#{k}=#{v}" }.join('&')
+  end
 end

@@ -35,4 +35,9 @@ RSpec.describe FareDetailsBySegment, type: :model do
     fare_details_by_segment = build(:fare_details_by_segment, included_checked_bags: nil)
     expect(fare_details_by_segment).to_not be_valid
   end
+
+  it 'is not valid without a segment_internal_id' do
+    fare_details_by_segment = build(:fare_details_by_segment, segment_internal_id: nil)
+    expect(fare_details_by_segment).to_not be_valid
+  end
 end

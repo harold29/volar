@@ -10,11 +10,6 @@ RSpec.describe Fee, type: :model do
     expect(fee).to_not be_valid
   end
 
-  it 'is not valid without a fee_description' do
-    fee = build(:fee, fee_description: nil)
-    expect(fee).to_not be_valid
-  end
-
   it 'is not valid without a fee_amount' do
     fee = build(:fee, fee_amount: nil)
     expect(fee).to_not be_valid

@@ -12,6 +12,7 @@ class CreateSegments < ActiveRecord::Migration[7.1]
       t.string :duration
       t.integer :stops_number
       t.boolean :blacklisted_in_eu
+      t.string :internal_id
 
       t.timestamps
     end

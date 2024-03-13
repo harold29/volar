@@ -1,3 +1,3 @@
 class CarrierSerializer < ApplicationSerializer
-  attributes :id, :name, :logo
+  attributes :id, :name, :logo, :code
 end

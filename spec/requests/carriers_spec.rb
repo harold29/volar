@@ -12,74 +12,75 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/carriers", type: :request do
-
+RSpec.describe '/carriers', type: :request do
   # Carrier. As you add validations to Carrier, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     {
-      name: "Name",
-      logo: "Logo"
+      name: 'Name',
+      logo: 'Logo',
+      code: 'Code'
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       name: nil,
-      logo: nil
+      logo: nil,
+      code: nil
     }
-  }
+  end
 
-  describe "GET /index" do
-    it "renders a successful response" do
+  describe 'GET /index' do
+    it 'renders a successful response' do
       Carrier.create! valid_attributes
       get carriers_url
       expect(response).to be_successful
     end
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
+  describe 'GET /show' do
+    it 'renders a successful response' do
       carrier = Carrier.create! valid_attributes
       get carrier_url(carrier)
       expect(response).to be_successful
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
+  describe 'GET /new' do
+    it 'renders a successful response' do
       get new_carrier_url
       expect(response).to be_successful
     end
   end
 
-  describe "GET /edit" do
-    it "render a successful response" do
+  describe 'GET /edit' do
+    it 'render a successful response' do
       carrier = Carrier.create! valid_attributes
       get edit_carrier_url(carrier)
       expect(response).to be_successful
     end
   end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Carrier" do
-        expect {
+  describe 'POST /create' do
+    context 'with valid parameters' do
+      it 'creates a new Carrier' do
+        expect do
           post carriers_url, params: { carrier: valid_attributes }
-        }.to change(Carrier, :count).by(1)
+        end.to change(Carrier, :count).by(1)
       end
 
-      it "redirects to the created carrier" do
+      it 'redirects to the created carrier' do
         post carriers_url, params: { carrier: valid_attributes }
         expect(response).to redirect_to(carrier_url(Carrier.last))
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new Carrier" do
-        expect {
+    context 'with invalid parameters' do
+      it 'does not create a new Carrier' do
+        expect do
           post carriers_url, params: { carrier: invalid_attributes }
-        }.to change(Carrier, :count).by(0)
+        end.to change(Carrier, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
@@ -89,25 +90,26 @@ RSpec.describe "/carriers", type: :request do
     end
   end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
+  describe 'PATCH /update' do
+    context 'with valid parameters' do
+      let(:new_attributes) do
         {
-          name: "Name2",
-          logo: "Logo2"
+          name: 'Name2',
+          logo: 'Logo2',
+          code: 'Code2'
         }
-      }
+      end
 
-      it "updates the requested carrier" do
+      it 'updates the requested carrier' do
         carrier = Carrier.create! valid_attributes
         patch carrier_url(carrier), params: { carrier: new_attributes }
         carrier.reload
 
-        expect(carrier.name).to eq("Name2")
-        expect(carrier.logo).to eq("Logo2")
+        expect(carrier.name).to eq('Name2')
+        expect(carrier.logo).to eq('Logo2')
       end
 
-      it "redirects to the carrier" do
+      it 'redirects to the carrier' do
         carrier = Carrier.create! valid_attributes
         patch carrier_url(carrier), params: { carrier: new_attributes }
         carrier.reload
@@ -115,7 +117,7 @@ RSpec.describe "/carriers", type: :request do
       end
     end
 
-    context "with invalid parameters" do
+    context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         carrier = Carrier.create! valid_attributes
         patch carrier_url(carrier), params: { carrier: invalid_attributes }
@@ -124,15 +126,15 @@ RSpec.describe "/carriers", type: :request do
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested carrier" do
+  describe 'DELETE /destroy' do
+    it 'destroys the requested carrier' do
       carrier = Carrier.create! valid_attributes
-      expect {
+      expect do
         delete carrier_url(carrier)
-      }.to change(Carrier, :count).by(-1)
+      end.to change(Carrier, :count).by(-1)
     end
 
-    it "redirects to the carriers list" do
+    it 'redirects to the carriers list' do
       carrier = Carrier.create! valid_attributes
       delete carrier_url(carrier)
       expect(response).to redirect_to(carriers_url)

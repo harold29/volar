@@ -13,9 +13,11 @@ FactoryBot.define do
     max_price { FFaker::Number.decimal }
     association :max_price_currency, factory: :currency
     max_stops { FFaker::Random.rand(1..10) }
-    max_duration { "1H" }
-    max_duration_unit { "hours" }
+    max_duration { '1H' }
+    max_duration_unit { 'hours' }
     price_total { FFaker::Number.decimal }
     price_average { FFaker::Number.decimal }
+    association :currency
+    nonstop { FFaker::Boolean.maybe }
   end
 end

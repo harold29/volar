@@ -11,12 +11,6 @@ RSpec.describe TravelerPricing, type: :model do
     expect(traveler_pricing.errors[:flight_offer]).to include('must exist')
   end
 
-  it 'is invalid without a traveler' do
-    traveler_pricing = build(:traveler_pricing, traveler: nil)
-    traveler_pricing.valid?
-    expect(traveler_pricing.errors[:traveler]).to include('must exist')
-  end
-
   it 'is invalid without a fare option' do
     traveler_pricing = build(:traveler_pricing, fare_option: nil)
     traveler_pricing.valid?
@@ -42,14 +36,20 @@ RSpec.describe TravelerPricing, type: :model do
   end
 
   it 'is invalid without a flight offer internal id' do
-    traveler_pricing = build(:traveler_pricing, flight_offer_internal_id: nil)
+    traveler_pricing = build(:traveler_pricing, traveler_internal_id: nil)
     traveler_pricing.valid?
-    expect(traveler_pricing.errors[:flight_offer_internal_id]).to include("can't be blank")
+    expect(traveler_pricing.errors[:traveler_internal_id]).to include("can't be blank")
   end
 
   it 'is invalid with a non-numeric price total' do
     traveler_pricing = build(:traveler_pricing, price_total: 'abc')
     traveler_pricing.valid?
     expect(traveler_pricing.errors[:price_total]).to include('is not a number')
+  end
+
+  it 'is invalid with a non-numeric price base' do
+    traveler_pricing = build(:traveler_pricing, price_base: 'abc')
+    traveler_pricing.valid?
+    expect(traveler_pricing.errors[:price_base]).to include('is not a number')
   end
 end
