@@ -36,12 +36,6 @@ RSpec.describe Price, type: :model do
     expect(price.errors[:base_fare]).to include("can't be blank")
   end
 
-  it 'is invalid without a refundable_taxes' do
-    price = Price.new(refundable_taxes: nil)
-    price.valid?
-    expect(price.errors[:refundable_taxes]).to include("can't be blank")
-  end
-
   it 'is invalid without a billing_currency' do
     price = Price.new(billing_currency: nil)
     price.valid?

@@ -1,6 +1,9 @@
 class FlightSearch < ApplicationRecord
   belongs_to :user
   belongs_to :max_price_currency, class_name: 'Currency'
+  belongs_to :currency
+
+  has_many :flight_offers
 
   validates :origin, :destination, :departure_date, :adults, :travel_class, presence: true
 
@@ -11,5 +14,4 @@ class FlightSearch < ApplicationRecord
   validates :price_total, :price_average, numericality: true, presence: true
   validates :max_price, numericality: true
   validates :max_price_currency, :user, presence: true
-
 end

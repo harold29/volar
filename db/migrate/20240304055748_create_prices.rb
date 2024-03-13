@@ -7,7 +7,7 @@ class CreatePrices < ActiveRecord::Migration[7.1]
       t.references :price_currency, foreign_key: { to_table: :currencies }, type: :uuid
       t.references :billing_currency, foreign_key: { to_table: :currencies }, type: :uuid
       t.decimal :base_fare
-      t.decimal :refundable_taxes
+      t.decimal :refundable_taxes, default: 0.0
 
       t.timestamps
     end

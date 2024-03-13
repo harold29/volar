@@ -14,70 +14,76 @@ RSpec.describe FlightFinder do
         travel_class: 'ECONOMY'
       }
     end
+    let(:request_params) do
+      {
+        originLocationCode: 'LHR',
+        destinationLocationCode: 'CDG',
+        departureDate: '2022-01-01',
+        returnDate: '2022-01-10',
+        adults: 2,
+        children: 1,
+        infants: 1,
+        travelClass: 'ECONOMY'
+      }
+    end
 
     describe 'when the search is successful' do
       include_context 'get flight offer response'
+      include_context 'set countries - currencies - airport - carrier'
 
       subject(:flight_finder) { described_class.new(flight_finder_params) }
 
       it 'returns the correct response objects' do
-        response = flight_finder.search_flights
-
-        expect(response.result).to be_a(Hash)
-
-        expect(response.result['meta']).to be_a(Hash)
-        expect(response.result['data']).to be_a(Array)
-        expect(response.result['dictionaries']).to be_a(Hash)
+        expect(flight_finder.search_flights.flight_offers).to be_an(ActiveRecord::Associations::CollectionProxy)
+        expect(flight_finder.search_flights.flight_offers.first).to be_a(FlightOffer)
+        expect(flight_finder.search_flights.flight_offers.first.itineraries.first).to be_a(Itinerary)
+        expect(flight_finder.search_flights.flight_offers.first.itineraries.first.segments.first).to be_a(Segment)
+        expect(flight_finder.search_flights.flight_offers.first.itineraries.first.segments.first.departure_airport).to be_a(Airport)
+        expect(flight_finder.search_flights.flight_offers.first.itineraries.first.segments.first.arrival_airport).to be_a(Airport)
+        expect(flight_finder.search_flights.flight_offers.first.itineraries.first.segments.first.carrier).to be_a(Carrier)
       end
 
-      context 'returns the correct response data' do
-        it 'returns the correct response data object' do
-          response = flight_finder.search_flights
+      it 'creates the correct number of records' do
+        expect { flight_finder.search_flights }.to change(FlightOffer, :count).by(4)
+                                                                              .and change(Itinerary, :count).by(4)
+                                                                                                            .and change(Segment, :count).by(8)
+      end
 
-          expect(response.result['data'].size).to eq(4)
-          expect(response.result['data'].first['type']).to eq('flight-offer')
-          expect(response.result['data'].first['id']).to be_a(String)
-          expect(response.result['data'].first['source']).to eq(flight_finder_params[:origin])
-          expect(response.result['data'].first['instantTicketingRequired']).to eq(false)
-          expect(response.result['data'].first['nonHomogeneous']).to eq(false)
-          expect(response.result['data'].first['oneWay']).to eq(false)
-          expect(response.result['data'].first['lastTicketingDate']).to eq('2024-03-09')
-          expect(response.result['data'].first['numberOfBookableSeats']).to eq(9)
-          expect(response.result['data'].first['itineraries']).to be_a(Array)
-          expect(response.result['data'].first['price']).to be_a(Hash)
-          expect(response.result['data'].first['pricingOptions']).to be_a(Hash)
-          expect(response.result['data'].first['validatingAirlineCodes']).to be_a(Array)
-          expect(response.result['data'].first['travelerPricings']).to be_a(Array)
-        end
+      it 'creates the correct records' do
+        flight_finder.search_flights
 
-        describe 'returns the correct itineraries object' do
-          it 'response with correct fields' do
-            response = flight_finder.search_flights
+        expect(FlightOffer.ordered_first.internal_id).to eq('1')
+        expect(FlightOffer.ordered_first.source).to eq('LHR')
+        expect(FlightOffer.ordered_first.instant_ticketing_required).to eq(false)
+        expect(FlightOffer.ordered_first.non_homogeneous).to eq(false)
+        expect(FlightOffer.ordered_first.one_way).to eq(false)
+        expect(FlightOffer.ordered_first.last_ticketing_date.to_s).to eq('2024-03-09')
+        expect(FlightOffer.ordered_first.number_of_bookable_seats).to eq(9)
+        expect(FlightOffer.ordered_first.price_total).to eq(733.65)
+        expect(FlightOffer.ordered_first.payment_card_required).to eq(false)
+        expect(FlightOffer.ordered_first.currency).to eq(Currency.find_by(code: 'EUR'))
 
-            expect(response.result['data'].first['itineraries'].size).to eq(1)
-            expect(response.result['data'].first['itineraries'].first['duration']).to eq('PT28H45M')
-          end
+        expect(Itinerary.ordered_by_flight_offer_internal_id.first.duration).to eq('PT28H45M')
 
-          it 'returns correct segments' do
-            response = flight_finder.search_flights
-            segments = response.result['data'].first['itineraries'].first['segments']
+        expect(Segment.ordered.first.departure_airport).to eq(Airport.find_by(iata_code: 'EZE'))
+        expect(Segment.ordered.first.arrival_airport).to eq(Airport.find_by(iata_code: 'IST'))
+        expect(Segment.ordered.first.departure_at.to_s).to eq('2022-01-01 23:55:00 UTC')
+        expect(Segment.ordered.first.arrival_at.to_s).to eq('2024-05-03 22:40:00 UTC')
+        expect(Segment.ordered.first.carrier).to eq(Carrier.find_by(code: 'TK'))
+        expect(Segment.ordered.first.flight_number).to eq('16')
+      end
 
-            expect(segments).to be_a(Array)
-            expect(segments.size).to eq(2)
-            expect(segments.first['departure']).to be_a(Hash)
-            expect(segments.first['departure']['iataCode']).to eq('EZE')
-            expect(segments.first['departure']['at']).to eq("#{flight_finder_params[:departure_date]}T23:55:00")
-            expect(segments.first['arrival']).to be_a(Hash)
-            expect(segments.first['carrierCode']).to eq('TK')
-            expect(segments.first['number']).to eq('16')
-            expect(segments.first['aircraft']).to be_a(Hash)
-            expect(segments.first['operating']).to be_a(Hash)
-            expect(segments.first['duration']).to eq('PT16H45M')
-            expect(segments.first['id']).to eq('108')
-            expect(segments.first['numberOfStops']).to eq(1)
-            expect(segments.first['blacklistedInEU']).to eq(false)
-          end
-        end
+      it 'does create duplicate records' do
+        flight_finder.search_flights
+
+        expect { flight_finder.search_flights }.to change(FlightOffer, :count)
+      end
+
+      it 'raises an error when the response is invalid' do
+        allow_any_instance_of(Amadeus::Client).to receive_message_chain(:shopping, :flight_offers_search, :get)
+          .and_raise(Amadeus::ResponseError.new(Amadeus::Response.new('500', 'Problem with server')))
+
+        expect { flight_finder.search_flights }.to raise_error(Amadeus::ResponseError)
       end
     end
   end

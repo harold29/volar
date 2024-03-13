@@ -11,5 +11,6 @@ FactoryBot.define do
     duration { '8H4M5S' }
     stops_number { 1 }
     blacklisted_in_eu { false }
+    internal_id { rand(1..200).to_s }
   end
 end
