@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :payment_terms
   resources :flight_offers
   resources :carriers
+
   devise_for :users
 
   get 'flights_search', to: 'flights_search#search'

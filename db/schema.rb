@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_12_064129) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -218,15 +218,42 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_064129) do
   end
 
   create_table "payment_plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.date "departure_at"
+    t.date "return_at"
+    t.uuid "installments_currency_id", null: false
+    t.integer "installments_number"
+    t.decimal "installment_amounts", precision: 10, scale: 2, default: [], array: true
+    t.uuid "flight_offer_id", null: false
+    t.boolean "active"
+    t.boolean "selected"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "payment_term_id"
+    t.index ["flight_offer_id"], name: "index_payment_plans_on_flight_offer_id"
+    t.index ["installments_currency_id"], name: "index_payment_plans_on_installments_currency_id"
+    t.index ["payment_term_id"], name: "index_payment_plans_on_payment_term_id"
+  end
+
+  create_table "payment_terms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
-    t.string "payment_type"
-    t.string "description"
+    t.text "description"
+    t.integer "payment_type"
     t.string "payment_terms"
-    t.string "payment_terms_description"
+    t.text "payment_terms_description"
     t.string "payment_terms_conditions"
     t.string "payment_terms_conditions_url"
-    t.string "payment_terms_conditions_file"
-    t.string "payment_terms_conditions_file_url"
+    t.string "payment_terms_file"
+    t.string "payment_terms_file_url"
+    t.integer "days_max_number"
+    t.integer "days_min_number"
+    t.integer "payment_period_in_days"
+    t.decimal "interest_rate"
+    t.decimal "penalty_rate"
+    t.integer "installments_max_number"
+    t.integer "installments_min_number"
+    t.boolean "installments"
+    t.boolean "active"
+    t.boolean "deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -426,6 +453,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_064129) do
   add_foreign_key "flight_searches", "currencies", column: "max_price_currency_id"
   add_foreign_key "flight_searches", "users"
   add_foreign_key "itineraries", "flight_offers"
+  add_foreign_key "payment_plans", "currencies", column: "installments_currency_id"
+  add_foreign_key "payment_plans", "flight_offers"
+  add_foreign_key "payment_plans", "payment_terms"
   add_foreign_key "payments", "bookings"
   add_foreign_key "payments", "currencies", column: "payment_currency_id"
   add_foreign_key "payments", "currencies", column: "refunded_currency_id"

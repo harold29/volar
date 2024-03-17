@@ -1,5 +1,5 @@
 class FlightOffersController < ApplicationController
-  before_action :set_flight_offer, only: %i[ show edit update destroy ]
+  before_action :set_flight_offer, only: %i[show edit update destroy]
 
   # GET /flight_offers or /flight_offers.json
   def index
@@ -7,8 +7,7 @@ class FlightOffersController < ApplicationController
   end
 
   # GET /flight_offers/1 or /flight_offers/1.json
-  def show
-  end
+  def show; end
 
   # GET /flight_offers/new
   def new
@@ -16,8 +15,7 @@ class FlightOffersController < ApplicationController
   end
 
   # GET /flight_offers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /flight_offers or /flight_offers.json
   def create
@@ -25,7 +23,7 @@ class FlightOffersController < ApplicationController
 
     respond_to do |format|
       if @flight_offer.save
-        format.html { redirect_to flight_offer_url(@flight_offer), notice: "Flight offer was successfully created." }
+        format.html { redirect_to flight_offer_url(@flight_offer), notice: 'Flight offer was successfully created.' }
         format.json { render :show, status: :created, location: @flight_offer }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +36,7 @@ class FlightOffersController < ApplicationController
   def update
     respond_to do |format|
       if @flight_offer.update(flight_offer_params)
-        format.html { redirect_to flight_offer_url(@flight_offer), notice: "Flight offer was successfully updated." }
+        format.html { redirect_to flight_offer_url(@flight_offer), notice: 'Flight offer was successfully updated.' }
         format.json { render :show, status: :ok, location: @flight_offer }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +50,23 @@ class FlightOffersController < ApplicationController
     @flight_offer.destroy!
 
     respond_to do |format|
-      format.html { redirect_to flight_offers_url, notice: "Flight offer was successfully destroyed." }
+      format.html { redirect_to flight_offers_url, notice: 'Flight offer was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_flight_offer
-      @flight_offer = FlightOffer.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def flight_offer_params
-      params.require(:flight_offer).permit(:internal_id, :source, :instant_ticketing_required, :non_homogeneous, :one_way, :last_ticketing_date, :number_of_bookable_seats, :price_total, :currency_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_flight_offer
+    @flight_offer = FlightOffer.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def flight_offer_params
+    params.require(:flight_offer).permit(:internal_id, :source,
+                                         :instant_ticketing_required, :non_homogeneous,
+                                         :one_way, :last_ticketing_date,
+                                         :number_of_bookable_seats, :price_total, :currency_id)
+  end
 end

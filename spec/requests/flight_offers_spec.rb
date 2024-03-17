@@ -12,25 +12,24 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/flight_offers", type: :request do
-
+RSpec.describe '/flight_offers', type: :request do
   # FlightOffer. As you add validations to FlightOffer, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     {
-      internal_id: "MyString",
-      source: "MyString",
+      internal_id: 'MyString',
+      source: 'MyString',
       instant_ticketing_required: false,
       non_homogeneous: false,
       one_way: false,
-      last_ticketing_date: "2024-03-01",
+      last_ticketing_date: '2024-03-01',
       number_of_bookable_seats: 1,
-      price_total: "9.99",
+      price_total: '9.99',
       currency_id: create(:currency).id
     }
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     {
       internal_id: nil,
       source: nil,
@@ -42,99 +41,99 @@ RSpec.describe "/flight_offers", type: :request do
       price_total: nil,
       currency_id: nil
     }
-  }
+  end
 
-  describe "GET /index" do
-    it "renders a successful response" do
+  describe 'GET /index' do
+    it 'renders a successful response' do
       FlightOffer.create! valid_attributes
       get flight_offers_url
       expect(response).to be_successful
     end
   end
 
-  describe "GET /show" do
-    it "renders a successful response" do
+  describe 'GET /show' do
+    it 'renders a successful response' do
       flight_offer = FlightOffer.create! valid_attributes
       get flight_offer_url(flight_offer)
       expect(response).to be_successful
     end
   end
 
-  describe "GET /new" do
-    it "renders a successful response" do
+  describe 'GET /new' do
+    it 'renders a successful response' do
       get new_flight_offer_url
       expect(response).to be_successful
     end
   end
 
-  describe "GET /edit" do
-    it "render a successful response" do
+  describe 'GET /edit' do
+    it 'render a successful response' do
       flight_offer = FlightOffer.create! valid_attributes
       get edit_flight_offer_url(flight_offer)
       expect(response).to be_successful
     end
   end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new FlightOffer" do
-        expect {
+  describe 'POST /create' do
+    context 'with valid parameters' do
+      it 'creates a new FlightOffer' do
+        expect do
           post flight_offers_url, params: { flight_offer: valid_attributes }
-        }.to change(FlightOffer, :count).by(1)
+        end.to change(FlightOffer, :count).by(1)
       end
 
-      it "redirects to the created flight_offer" do
+      it 'redirects to the created flight_offer' do
         post flight_offers_url, params: { flight_offer: valid_attributes }
         expect(response).to redirect_to(flight_offer_url(FlightOffer.last))
       end
     end
 
-    context "with invalid parameters" do
-      it "does not create a new FlightOffer" do
-        expect {
+    context 'with invalid parameters' do
+      it 'does not create a new FlightOffer' do
+        expect do
           post flight_offers_url, params: { flight_offer: invalid_attributes }
-        }.to change(FlightOffer, :count).by(0)
+        end.to change(FlightOffer, :count).by(0)
       end
 
-      it "renders an error message" do
+      it 'renders an error message' do
         post flight_offers_url, params: { flight_offer: invalid_attributes }
         expect(response).to be_unprocessable
       end
     end
   end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
+  describe 'PATCH /update' do
+    context 'with valid parameters' do
+      let(:new_attributes) do
         {
-          internal_id: "Test1",
-          source: "Test1",
+          internal_id: 'Test1',
+          source: 'Test1',
           instant_ticketing_required: true,
           non_homogeneous: true,
           one_way: true,
-          last_ticketing_date: "2025-03-01",
+          last_ticketing_date: '2025-03-01',
           number_of_bookable_seats: 2,
-          price_total: "12.3",
+          price_total: '12.3',
           currency_id: create(:currency).id
         }
-      }
+      end
 
-      it "updates the requested flight_offer" do
+      it 'updates the requested flight_offer' do
         flight_offer = FlightOffer.create! valid_attributes
         patch flight_offer_url(flight_offer), params: { flight_offer: new_attributes }
         flight_offer.reload
-        expect(flight_offer.internal_id).to eq("Test1")
-        expect(flight_offer.source).to eq("Test1")
+        expect(flight_offer.internal_id).to eq('Test1')
+        expect(flight_offer.source).to eq('Test1')
         expect(flight_offer.instant_ticketing_required).to eq(true)
         expect(flight_offer.non_homogeneous).to eq(true)
         expect(flight_offer.one_way).to eq(true)
-        expect(flight_offer.last_ticketing_date.to_s).to eq("2025-03-01")
+        expect(flight_offer.last_ticketing_date.to_s).to eq('2025-03-01')
         expect(flight_offer.number_of_bookable_seats).to eq(2)
-        expect(flight_offer.price_total.to_s).to eq("12.3")
+        expect(flight_offer.price_total.to_s).to eq('12.3')
         expect(flight_offer.currency_id).to eq(new_attributes[:currency_id])
       end
 
-      it "redirects to the flight_offer" do
+      it 'redirects to the flight_offer' do
         flight_offer = FlightOffer.create! valid_attributes
         patch flight_offer_url(flight_offer), params: { flight_offer: new_attributes }
         flight_offer.reload
@@ -142,7 +141,7 @@ RSpec.describe "/flight_offers", type: :request do
       end
     end
 
-    context "with invalid parameters" do
+    context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         flight_offer = FlightOffer.create! valid_attributes
         patch flight_offer_url(flight_offer), params: { flight_offer: invalid_attributes }
@@ -151,15 +150,15 @@ RSpec.describe "/flight_offers", type: :request do
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested flight_offer" do
+  describe 'DELETE /destroy' do
+    it 'destroys the requested flight_offer' do
       flight_offer = FlightOffer.create! valid_attributes
-      expect {
+      expect do
         delete flight_offer_url(flight_offer)
-      }.to change(FlightOffer, :count).by(-1)
+      end.to change(FlightOffer, :count).by(-1)
     end
 
-    it "redirects to the flight_offers list" do
+    it 'redirects to the flight_offers list' do
       flight_offer = FlightOffer.create! valid_attributes
       delete flight_offer_url(flight_offer)
       expect(response).to redirect_to(flight_offers_url)

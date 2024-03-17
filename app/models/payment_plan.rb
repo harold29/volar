@@ -1,5 +1,17 @@
 class PaymentPlan < ApplicationRecord
-  validates :name, :payment_type, :description, :payment_terms, :payment_terms_description,
-            :payment_terms_conditions, :payment_terms_conditions_url, :payment_terms_conditions_file,
-            :payment_terms_conditions_file_url, presence: true
+  validates :departure_at,
+            :return_at,
+            :installments_currency,
+            :installments_number,
+            :installment_amounts,
+            :flight_offer,
+            :payment_term, presence: true
+
+  validates :active, :selected, inclusion: { in: [true, false] }
+
+  validates :installments_number, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  belongs_to :installments_currency, class_name: 'Currency'
+  belongs_to :flight_offer
+  belongs_to :payment_term
 end
