@@ -115,3 +115,36 @@ RSpec.shared_context 'get only flight offer response' do
   let(:parsed_response) { JSON.parse(response)['data'] }
   # let(:flight_offer_response) { parsed_response['data'].first }
 end
+
+RSpec.shared_context 'set payment plans' do
+  before do
+    create(:payment_plan,
+           name: 'monthly',
+           min_number_of_installments: 3,
+           max_number_of_installments: 12,
+           min_number_of_days: 30,
+           max_number_of_days: 360,
+           payment_period_in_days: 30,
+           active: true,
+           interest_rate: 0.05)
+
+    create(:payment_plan,
+           name: 'weekly',
+           min_number_of_installments: 3,
+           max_number_of_installments: 12,
+           min_number_of_days: 21,
+           max_number_of_days: 84,
+           payment_period_in_days: 7,
+           active: true,
+           interest_rate: 0.07)
+
+    create(:payment_plan,
+           name: 'daily',
+           min_number_of_installments: 3,
+           max_number_of_installments: 30,
+           min_number_of_days: 4,
+           max_number_of_days: 31,
+           payment_period_in_days: 1,
+           interest_rate: 0.10)
+  end
+end

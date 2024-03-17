@@ -208,3 +208,15 @@ Carrier.create!(name: 'Spirit Airlines', code: 'NK', logo: Faker::Internet.url)
 Carrier.create!(name: 'Frontier Airlines', code: 'F9', logo: Faker::Internet.url)
 Carrier.create!(name: 'Hawaiian Airlines', code: 'HA', logo: Faker::Internet.url)
 Carrier.create!(name: 'Turkish Airlines', code: 'TK', logo: Faker::Internet.url)
+
+# Payment Plans
+PaymentPlan.create!(name: 'Standard', payment_type: 'Credit Card', description: 'Standard payment plan', payment_terms: 'D=1',
+                    payment_terms_description: 'Payment due in full within 1 day of invoice date')
+PaymentPlan.create!(name: 'Weekly', payment_type: 'Credit Card', description: 'Net 15 payment plan', payment_terms: 'D>7;D<70',
+                    payment_terms_description: 'Payment divided into weekly installments')
+PaymentPlan.create!(name: 'Bi-Weekly', payment_type: 'Credit Card', description: 'Net 30 payment plan', payment_terms: 'D>15;D<70',
+                    payment_terms_description: 'Payment divided into bi-weekly installments')
+PaymentPlan.create!(name: 'Monthly', payment_type: 'Credit Card', description: 'Net 30 payment plan', payment_terms: 'D>30;D<180',
+                    payment_terms_description: 'Payment divided into monthly installments')
+PaymentPlan.create!(name: 'Daily', payment_type: 'Credit Card', description: 'Daily payment plan', payment_terms: 'D=15;D<100',
+                    payment_terms_description: 'Payment due in full within 1 day of invoice date')
