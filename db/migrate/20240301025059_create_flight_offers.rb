@@ -7,6 +7,7 @@ class CreateFlightOffers < ActiveRecord::Migration[7.1]
       t.boolean :non_homogeneous
       t.boolean :one_way
       t.date :last_ticketing_date
+      t.datetime :last_ticketing_datetime
       t.integer :number_of_bookable_seats
       t.decimal :price_total
       t.boolean :payment_card_required

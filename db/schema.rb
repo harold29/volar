@@ -158,6 +158,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
     t.boolean "non_homogeneous"
     t.boolean "one_way"
     t.date "last_ticketing_date"
+    t.datetime "last_ticketing_datetime"
     t.integer "number_of_bookable_seats"
     t.decimal "price_total"
     t.boolean "payment_card_required"
@@ -223,9 +224,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
     t.uuid "installments_currency_id", null: false
     t.integer "installments_number"
     t.decimal "installment_amounts", precision: 10, scale: 2, default: [], array: true
+    t.datetime "last_ticketing_datetime"
     t.uuid "flight_offer_id", null: false
-    t.boolean "active"
-    t.boolean "selected"
+    t.boolean "active", default: false
+    t.boolean "selected", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "payment_term_id"

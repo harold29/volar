@@ -6,9 +6,10 @@ class CreatePaymentPlans < ActiveRecord::Migration[7.1]
       t.references :installments_currency, null: false, foreign_key: { to_table: :currencies }, type: :uuid
       t.integer :installments_number
       t.decimal :installment_amounts, array: true, precision: 10, scale: 2, default: []
+      t.datetime :last_ticketing_datetime
       t.references :flight_offer, null: false, foreign_key: true, type: :uuid
-      t.boolean :active
-      t.boolean :selected
+      t.boolean :active, default: false
+      t.boolean :selected, default: false
 
       t.timestamps
     end

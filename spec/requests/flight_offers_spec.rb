@@ -23,6 +23,7 @@ RSpec.describe '/flight_offers', type: :request do
       non_homogeneous: false,
       one_way: false,
       last_ticketing_date: '2024-03-01',
+      last_ticketing_datetime: '2024-03-01T00:00:00',
       number_of_bookable_seats: 1,
       price_total: '9.99',
       currency_id: create(:currency).id
@@ -37,6 +38,7 @@ RSpec.describe '/flight_offers', type: :request do
       non_homogeneous: nil,
       one_way: nil,
       last_ticketing_date: nil,
+      last_ticketing_datetime: nil,
       number_of_bookable_seats: nil,
       price_total: nil,
       currency_id: nil
@@ -112,6 +114,7 @@ RSpec.describe '/flight_offers', type: :request do
           non_homogeneous: true,
           one_way: true,
           last_ticketing_date: '2025-03-01',
+          last_ticketing_datetime: '2025-03-01T00:00:00',
           number_of_bookable_seats: 2,
           price_total: '12.3',
           currency_id: create(:currency).id
@@ -128,6 +131,7 @@ RSpec.describe '/flight_offers', type: :request do
         expect(flight_offer.non_homogeneous).to eq(true)
         expect(flight_offer.one_way).to eq(true)
         expect(flight_offer.last_ticketing_date.to_s).to eq('2025-03-01')
+        expect(flight_offer.last_ticketing_datetime.to_s).to eq('2025-03-01 00:00:00 UTC')
         expect(flight_offer.number_of_bookable_seats).to eq(2)
         expect(flight_offer.price_total.to_s).to eq('12.3')
         expect(flight_offer.currency_id).to eq(new_attributes[:currency_id])
