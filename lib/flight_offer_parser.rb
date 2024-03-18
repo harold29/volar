@@ -57,6 +57,7 @@ class FlightOfferParser # rubocop:disable Metrics/ClassLength
       non_homogeneous: flight_offer_data[:non_homogeneous],
       one_way: flight_offer_data[:one_way],
       last_ticketing_date: flight_offer_data[:last_ticketing_date],
+      last_ticketing_datetime: flight_offer_data[:last_ticketing_date_time],
       number_of_bookable_seats: flight_offer_data[:number_of_bookable_seats],
       price_total: flight_offer_data[:price][:total],
       payment_card_required: flight_offer_data[:price][:payment_card_required] || false,

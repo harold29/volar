@@ -93,6 +93,8 @@ class PaymentTerm < ApplicationRecord
   end
 
   def adjust_installments(installment_amounts)
+    return installment_amounts if installment_amounts.sum.zero? || installment_amounts.sum.negative? || installment_amounts.size.zero?
+
     installment_amounts.map!(&:to_d)
 
     rounded_installments = installment_amounts.map(&:floor)

@@ -9,7 +9,12 @@ class FlightOffer < ApplicationRecord
   has_many :additional_services
   has_many :traveler_pricings
 
-  validates :internal_id, :source, :last_ticketing_date, :number_of_bookable_seats, :price_total, presence: true
+  validates :internal_id,
+            :source,
+            :last_ticketing_date,
+            :last_ticketing_datetime,
+            :number_of_bookable_seats,
+            :price_total, presence: true
   validates :currency, presence: true
 
   scope :ordered, -> { order(internal_id: :asc) }

@@ -113,38 +113,68 @@ end
 RSpec.shared_context 'get only flight offer response' do
   let(:response) { render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params) }
   let(:parsed_response) { JSON.parse(response)['data'] }
-  # let(:flight_offer_response) { parsed_response['data'].first }
 end
 
-RSpec.shared_context 'set payment plans' do
+RSpec.shared_context 'set payment terms' do
   before do
-    create(:payment_plan,
+    create(:payment_term,
            name: 'monthly',
-           min_number_of_installments: 3,
-           max_number_of_installments: 12,
-           min_number_of_days: 30,
-           max_number_of_days: 360,
+           payment_type: 1,
+           payment_terms: 'monthly',
+           payment_terms_description: 'Monthly payment terms',
+           payment_terms_conditions: 'Monthly payment terms conditions',
+           payment_terms_conditions_url: 'https://www.example.com/monthly_payment_terms_conditions',
+           payment_terms_file: 'monthly_payment_terms.pdf',
+           payment_terms_file_url: 'https://www.example.com/monthly_payment_terms.pdf',
+           days_max_number: 360,
+           days_min_number: 30,
            payment_period_in_days: 30,
+           interest_rate: 0.05,
+           penalty_rate: 0.10,
+           installments_max_number: 12,
+           installments_min_number: 3,
+           installments: true,
            active: true,
-           interest_rate: 0.05)
+           deleted: false)
 
-    create(:payment_plan,
+    create(:payment_term,
            name: 'weekly',
-           min_number_of_installments: 3,
-           max_number_of_installments: 12,
-           min_number_of_days: 21,
-           max_number_of_days: 84,
+           payment_type: 1,
+           payment_terms: 'weekly',
+           payment_terms_description: 'Weekly payment terms',
+           payment_terms_conditions: 'Weekly payment terms conditions',
+           payment_terms_conditions_url: 'https://www.example.com/weekly_payment_terms_conditions',
+           payment_terms_file: 'weekly_payment_terms.pdf',
+           payment_terms_file_url: 'https://www.example.com/weekly_payment_terms.pdf',
+           days_max_number: 84,
+           days_min_number: 21,
            payment_period_in_days: 7,
+           interest_rate: 0.07,
+           penalty_rate: 0.10,
+           installments_max_number: 12,
+           installments_min_number: 3,
+           installments: true,
            active: true,
-           interest_rate: 0.07)
+           deleted: false)
 
-    create(:payment_plan,
+    create(:payment_term,
            name: 'daily',
-           min_number_of_installments: 3,
-           max_number_of_installments: 30,
-           min_number_of_days: 4,
-           max_number_of_days: 31,
+           payment_type: 1,
+           payment_terms: 'daily',
+           payment_terms_description: 'Daily payment terms',
+           payment_terms_conditions: 'Daily payment terms conditions',
+           payment_terms_conditions_url: 'https://www.example.com/daily_payment_terms_conditions',
+           payment_terms_file: 'daily_payment_terms.pdf',
+           payment_terms_file_url: 'https://www.example.com/daily_payment_terms.pdf',
+           days_max_number: 31,
+           days_min_number: 4,
            payment_period_in_days: 1,
-           interest_rate: 0.10)
+           interest_rate: 0.10,
+           penalty_rate: 0.10,
+           installments_max_number: 30,
+           installments_min_number: 3,
+           installments: true,
+           active: true,
+           deleted: false)
   end
 end

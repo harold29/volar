@@ -28,6 +28,7 @@ RSpec.describe FlightOfferParser do
     expect(flight_offers.first.non_homogeneous).to eq(false)
     expect(flight_offers.first.one_way).to eq(false)
     expect(flight_offers.first.last_ticketing_date.to_s).to eq('2024-03-09')
+    expect(flight_offers.first.last_ticketing_datetime.to_s).to eq('2024-03-09 00:00:00 UTC')
     expect(flight_offers.first.number_of_bookable_seats).to eq(9)
     expect(flight_offers.first.price_total).to eq(733.65)
     expect(flight_offers.first.payment_card_required).to eq(false)
