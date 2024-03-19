@@ -1,23 +1,44 @@
 class FlightOfferParser # rubocop:disable Metrics/ClassLength
-  def self.parse(response)
-    new(response).parse
+  Error = Class.new(StandardError)
+
+  def self.parse(response, flight_search)
+    new(response, flight_search).parse
   end
 
   attr_reader :response
 
-  def initialize(response)
+  def initialize(response, flight_search)
     @response = deep_snake_case_keys(response)
+    @flight_search = flight_search
   end
 
   def parse
-    parse_offer_params
-  rescue ActiveRecord::RecordInvalid => e
-    raise e
+    with_errors_handler do
+      parse_offer_params
+    end
   end
 
   private
 
+  attr_accessor :flight_search
+
   include Utils
+
+  def with_errors_handler
+    yield
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Validation failed: #{e.message}")
+    raise Error, "Validation failed for a record: #{e.message}"
+  rescue ActiveRecord::RecordNotSaved => e
+    Rails.logger.error("Record not saved: #{e.message}")
+    raise Error, "Record not saved: #{e.message}"
+  rescue ActiveRecord::RecordNotFound => e
+    Rails.logger.error("Record not found: #{e.message}")
+    raise Error, "Required record not found: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error("Error building payment plans: #{e.message}")
+    raise Error, "Unhandled error: #{e.message}, backtrace: #{e.backtrace}"
+  end
 
   %i[itineraries segments stops traveler_pricings fees fare_details_by_segments amenities].each do |key|
     define_method("parse_#{key}") do |fields_data|
@@ -64,7 +85,8 @@ class FlightOfferParser # rubocop:disable Metrics/ClassLength
       currency: currency(flight_offer_data[:price][:currency]),
       itineraries_attributes: parse_itineraries(flight_offer_data[:itineraries]),
       price_attributes: parse_price(flight_offer_data[:price]),
-      traveler_pricings_attributes: parse_traveler_pricings(flight_offer_data[:traveler_pricings])
+      traveler_pricings_attributes: parse_traveler_pricings(flight_offer_data[:traveler_pricings]),
+      flight_search:
     }
   end
 

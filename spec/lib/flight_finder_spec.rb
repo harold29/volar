@@ -28,10 +28,12 @@ RSpec.describe FlightFinder do
     end
 
     describe 'when the search is successful' do
+      let(:user) { create(:user) }
+
       include_context 'get flight offer response'
       include_context 'set countries - currencies - airport - carrier'
 
-      subject(:flight_finder) { described_class.new(flight_finder_params) }
+      subject(:flight_finder) { described_class.new(user, flight_finder_params) }
 
       it 'returns the correct response objects' do
         expect(flight_finder.search_flights.flight_offers).to be_an(ActiveRecord::Associations::CollectionProxy)
@@ -83,7 +85,7 @@ RSpec.describe FlightFinder do
         allow_any_instance_of(Amadeus::Client).to receive_message_chain(:shopping, :flight_offers_search, :get)
           .and_raise(Amadeus::ResponseError.new(Amadeus::Response.new('500', 'Problem with server')))
 
-        expect { flight_finder.search_flights }.to raise_error(Amadeus::ResponseError)
+        expect { flight_finder.search_flights }.to raise_error(FlightFinder::FlightRetrievingError)
       end
     end
   end

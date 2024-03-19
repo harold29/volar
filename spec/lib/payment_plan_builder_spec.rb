@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe PaymentPlanBuilder do
   describe '#initialize' do
+    let(:user) { create(:user) }
+    let(:flight_offers) { [] }
     let(:flight_finder_params) do
       {
         origin: 'LHR',
@@ -15,7 +17,7 @@ RSpec.describe PaymentPlanBuilder do
       }
     end
 
-    subject(:offer_builder) { described_class.new(flight_finder_params) }
+    subject(:offer_builder) { described_class.new(user, flight_finder_params, flight_offers) }
 
     it 'sets the flight_finder_params attribute' do
       expect(offer_builder.instance_variable_get(:@flight_finder_params)).to eq(flight_finder_params)
@@ -23,6 +25,7 @@ RSpec.describe PaymentPlanBuilder do
   end
 
   describe '#build' do
+    let(:user) { create(:user) }
     let(:flight_finder_params) do
       {
         origin: 'LHR',
@@ -52,13 +55,9 @@ RSpec.describe PaymentPlanBuilder do
     include_context 'get flight offer response'
     include_context 'set countries - currencies - airport - carrier'
     include_context 'set payment terms'
+    include_context 'set flight offers in base of response'
 
-    subject(:payment_plan_builder) { described_class.new(flight_finder_params) }
-
-    it 'calls the search_flights method' do
-      expect(payment_plan_builder).to receive(:search_flights).and_return(double('Response', flight_offers: []))
-      payment_plan_builder.build
-    end
+    subject(:payment_plan_builder) { described_class.new(user, flight_finder_params, flight_offers) }
 
     it 'calls the create_payment_plans method' do
       # Is executed the same number of times of flight offers in the response
@@ -123,14 +122,6 @@ RSpec.describe PaymentPlanBuilder do
 
     it 'returns an empty array if no payment plans are created' do
       allow(payment_plan_builder).to receive(:create_payment_plans).and_return([])
-
-      payment_plans = payment_plan_builder.build
-
-      expect(payment_plans).to eq([])
-    end
-
-    it 'returns an empty array if no flight offers are found' do
-      allow(payment_plan_builder).to receive(:search_flights).and_return(double('Response', flight_offers: []))
 
       payment_plans = payment_plan_builder.build
 

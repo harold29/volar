@@ -67,6 +67,6 @@ class FlightOffersController < ApplicationController
     params.require(:flight_offer).permit(:internal_id, :source,
                                          :instant_ticketing_required, :non_homogeneous,
                                          :one_way, :last_ticketing_date, :last_ticketing_datetime,
-                                         :number_of_bookable_seats, :price_total, :currency_id)
+                                         :number_of_bookable_seats, :price_total, :currency_id, :flight_search_id)
   end
 end

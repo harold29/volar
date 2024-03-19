@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'flight_offers/edit', type: :view do
   let(:currency) { create(:currency) }
+  let(:flight_search) { create(:flight_search) }
   before(:each) do
     @flight_offer = assign(:flight_offer, FlightOffer.create!(
                                             internal_id: 'Internal ID',
@@ -14,7 +15,8 @@ RSpec.describe 'flight_offers/edit', type: :view do
                                             one_way: false,
                                             number_of_bookable_seats: 1,
                                             price_total: 9.99,
-                                            currency:
+                                            currency:,
+                                            flight_search:
                                           ))
   end
 

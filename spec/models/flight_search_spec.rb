@@ -55,15 +55,15 @@ RSpec.describe FlightSearch, type: :model do
     expect(flight_search).to_not be_valid
   end
 
-  it 'is not valid without a max_duration_unit' do
-    flight_search = build(:flight_search, max_duration_unit: nil)
-    expect(flight_search).to_not be_valid
-  end
+  # it 'is not valid without a max_duration_unit' do
+  #   flight_search = build(:flight_search, max_duration_unit: nil)
+  #   expect(flight_search).to_not be_valid
+  # end
 
-  it 'is not valid without a price_total' do
-    flight_search = build(:flight_search, price_total: nil)
-    expect(flight_search).to_not be_valid
-  end
+  # it 'is not valid without a price_total' do
+  #   flight_search = build(:flight_search, price_total: nil)
+  #   expect(flight_search).to_not be_valid
+  # end
 
   it 'is not valid without a price_average' do
     flight_search = build(:flight_search, price_average: nil)

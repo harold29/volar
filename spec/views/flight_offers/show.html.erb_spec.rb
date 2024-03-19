@@ -13,7 +13,8 @@ RSpec.describe 'flight_offers/show', type: :view do
                                             one_way: false,
                                             number_of_bookable_seats: 2,
                                             price_total: '9.99',
-                                            currency:
+                                            currency:,
+                                            flight_search: create(:flight_search)
                                           ))
   end
 

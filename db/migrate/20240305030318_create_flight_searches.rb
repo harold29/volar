@@ -6,7 +6,7 @@ class CreateFlightSearches < ActiveRecord::Migration[7.1]
       t.string :destination
       t.date :departure_date
       t.date :return_date
-      t.boolean :one_way
+      t.boolean :one_way, default: false
       t.integer :adults
       t.integer :children
       t.integer :infants

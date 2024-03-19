@@ -178,3 +178,25 @@ RSpec.shared_context 'set payment terms' do
            deleted: false)
   end
 end
+
+RSpec.shared_context 'set flight offers' do
+  let(:flight_offers) do
+    (1..3).map do
+      create(:flight_offer)
+    end
+  end
+end
+
+RSpec.shared_context 'set flight offers in base of response' do
+  include_context 'get flight offer response'
+
+  def amadeus_client
+    Amadeus::Client.new(
+      client_id: ENV['AMADEUS_CLIENT_ID'],
+      client_secret: ENV['AMADEUS_CLIENT_SECRET']
+    )
+  end
+
+  let(:flight_search) { create(:flight_search) }
+  let(:flight_offers) { FlightOfferParser.parse(amadeus_client.shopping.flight_offers_search.get(request_params).data, flight_search) }
+end

@@ -1,15 +1,19 @@
 class PaymentPlanBuilder
   Error = Class.new(StandardError)
 
-  def initialize(flight_finder_params)
+  def self.build(current_user, flight_finder_params, flight_offers)
+    new(current_user, flight_finder_params, flight_offers).build
+  end
+
+  def initialize(current_user, flight_finder_params, flight_offers)
+    @current_user = current_user
     @flight_finder_params = flight_finder_params
+    @flight_offers = flight_offers
   end
 
   def build
     with_errors_handler do
-      flights = search_flights.flight_offers
-
-      flights.map do |flight_offer|
+      flight_offers.map do |flight_offer|
         create_payment_plans(flight_offer)
       end.select(&:present?)
     end
@@ -17,7 +21,7 @@ class PaymentPlanBuilder
 
   private
 
-  attr_accessor :offer_payment_plans, :flight_finder_params
+  attr_accessor :flight_finder_params, :current_user, :flight_offers
 
   def create_payment_plans(flight_offer)
     payment_terms.map do |payment_term|
@@ -61,9 +65,5 @@ class PaymentPlanBuilder
 
   def payment_terms
     @payment_terms ||= PaymentTerm.all.select(&:active?)
-  end
-
-  def search_flights
-    FlightFinder.new(flight_finder_params).search_flights
   end
 end
