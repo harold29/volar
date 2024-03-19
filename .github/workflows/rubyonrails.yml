@@ -19,6 +19,8 @@ jobs:
     env:
       RAILS_ENV: test
       DATABASE_URL: "postgres://volar_app:volar_password@localhost:5432/volar_test"
+      AMADEUS_CLIENT_ID: test
+      AMADEUS_CLIENT_SECRET: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
