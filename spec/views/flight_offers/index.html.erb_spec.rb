@@ -15,7 +15,8 @@ RSpec.describe 'flight_offers/index', type: :view do
                one_way: false,
                number_of_bookable_seats: 2,
                price_total: 9.99,
-               currency:
+               currency:,
+               flight_search: create(:flight_search)
              ),
              FlightOffer.create!(
                internal_id: 'Internal ID',
@@ -28,7 +29,8 @@ RSpec.describe 'flight_offers/index', type: :view do
                one_way: false,
                number_of_bookable_seats: 2,
                price_total: 9.99,
-               currency:
+               currency:,
+               flight_search: create(:flight_search)
              )
            ])
   end

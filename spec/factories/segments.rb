@@ -12,5 +12,9 @@ FactoryBot.define do
     stops_number { 1 }
     blacklisted_in_eu { false }
     internal_id { rand(1..200).to_s }
+
+    after(:create) do |segment|
+      create_list(:stop, 3, segment:)
+    end
   end
 end

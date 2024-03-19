@@ -26,7 +26,8 @@ RSpec.describe '/flight_offers', type: :request do
       last_ticketing_datetime: '2024-03-01T00:00:00',
       number_of_bookable_seats: 1,
       price_total: '9.99',
-      currency_id: create(:currency).id
+      currency_id: create(:currency).id,
+      flight_search_id: create(:flight_search).id
     }
   end
 
@@ -41,7 +42,8 @@ RSpec.describe '/flight_offers', type: :request do
       last_ticketing_datetime: nil,
       number_of_bookable_seats: nil,
       price_total: nil,
-      currency_id: nil
+      currency_id: nil,
+      flight_search_id: nil
     }
   end
 
@@ -117,7 +119,8 @@ RSpec.describe '/flight_offers', type: :request do
           last_ticketing_datetime: '2025-03-01T00:00:00',
           number_of_bookable_seats: 2,
           price_total: '12.3',
-          currency_id: create(:currency).id
+          currency_id: create(:currency).id,
+          flight_search_id: create(:flight_search).id
         }
       end
 
@@ -135,6 +138,7 @@ RSpec.describe '/flight_offers', type: :request do
         expect(flight_offer.number_of_bookable_seats).to eq(2)
         expect(flight_offer.price_total.to_s).to eq('12.3')
         expect(flight_offer.currency_id).to eq(new_attributes[:currency_id])
+        expect(flight_offer.flight_search_id).to eq(new_attributes[:flight_search_id])
       end
 
       it 'redirects to the flight_offer' do

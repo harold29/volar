@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe FlightOffer, type: :model do
   let(:currency) { create(:currency) }
+  let(:flight_search) { create(:flight_search) }
 
   it 'is valid with all parameters' do
     flight_offer = FlightOffer.new(
@@ -15,7 +16,8 @@ RSpec.describe FlightOffer, type: :model do
       number_of_bookable_seats: 1,
       price_total: 1.5,
       payment_card_required: true,
-      currency:
+      currency:,
+      flight_search:
     )
 
     expect(flight_offer).to be_valid

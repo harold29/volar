@@ -10,5 +10,10 @@ FactoryBot.define do
     number_of_bookable_seats { 1 }
     price_total { '9.99' }
     association :currency
+    association :flight_search
+
+    after(:create) do |flight_offer|
+      create_list(:itinerary, 3, flight_offer:)
+    end
   end
 end

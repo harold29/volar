@@ -1,5 +1,6 @@
 class FlightOffer < ApplicationRecord
   belongs_to :currency
+  belongs_to :flight_search
 
   has_many :itineraries
   has_many :segments, through: :itineraries
@@ -8,6 +9,7 @@ class FlightOffer < ApplicationRecord
   has_many :fees, through: :price
   has_many :additional_services
   has_many :traveler_pricings
+  has_many :payment_plans
 
   validates :internal_id,
             :source,

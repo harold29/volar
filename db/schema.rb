@@ -189,7 +189,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
     t.string "destination"
     t.date "departure_date"
     t.date "return_date"
-    t.boolean "one_way"
+    t.boolean "one_way", default: false
     t.integer "adults"
     t.integer "children"
     t.integer "infants"
