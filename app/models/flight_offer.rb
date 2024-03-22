@@ -1,4 +1,6 @@
 class FlightOffer < ApplicationRecord
+  TRAVEL_CLASSES = %w[ECONOMY PREMIUM_ECONOMY BUSINESS FIRST].freeze
+
   belongs_to :currency
   belongs_to :flight_search
 

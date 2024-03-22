@@ -2,28 +2,35 @@ require 'rails_helper'
 
 RSpec.describe FlightFinder do
   describe '#search_flights' do
+    let(:us_currency) { create(:currency, code: 'USD') }
     let(:flight_finder_params) do
       {
         origin: 'LHR',
         destination: 'CDG',
-        departure_date: '2022-01-01',
-        return_date: '2022-01-10',
+        departure_date: '2025-01-01',
+        return_date: '2025-01-10',
         adults: 2,
         children: 1,
         infants: 1,
-        travel_class: 'ECONOMY'
+        travel_class: 'ECONOMY',
+        currency_id: us_currency.id,
+        nonstop: 'false',
+        one_way: 'false'
       }
     end
     let(:request_params) do
       {
         originLocationCode: 'LHR',
         destinationLocationCode: 'CDG',
-        departureDate: '2022-01-01',
-        returnDate: '2022-01-10',
+        departureDate: '2025-01-01',
+        returnDate: '2025-01-10',
         adults: 2,
         children: 1,
         infants: 1,
-        travelClass: 'ECONOMY'
+        travelClass: 'ECONOMY',
+        currencyCode: 'USD',
+        nonStop: 'false',
+        oneWay: 'false'
       }
     end
 
@@ -69,7 +76,7 @@ RSpec.describe FlightFinder do
 
         expect(Segment.ordered.first.departure_airport).to eq(Airport.find_by(iata_code: 'EZE'))
         expect(Segment.ordered.first.arrival_airport).to eq(Airport.find_by(iata_code: 'IST'))
-        expect(Segment.ordered.first.departure_at.to_s).to eq('2022-01-01 23:55:00 UTC')
+        expect(Segment.ordered.first.departure_at.to_s).to eq('2025-01-01 23:55:00 UTC')
         expect(Segment.ordered.first.arrival_at.to_s).to eq('2024-05-03 22:40:00 UTC')
         expect(Segment.ordered.first.carrier).to eq(Carrier.find_by(code: 'TK'))
         expect(Segment.ordered.first.flight_number).to eq('16')
@@ -86,6 +93,37 @@ RSpec.describe FlightFinder do
           .and_raise(Amadeus::ResponseError.new(Amadeus::Response.new('500', 'Problem with server')))
 
         expect { flight_finder.search_flights }.to raise_error(FlightFinder::FlightRetrievingError)
+      end
+
+      it 'raises an error when the record is invalid' do
+        allow_any_instance_of(FlightSearch).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
+
+        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+      end
+
+      it 'raises an error when the record is not saved' do
+        allow_any_instance_of(FlightSearch).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
+
+        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+      end
+
+      it 'raises an error when the record is not found' do
+        allow(Airport).to receive(:find_by).and_return(nil)
+
+        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+      end
+
+      it 'raises an error when there is an unhandled error' do
+        allow_any_instance_of(FlightOfferParser).to receive(:parse_offer_params).and_raise(StandardError)
+
+        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+      end
+
+      it 'raises an error when there is a record not found' do
+        allow(FlightOfferParser).to receive(:parse).and_raise(ActiveRecord::RecordNotFound)
+
+        expect(Rails.logger).to receive(:error).with('Record not found: ActiveRecord::RecordNotFound')
+        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error, 'Required record not found: ActiveRecord::RecordNotFound')
       end
     end
   end

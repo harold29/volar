@@ -1,6 +1,7 @@
 class FlightFinder
   Error = Class.new(StandardError)
   FlightRetrievingError = Class.new(Error)
+  ParametersError = Class.new(Error)
 
   def initialize(current_user, flight_finder_params)
     @flight_finder_params = flight_finder_params
@@ -9,6 +10,8 @@ class FlightFinder
 
   def search_flights
     with_error_handler do
+      raise ParametersError, 'Invalid request parameters' unless valid_request_params?
+
       response = amadeus_client.shopping.flight_offers_search.get(request)
 
       flight_search = FlightSearch.new(flight_finder_params)
@@ -24,8 +27,6 @@ class FlightFinder
 
       flight_search
     end
-  rescue Amadeus::ResponseError => e
-    raise e
   end
 
   private
@@ -48,7 +49,7 @@ class FlightFinder
     raise Error, "Required record not found: #{e.message}"
   rescue StandardError => e
     Rails.logger.error("Error building payment plans: #{e.message}")
-    raise Error, "Unhandled error: #{e.message}, backtrace: #{e.backtrace}"
+    raise Error, "Unhandled error: #{e.message}"
   end
 
   def request
@@ -61,7 +62,7 @@ class FlightFinder
       children: flight_finder_params[:children],
       infants: flight_finder_params[:infants],
       travelClass: flight_finder_params[:travel_class],
-      currencyCode: flight_finder_params[:currency],
+      currencyCode: currency.code,
       nonStop: flight_finder_params[:nonstop],
       oneWay: flight_finder_params[:one_way]
       # maxPrice: flight_finder_params[:max_price], # TODO: Add max price
@@ -71,8 +72,26 @@ class FlightFinder
     }.reject { |_k, v| v.nil? }
   end
 
+  def currency
+    # flight_search_params = flight_finder_params
+
+    # flight_search_params[:currency] = Currency.find_by(code: flight_finder_params[:currency])
+
+    # flight_search_params
+    @currency ||= Currency.find_by_id(flight_finder_params[:currency_id])
+  end
+
   def build_payment_plans(flight_offers)
     PaymentPlanBuilder.build(current_user, flight_finder_params, flight_offers)
+  end
+
+  def valid_request_params?
+    flight_finder_params.values.all?(&:present?) && flight_finder_params[:adults].to_i.positive? &&
+      flight_finder_params[:children].to_i.positive? && flight_finder_params[:infants].to_i.positive? &&
+      flight_finder_params[:departure_date].to_date >= Date.today &&
+      (flight_finder_params[:return_date].to_date > flight_finder_params[:departure_date].to_date || flight_finder_params[:one_way]) &&
+      flight_finder_params[:travel_class].in?(FlightOffer::TRAVEL_CLASSES) &&
+      flight_finder_params[:nonstop].in?(%w[true false]) && flight_finder_params[:one_way].in?(%w[true false])
   end
 
   def amadeus_client

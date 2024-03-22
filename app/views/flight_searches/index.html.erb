@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Flight searches</h1>
+
+<div id="flight_searches">
+  <% @flight_searches.each do |flight_search| %>
+    <%= render flight_search %>
+    <p>
+      <%= link_to "Show this flight search", flight_search %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New flight search", new_flight_search_path %>

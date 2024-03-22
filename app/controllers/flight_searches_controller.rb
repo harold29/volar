@@ -1,24 +1,44 @@
-class FlightSearchController < ApplicationController
+class FlightSearchesController < ApplicationController
+  before_action :set_flight_search, only: %i[show]
+
   def index
+    @flight_searches = FlightSearch.all
+  end
+
+  def show; end
+
+  def new
+    @flight_search = FlightSearch.new
+  end
+
+  def create
+    @flight_search = flight_finder.search_flights
+
     respond_to do |format|
-      if @flight_search.save
-        format.html { redirect_to carrier_url(@flight_search), notice: 'Flight Search was successfully created.' }
+      if @flight_search.errors.empty?
+        format.html { redirect_to @flight_search, notice: 'Flight Search was successfully created.' }
         format.json { render :show, status: :created, location: @flight_search }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @flight_search.errors, status: :unprocessable_entity }
       end
     end
+  rescue FlightFinder::Error => e
+    respond_to do |format|
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: e.message, status: :unprocessable_entity }
+    end
   end
 
   private
 
-  def flight_search
-    @flight_search ||= flight_finder.search_flights
+  def set_flight_search
+    @flight_search = FlightSearch.find(params[:id])
   end
 
   def flight_finder
-    FlightFinder.new(flight_search_params)
+    current_user = User.last
+    FlightFinder.new(current_user, flight_search_params)
   end
 
   def flight_search_params
@@ -26,13 +46,12 @@ class FlightSearchController < ApplicationController
                                           :destination,
                                           :departure_date,
                                           :return_date,
-                                          :passengers,
                                           :one_way,
                                           :adults,
                                           :children,
                                           :infants,
                                           :travel_class,
-                                          :currency,
+                                          :currency_id,
                                           :nonstop)
   end
 end

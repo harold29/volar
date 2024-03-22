@@ -99,4 +99,26 @@ RSpec.describe FlightOfferParser do
 
     expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
   end
+
+  it 'does not create the flight offer if the record is not saved' do
+    allow_any_instance_of(FlightOffer).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
+
+    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+  end
+
+  it 'does not create the flight offer if the record is not found' do
+    allow(Airport).to receive(:find_by).and_return(nil)
+
+    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+  end
+
+  it 'raises an error when there is a record not found' do
+    allow(Currency).to receive(:find_by).and_raise(ActiveRecord::RecordNotFound)
+
+    expect(Rails.logger).to receive(:error).with('Record not found: ActiveRecord::RecordNotFound')
+    expect do
+      FlightOfferParser.parse(parsed_response,
+                              flight_search)
+    end.to raise_error(FlightOfferParser::Error, 'Required record not found: ActiveRecord::RecordNotFound')
+  end
 end
