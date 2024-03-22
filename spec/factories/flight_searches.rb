@@ -20,4 +20,10 @@ FactoryBot.define do
     association :currency
     nonstop { FFaker::Boolean.maybe }
   end
+
+  factory :flight_search_with_flight_offers, parent: :flight_search do
+    after(:create) do |flight_search|
+      create_list(:flight_offer, 3, flight_search:)
+    end
+  end
 end

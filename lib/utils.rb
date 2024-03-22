@@ -17,8 +17,4 @@ module Utils
           .tr('-', '_')
           .downcase
   end
-
-  def generate_app_composed_id
-    ''
-  end
 end
