@@ -2,7 +2,6 @@
   <% if flight_search.present? && flight_search.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(flight_search.errors.count, "error") %> prohibited this flight_search from being saved:</h2>
-
       <ul>
         <% flight_search.errors.each do |error| %>
           <li><%= error.full_message %></li>

@@ -1,6 +1,6 @@
 class AdditionalService < ApplicationRecord
-  belongs_to :flight_offer
+  belongs_to :price
 
-  validates :flight_offer, :service_type, :service_description, :service_amount, presence: true
+  validates :price, :service_type, :service_amount, presence: true
   validates :service_amount, numericality: true
 end

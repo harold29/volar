@@ -33,9 +33,9 @@ gem 'jbuilder'
 gem 'pundit'
 
 gem 'actionpack', '7.1.3.1'
-gem 'rack', '3.0.9.1'
+# gem 'amadeus', '5.2.3', github: 'harold29/amadeus-ruby'
 gem 'faraday', '2.9.0'
-gem 'amadeus', '5.2.1'
+gem 'rack', '3.0.9.1'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '>= 4.0.1'
 
@@ -62,16 +62,16 @@ group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
+  gem 'faker'
   gem 'ffaker'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop', require: false
-  gem 'faker'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem 'ruby-lsp-rails'
   gem 'web-console'
-  gem "ruby-lsp-rails"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem 'rack-mini-profiler'

@@ -9,9 +9,7 @@ class FlightOffer < ApplicationRecord
   has_one  :price
   has_many :taxes
   has_many :fees, through: :price
-  has_many :additional_services
   has_many :traveler_pricings
-  has_many :payment_plans
 
   validates :internal_id,
             :source,
@@ -20,6 +18,8 @@ class FlightOffer < ApplicationRecord
             :number_of_bookable_seats,
             :price_total, presence: true
   validates :currency, presence: true
+
+  validates :confirmed, inclusion: { in: [true, false] }
 
   scope :ordered, -> { order(internal_id: :asc) }
   scope :ordered_first, -> { order(internal_id: :asc).first }

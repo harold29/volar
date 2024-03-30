@@ -16,13 +16,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
   enable_extension "plpgsql"
 
   create_table "additional_services", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "flight_offer_id", null: false
+    t.uuid "price_id"
     t.string "service_type"
     t.string "service_description"
     t.decimal "service_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["flight_offer_id"], name: "index_additional_services_on_flight_offer_id"
+    t.index ["price_id"], name: "index_additional_services_on_price_id"
   end
 
   create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -162,6 +162,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
     t.integer "number_of_bookable_seats"
     t.decimal "price_total"
     t.boolean "payment_card_required"
+    t.boolean "confirmed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "currency_id", null: false
@@ -184,7 +185,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
   end
 
   create_table "flight_searches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
+    t.uuid "user_id"
     t.string "origin"
     t.string "destination"
     t.date "departure_date"
@@ -434,7 +435,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_033022) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "additional_services", "flight_offers"
+  add_foreign_key "additional_services", "prices"
   add_foreign_key "addresses", "countries"
   add_foreign_key "addresses", "profiles"
   add_foreign_key "airports", "countries"

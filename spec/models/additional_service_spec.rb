@@ -10,18 +10,13 @@ RSpec.describe AdditionalService, type: :model do
     expect(additional_service).to_not be_valid
   end
 
-  it 'is not valid without a service_description' do
-    additional_service = build(:additional_service, service_description: nil)
-    expect(additional_service).to_not be_valid
-  end
-
   it 'is not valid without a service_amount' do
     additional_service = build(:additional_service, service_amount: nil)
     expect(additional_service).to_not be_valid
   end
 
-  it 'is not valid without a flight_offer' do
-    additional_service = build(:additional_service, flight_offer: nil)
+  it 'is not valid without a price' do
+    additional_service = build(:additional_service, price: nil)
     expect(additional_service).to_not be_valid
   end
 

@@ -1,7 +1,7 @@
 class CreateFlightSearches < ActiveRecord::Migration[7.1]
   def change
     create_table :flight_searches, id: :uuid do |t|
-      t.references :user, null: false, foreign_key: true, type: :uuid
+      t.references :user, null: true, foreign_key: true, type: :uuid
       t.string :origin
       t.string :destination
       t.date :departure_date

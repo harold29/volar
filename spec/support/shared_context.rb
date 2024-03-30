@@ -7,7 +7,7 @@ RSpec.shared_context 'get flight offer response' do
       "application_name": 'volartestapp',
       "client_id": '12345',
       "token_type": 'Bearer',
-      "access_token": '12345test',
+      "access_token": 'token',
       "expires_in": 1799,
       "state": 'approved',
       "scope": ''
@@ -22,6 +22,62 @@ RSpec.shared_context 'get flight offer response' do
 
     stub_request(:get, "https://test.api.amadeus.com/v2/shopping/flight-offers?#{build_query_string(request_params)}")
       .to_return(status: 200, body: response, headers: rheaders)
+  end
+end
+
+RSpec.shared_context 'post flight offer response' do
+  let(:rheaders) { { "Content-Type": 'application/vnd.amadeus+json' } }
+  let(:oauth_response) do
+    {
+      "type": 'amadeusOAuth2Token',
+      "username": 'test@test.com',
+      "application_name": 'volartestapp',
+      "client_id": '12345',
+      "token_type": 'Bearer',
+      "access_token": 'token',
+      "expires_in": 1799,
+      "state": 'approved',
+      "scope": ''
+    }
+  end
+
+  before do
+    response = render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params)
+
+    stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
+      .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
+
+    stub_request(:post, 'https://test.api.amadeus.com/v2/shopping/flight-offers')
+      .with(body: request_params.to_json)
+      .to_return(status: 200,
+                 body: response,
+                 headers: rheaders)
+  end
+end
+
+RSpec.shared_context 'amadeus access token response' do
+  let(:rheaders) { { "Content-Type": 'application/vnd.amadeus+json' } }
+  let(:oauth_response) do
+    {
+      "type": 'amadeusOAuth2Token',
+      "username": 'test@test.com',
+      "application_name": 'volartestapp',
+      "client_id": 'test',
+      "token_type": 'Bearer',
+      "access_token": 'token',
+      "expires_in": 1799,
+      "state": 'approved',
+      "scope": ''
+    }
+  end
+
+  before do
+    stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token').with(body: {
+                                                                                        grant_type: 'client_credentials',
+                                                                                        client_id: ENV['AMADEUS_CLIENT_ID'],
+                                                                                        client_secret: ENV['AMADEUS_CLIENT_SECRET']
+                                                                                      })
+                                                                                .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
   end
 end
 
@@ -191,12 +247,9 @@ RSpec.shared_context 'set flight offers in base of response' do
   include_context 'get flight offer response'
 
   def amadeus_client
-    Amadeus::Client.new(
-      client_id: ENV['AMADEUS_CLIENT_ID'],
-      client_secret: ENV['AMADEUS_CLIENT_SECRET']
-    )
+    Amadeus::Client.new
   end
 
   let(:flight_search) { create(:flight_search) }
-  let(:flight_offers) { FlightOfferParser.parse(amadeus_client.shopping.flight_offers_search.get(request_params).data, flight_search) }
+  let(:flight_offers) { FlightOfferParser.parse(amadeus_client.get_flight_offers(request_params).data, flight_search) }
 end

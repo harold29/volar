@@ -13,7 +13,6 @@ class FlightSearchesController < ApplicationController
 
   def create
     @flight_search = flight_finder.search_flights
-
     respond_to do |format|
       if @flight_search.errors.empty?
         format.html { redirect_to @flight_search, notice: 'Flight Search was successfully created.' }
@@ -37,7 +36,6 @@ class FlightSearchesController < ApplicationController
   end
 
   def flight_finder
-    current_user = User.last
     FlightFinder.new(current_user, flight_search_params)
   end
 
