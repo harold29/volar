@@ -5,11 +5,6 @@ RSpec.describe FlightSearch, type: :model do
     expect(build(:flight_search)).to be_valid
   end
 
-  it 'is not valid without a user' do
-    flight_search = build(:flight_search, user: nil)
-    expect(flight_search).to_not be_valid
-  end
-
   it 'is not valid without an origin' do
     flight_search = build(:flight_search, origin: nil)
     expect(flight_search).to_not be_valid

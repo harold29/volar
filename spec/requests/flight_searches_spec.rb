@@ -36,7 +36,6 @@ RSpec.describe 'FlightSearches', type: :request do
         travelClass: 'ECONOMY',
         nonStop: false,
         currencyCode: 'USD',
-        oneWay: false
       }
     end
     let(:flight_finder_params) do

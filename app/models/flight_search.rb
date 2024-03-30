@@ -4,7 +4,7 @@ class FlightSearch < ApplicationRecord
                     :set_price_average,
                     :set_max_price, if: -> { :flight_offers.present? }
 
-  belongs_to :user
+  belongs_to :user, required: false
   belongs_to :max_price_currency, class_name: 'Currency'
   belongs_to :currency
 
@@ -18,7 +18,7 @@ class FlightSearch < ApplicationRecord
   # validates :max_duration_unit, inclusion: { in: %w[hours days] }
   validates :price_average, numericality: true, presence: true
   validates :max_price, numericality: true
-  validates :max_price_currency, :user, presence: true
+  validates :max_price_currency, presence: true
 
   def set_currencies
     return if flight_offers.blank?

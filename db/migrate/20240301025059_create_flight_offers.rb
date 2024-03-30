@@ -11,6 +11,7 @@ class CreateFlightOffers < ActiveRecord::Migration[7.1]
       t.integer :number_of_bookable_seats
       t.decimal :price_total
       t.boolean :payment_card_required
+      t.boolean :confirmed, default: false
 
       t.timestamps
     end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'amadeus/errors'
 
 RSpec.describe FlightFinder do
   describe '#search_flights' do
@@ -29,8 +30,7 @@ RSpec.describe FlightFinder do
         infants: 1,
         travelClass: 'ECONOMY',
         currencyCode: 'USD',
-        nonStop: 'false',
-        oneWay: 'false'
+        nonStop: 'false'
       }
     end
 
@@ -89,8 +89,9 @@ RSpec.describe FlightFinder do
       end
 
       it 'raises an error when the response is invalid' do
-        allow_any_instance_of(Amadeus::Client).to receive_message_chain(:shopping, :flight_offers_search, :get)
-          .and_raise(Amadeus::ResponseError.new(Amadeus::Response.new('500', 'Problem with server')))
+        response = OpenStruct.new(status: 500, body: 'Problem with server')
+        allow_any_instance_of(Amadeus::Client).to receive_message_chain(:get_flight_offers)
+          .and_raise(Amadeus::ResponseError.new(response))
 
         expect { flight_finder.search_flights }.to raise_error(FlightFinder::FlightRetrievingError)
       end

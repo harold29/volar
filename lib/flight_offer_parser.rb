@@ -40,7 +40,7 @@ class FlightOfferParser # rubocop:disable Metrics/ClassLength
     raise Error, "Unhandled error: #{e.message}, backtrace: #{e.backtrace}"
   end
 
-  %i[itineraries segments stops traveler_pricings fees fare_details_by_segments amenities].each do |key|
+  %i[itineraries segments stops traveler_pricings fees fare_details_by_segments amenities additional_services].each do |key|
     define_method("parse_#{key}") do |fields_data|
       return {} if fields_data.nil?
 
@@ -131,7 +131,8 @@ class FlightOfferParser # rubocop:disable Metrics/ClassLength
       billing_currency: currency(price_data[:currency]),
       base_fare: price_data[:base],
       refundable_taxes: price_data[:refundable_taxes],
-      fees_attributes: parse_fees(price_data[:fees])
+      fees_attributes: parse_fees(price_data[:fees]),
+      additional_services_attributes: parse_additional_services(price_data[:additional_services])
     }
   end
 
@@ -174,6 +175,13 @@ class FlightOfferParser # rubocop:disable Metrics/ClassLength
       is_chargeable: amenity_data[:is_chargeable],
       amenity_type: amenity_data[:amenity_type],
       amenity_provider_name: amenity_data[:amenity_provider][:name]
+    }
+  end
+
+  def additional_services_params(additional_services_data)
+    {
+      service_type: additional_services_data[:type],
+      service_amount: additional_services_data[:amount]
     }
   end
 end
