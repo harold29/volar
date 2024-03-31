@@ -6,18 +6,9 @@ RSpec.describe PaymentTermsController, type: :routing do
       expect(get: "/payment_terms").to route_to("payment_terms#index")
     end
 
-    it "routes to #new" do
-      expect(get: "/payment_terms/new").to route_to("payment_terms#new")
-    end
-
     it "routes to #show" do
       expect(get: "/payment_terms/1").to route_to("payment_terms#show", id: "1")
     end
-
-    it "routes to #edit" do
-      expect(get: "/payment_terms/1/edit").to route_to("payment_terms#edit", id: "1")
-    end
-
 
     it "routes to #create" do
       expect(post: "/payment_terms").to route_to("payment_terms#create")

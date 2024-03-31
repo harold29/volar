@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :payment_terms
   resources :flight_offers
   resources :carriers
-  resources :flight_searches, only: %i[index show new create]
+  resources :flight_searches, only: %i[index show create]
 
   devise_for :users
 

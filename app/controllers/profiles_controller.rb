@@ -2,7 +2,7 @@
 
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_profile, only: %i[show update edit]
+  before_action :set_profile, only: %i[show update]
 
   def show
     if current_user
@@ -18,10 +18,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  def new
-    @profile = Profile.new
-  end
-
   def create
     return unless current_user
 
@@ -31,23 +27,22 @@ class ProfilesController < ApplicationController
     authorize @profile
 
     if @profile.save
-      redirect_to @profile
+      render :show, status: :created, location: @profile
     else
-      render :new, status: :unprocessable_entity
+      render json: @profile.errors, status: :unprocessable_entity
     end
   end
 
-  def edit
-    redirect_to new_profile_path unless @profile
-  end
 
   def update
     return unless current_user
 
     if @profile.update(profile_params)
-      redirect_to @profile
+      # redirect_to @profile
+      render :show, status: :ok, location: @profile
     else
-      render :edit, status: :unprocessable_entity
+      # render :edit, status: :unprocessable_entity
+      render json: @profile.errors, status: :unprocessable_entity
     end
   end
 
