@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
   include RackSessionFixController
+  include ActionController::MimeResponds
 
   def not_found!
     raise ActionController::RoutingError, 'Not Found'

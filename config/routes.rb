@@ -6,8 +6,6 @@ Rails.application.routes.draw do
   resources :carriers
   resources :flight_searches, only: %i[index show create]
 
-  devise_for :users
-
   # get 'flights_search', to: 'flights_search#search'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -24,6 +22,16 @@ Rails.application.routes.draw do
   put 'profile', to: 'profiles#update'
   patch 'profile', to: 'profiles#update'
   resource :profile, only: %i[new edit]
+
+  devise_for :users, path: '/users', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'signup'
+  },
+  controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
 
   # resources :profiles, only: [:new, :create, :edit, :update]
 end
