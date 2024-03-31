@@ -80,6 +80,7 @@ Devise.setup do |config|
   # The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
   # config.http_authenticatable = false
+  config.http_authenticatable = [:database]
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -323,7 +324,8 @@ Devise.setup do |config|
   # end
 
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise_jwt_secret_key
+    # jwt.secret = Rails.application.credentials.devise_jwt_secret_key
+    jwt.secret = Rails.application.credentials[Rails.env.to_sym][:devise_jwt_secret_key]
     jwt.dispatch_requests = [
       ['POST', %r{^/login$}]
     ]

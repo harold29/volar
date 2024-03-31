@@ -9,13 +9,10 @@ class FlightSearchesController < ApplicationController
 
   def create
     @flight_search = flight_finder.search_flights
-    if @flight_search.errors.empty?
-      render :show, status: :created, location: @flight_search
-    else
-      render json: @flight_search.errors, status: :unprocessable_entity
-    end
+
+    render :show, status: :created, location: @flight_search
   rescue FlightFinder::Error => e
-      render json: e.message, status: :unprocessable_entity
+    render json: e.message, status: :unprocessable_entity
   end
 
   private

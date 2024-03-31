@@ -36,25 +36,26 @@ RSpec.describe 'FlightSearches', type: :request do
         currency_id: us_currency.id
       }
     end
+    let(:invalid_flight_finder_params) do
+      {
+        origin: '',
+        destination: '',
+        departure_date: '',
+        return_date: '',
+        adults: '',
+        children: '',
+        infants: '',
+        travel_class: '',
+        nonstop: '',
+        currency_id: ''
+      }
+    end
+
+
     let(:user) { create(:user) }
 
     it 'creates a new flight search' do
       user
-
-      # {
-      #          origin: 'LHR',
-      #          destination: 'CDG',
-      #          departure_date: Date.today.to_s,
-      #          return_date: (Date.today + 1.week).to_s,
-      #          passengers: 4,
-      #          adults: 2,
-      #          children: 1,
-      #          infants: 1,
-      #          travel_class: 'ECONOMY',
-      #          nonstop: false,
-      #          currency_id: us_currency.id,
-      #          one_way: false
-      #        }
       post flight_searches_url, params: { flight_search: flight_finder_params }, as: :json
       expect(response).to be_created
     end
@@ -102,21 +103,7 @@ RSpec.describe 'FlightSearches', type: :request do
     # end
 
     it 'does not create a new flight search with invalid attributes' do
-      post flight_searches_url,
-           params: {
-             flight_search: {
-               origin: '',
-               destination: '',
-               departure_date: '',
-               return_date: '',
-               adults: '',
-               children: '',
-               infants: '',
-               travel_class: '',
-               nonstop: '',
-               currency_id: ''
-             }
-           }, as: :json
+      post flight_searches_url, params: { flight_search: invalid_flight_finder_params }, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
