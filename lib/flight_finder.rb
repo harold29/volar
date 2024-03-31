@@ -37,7 +37,7 @@ class FlightFinder
 
   def with_error_handler
     yield
-  rescue Amadeus::ResponseError => e
+  rescue Amadeus::Errors => e
     Rails.logger.error("Error retrieving flight offers: #{e.message}")
     raise FlightRetrievingError, "Error retrieving flight offers: #{e.message}"
   rescue ActiveRecord::RecordInvalid => e
@@ -83,12 +83,12 @@ class FlightFinder
   end
 
   def valid_request_params?
-    flight_finder_params.values.all?(&:present?) && flight_finder_params[:adults].to_i.positive? &&
+    !flight_finder_params.values.all?(&:nil?) && flight_finder_params[:adults].to_i.positive? &&
       flight_finder_params[:children].to_i.positive? && flight_finder_params[:infants].to_i.positive? &&
       flight_finder_params[:departure_date].to_date >= Date.today &&
       (flight_finder_params[:return_date].to_date > flight_finder_params[:departure_date].to_date || flight_finder_params[:one_way]) &&
       flight_finder_params[:travel_class].in?(FlightOffer::TRAVEL_CLASSES) &&
-      flight_finder_params[:nonstop].in?(%w[true false]) && flight_finder_params[:one_way].in?(%w[true false])
+      flight_finder_params[:nonstop].to_s.in?(%w[true false])
   end
 
   def amadeus_client

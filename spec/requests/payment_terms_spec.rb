@@ -66,7 +66,7 @@ RSpec.describe '/payment_terms', type: :request do
   describe 'GET /index' do
     it 'renders a successful response' do
       PaymentTerm.create! valid_attributes
-      get payment_terms_url
+      get payment_terms_url, as: :json
       expect(response).to be_successful
     end
   end
@@ -74,22 +74,7 @@ RSpec.describe '/payment_terms', type: :request do
   describe 'GET /show' do
     it 'renders a successful response' do
       payment_term = PaymentTerm.create! valid_attributes
-      get payment_term_url(payment_term)
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET /new' do
-    it 'renders a successful response' do
-      get new_payment_term_url
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET /edit' do
-    it 'render a successful response' do
-      payment_term = PaymentTerm.create! valid_attributes
-      get edit_payment_term_url(payment_term)
+      get payment_term_url(payment_term), as: :json
       expect(response).to be_successful
     end
   end
@@ -98,25 +83,25 @@ RSpec.describe '/payment_terms', type: :request do
     context 'with valid parameters' do
       it 'creates a new PaymentTerm' do
         expect do
-          post payment_terms_url, params: { payment_term: valid_attributes }
+          post payment_terms_url, params: { payment_term: valid_attributes }, as: :json
         end.to change(PaymentTerm, :count).by(1)
       end
 
-      it 'redirects to the created payment_term' do
-        post payment_terms_url, params: { payment_term: valid_attributes }
-        expect(response).to redirect_to(payment_term_url(PaymentTerm.last))
+      it 'return 201' do
+        post payment_terms_url, params: { payment_term: valid_attributes }, as: :json
+        expect(response).to be_created
       end
     end
 
     context 'with invalid parameters' do
       it 'does not create a new PaymentTerm' do
         expect do
-          post payment_terms_url, params: { payment_term: invalid_attributes }
+          post payment_terms_url, params: { payment_term: invalid_attributes }, as: :json
         end.to change(PaymentTerm, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post payment_terms_url, params: { payment_term: invalid_attributes }
+        post payment_terms_url, params: { payment_term: invalid_attributes }, as: :json
         expect(response).to be_unprocessable
       end
     end
@@ -132,23 +117,23 @@ RSpec.describe '/payment_terms', type: :request do
 
       it 'updates the requested payment_term' do
         payment_term = PaymentTerm.create! valid_attributes
-        patch payment_term_url(payment_term), params: { payment_term: new_attributes }
+        patch payment_term_url(payment_term), params: { payment_term: new_attributes }, as: :json
         payment_term.reload
         expect(payment_term.name).to eq('new term')
       end
 
       it 'redirects to the payment_term' do
         payment_term = PaymentTerm.create! valid_attributes
-        patch payment_term_url(payment_term), params: { payment_term: new_attributes }
+        patch payment_term_url(payment_term), params: { payment_term: new_attributes }, as: :json
         payment_term.reload
-        expect(response).to redirect_to(payment_term_url(payment_term))
+        expect(response).to be_successful
       end
     end
 
     context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         payment_term = PaymentTerm.create! valid_attributes
-        patch payment_term_url(payment_term), params: { payment_term: invalid_attributes }
+        patch payment_term_url(payment_term), params: { payment_term: invalid_attributes }, as: :json
         expect(response).to be_unprocessable
       end
     end
@@ -158,14 +143,14 @@ RSpec.describe '/payment_terms', type: :request do
     it 'destroys the requested payment_term' do
       payment_term = PaymentTerm.create! valid_attributes
       expect do
-        delete payment_term_url(payment_term)
+        delete payment_term_url(payment_term), as: :json
       end.to change(PaymentTerm, :count).by(-1)
     end
 
     it 'redirects to the payment_terms list' do
       payment_term = PaymentTerm.create! valid_attributes
-      delete payment_term_url(payment_term)
-      expect(response).to redirect_to(payment_terms_url)
+      delete payment_term_url(payment_term), as: :json
+      expect(response).to be_successful
     end
   end
 end

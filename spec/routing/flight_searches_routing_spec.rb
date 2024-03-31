@@ -6,10 +6,6 @@ RSpec.describe FlightOffersController, type: :routing do
       expect(get: '/flight_offers').to route_to('flight_offers#index')
     end
 
-    it 'routes to #new' do
-      expect(get: '/flight_offers/new').to route_to('flight_offers#new')
-    end
-
     it 'routes to #show' do
       expect(get: '/flight_offers/1').to route_to('flight_offers#show', id: '1')
     end

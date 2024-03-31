@@ -7,26 +7,15 @@ class FlightSearchesController < ApplicationController
 
   def show; end
 
-  def new
-    @flight_search = FlightSearch.new
-  end
-
   def create
     @flight_search = flight_finder.search_flights
-    respond_to do |format|
-      if @flight_search.errors.empty?
-        format.html { redirect_to @flight_search, notice: 'Flight Search was successfully created.' }
-        format.json { render :show, status: :created, location: @flight_search }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @flight_search.errors, status: :unprocessable_entity }
-      end
+    if @flight_search.errors.empty?
+      render :show, status: :created, location: @flight_search
+    else
+      render json: @flight_search.errors, status: :unprocessable_entity
     end
   rescue FlightFinder::Error => e
-    respond_to do |format|
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: e.message, status: :unprocessable_entity }
-    end
+      render json: e.message, status: :unprocessable_entity
   end
 
   private
