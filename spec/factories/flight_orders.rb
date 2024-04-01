@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :flight_order do
-    association :flight_offer
+    association :booking
     # association :payment
     order_id { FFaker::String.from_regexp(/\A\w+\z/) }
     order_datetime { FFaker::Time.datetime }

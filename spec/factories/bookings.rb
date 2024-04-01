@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :booking do
-    association :flight_order
     booking_datetime { FFaker::Time.datetime }
     booking_status { 1 }
     booking_amount { FFaker::Number.decimal }

@@ -3,6 +3,7 @@ class Traveler < ApplicationRecord
   belongs_to :document
   belongs_to :telephone
 
+  #TODO: update relationships with booking and
   enum traveler_type: %i[adult child infant]
 
   validates :first_name, :last_name, :email, :birthdate, presence: true

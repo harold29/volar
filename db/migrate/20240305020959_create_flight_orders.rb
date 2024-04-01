@@ -1,8 +1,7 @@
 class CreateFlightOrders < ActiveRecord::Migration[7.1]
   def change
     create_table :flight_orders, id: :uuid do |t|
-      t.references :flight_offer, null: false, foreign_key: true, type: :uuid
-      # t.references :payment, null: false, foreign_key: true, type: :uuid
+      t.references :booking, null: false, foreign_key: true, type: :uuid
       t.string :order_id
       t.datetime :order_datetime
       t.integer :order_status
