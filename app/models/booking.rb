@@ -1,5 +1,5 @@
 class Booking < ApplicationRecord
-  belongs_to :flight_order
+  has_one :flight_order
   belongs_to :booking_currency, class_name: 'Currency'
   belongs_to :payment_plan
 

@@ -1,7 +1,6 @@
 class CreateBookings < ActiveRecord::Migration[7.1]
   def change
     create_table :bookings, id: :uuid do |t|
-      # t.references :flight_order, null: false, foreign_key: true, type: :uuid
       t.datetime :booking_datetime
       t.integer :booking_status, default: 0
       t.decimal :booking_amount

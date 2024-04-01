@@ -20,9 +20,6 @@ class FlightOfferValidator
   end
 
   def amadeus_client
-    @client ||= Amadeus::Client.new(
-      client_id: ENV['AMADEUS_CLIENT_ID'],
-      client_secret: ENV['AMADEUS_CLIENT_SECRET']
-    )
+    @client ||= Amadeus::Client.new()
   end
 end

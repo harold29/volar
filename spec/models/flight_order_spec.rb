@@ -25,8 +25,8 @@ RSpec.describe FlightOrder, type: :model do
     expect(flight_order).to_not be_valid
   end
 
-  it 'is not valid without a flight_offer' do
-    flight_order = build(:flight_order, flight_offer: nil)
+  it 'is not valid without a booking' do
+    flight_order = build(:flight_order, booking: nil)
     expect(flight_order).to_not be_valid
   end
 

@@ -80,9 +80,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.integer "payments_completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "flight_order_id", null: false
     t.index ["booking_currency_id"], name: "index_bookings_on_booking_currency_id"
-    t.index ["flight_order_id"], name: "index_bookings_on_flight_order_id"
     t.index ["payment_plan_id"], name: "index_bookings_on_payment_plan_id"
   end
 
@@ -172,7 +170,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   end
 
   create_table "flight_orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "flight_offer_id", null: false
+    t.uuid "booking_id", null: false
     t.string "order_id"
     t.datetime "order_datetime"
     t.integer "order_status"
@@ -180,7 +178,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.uuid "total_price_currency_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["flight_offer_id"], name: "index_flight_orders_on_flight_offer_id"
+    t.index ["booking_id"], name: "index_flight_orders_on_booking_id"
     t.index ["total_price_currency_id"], name: "index_flight_orders_on_total_price_currency_id"
   end
 
@@ -449,7 +447,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   add_foreign_key "airports", "countries"
   add_foreign_key "amenities", "fare_details_by_segments"
   add_foreign_key "bookings", "currencies", column: "booking_currency_id"
-  add_foreign_key "bookings", "flight_orders"
   add_foreign_key "bookings", "payment_plans"
   add_foreign_key "currencies", "countries"
   add_foreign_key "documents", "countries", column: "issuance_country_id"
@@ -458,8 +455,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   add_foreign_key "fees", "prices"
   add_foreign_key "flight_offers", "currencies"
   add_foreign_key "flight_offers", "flight_searches"
+  add_foreign_key "flight_orders", "bookings"
   add_foreign_key "flight_orders", "currencies", column: "total_price_currency_id"
-  add_foreign_key "flight_orders", "flight_offers"
   add_foreign_key "flight_searches", "currencies"
   add_foreign_key "flight_searches", "currencies", column: "max_price_currency_id"
   add_foreign_key "flight_searches", "users"
