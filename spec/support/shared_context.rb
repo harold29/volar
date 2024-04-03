@@ -251,5 +251,5 @@ RSpec.shared_context 'set flight offers in base of response' do
   end
 
   let(:flight_search) { create(:flight_search) }
-  let(:flight_offers) { FlightOfferParser.parse(amadeus_client.get_flight_offers(request_params).data, flight_search) }
+  let(:flight_offers) { FlightOffers::ResponseParser.parse(amadeus_client.get_flight_offers(request_params).data, flight_search) }
 end

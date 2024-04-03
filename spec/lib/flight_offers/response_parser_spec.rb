@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FlightOfferParser do
+RSpec.describe FlightOffers::ResponseParser do
   let(:flight_finder_params) do
     {
       origin: 'LHR',
@@ -19,7 +19,7 @@ RSpec.describe FlightOfferParser do
   include_context 'set countries - currencies - airport - carrier'
 
   it 'parses the response and creates the flight offers' do
-    flight_offers = FlightOfferParser.parse(parsed_response, flight_search)
+    flight_offers = FlightOffers::ResponseParser.parse(parsed_response, flight_search)
 
     expect(flight_offers.size).to eq(4)
     expect(flight_offers.first).to be_a(FlightOffer)
@@ -39,7 +39,7 @@ RSpec.describe FlightOfferParser do
   end
 
   it 'parses the itineraries' do
-    flight_offers = FlightOfferParser.parse(parsed_response, flight_search)
+    flight_offers = FlightOffers::ResponseParser.parse(parsed_response, flight_search)
 
     expect(flight_offers.first.itineraries.size).to eq(1)
     expect(flight_offers.first.itineraries.first).to be_a(Itinerary)
@@ -48,7 +48,7 @@ RSpec.describe FlightOfferParser do
   end
 
   it 'parses the segments' do
-    flight_offers = FlightOfferParser.parse(parsed_response, flight_search)
+    flight_offers = FlightOffers::ResponseParser.parse(parsed_response, flight_search)
 
     expect(flight_offers.first.itineraries.first.segments.size).to eq(2)
     expect(flight_offers.first.itineraries.first.segments.first).to be_a(Segment)
@@ -66,7 +66,7 @@ RSpec.describe FlightOfferParser do
   end
 
   it 'parses the stops' do
-    flight_offers = FlightOfferParser.parse(parsed_response, flight_search)
+    flight_offers = FlightOffers::ResponseParser.parse(parsed_response, flight_search)
 
     expect(flight_offers.first.itineraries.first.segments.first.stops.size).to eq(1)
     expect(flight_offers.first.itineraries.first.segments.first.stops.first).to be_a(Stop)
@@ -79,37 +79,37 @@ RSpec.describe FlightOfferParser do
   it 'does not create the flight offer if the currency is not found' do
     parsed_response.first['price']['currency'] = 'XXX'
 
-    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+    expect { FlightOffers::ResponseParser.parse(parsed_response, flight_search) }.to raise_error(FlightOffers::ResponseParser::Error)
   end
 
   it 'does not create the flight offer if the airport is not found' do
     parsed_response.first['itineraries'].first['segments'].first['departure']['iata_code'] = 'XXX'
 
-    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+    expect { FlightOffers::ResponseParser.parse(parsed_response, flight_search) }.to raise_error(FlightOffers::ResponseParser::Error)
   end
 
   it 'does not create the flight offer if the carrier is not found' do
     parsed_response.first['itineraries'].first['segments'].first['carrier_code'] = 'XXX'
 
-    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+    expect { FlightOffers::ResponseParser.parse(parsed_response, flight_search) }.to raise_error(FlightOffers::ResponseParser::Error)
   end
 
   it 'does not create the flight offer if the stop airport is not found' do
     parsed_response.first['itineraries'].first['segments'].first['stops'].first['iata_code'] = 'XXX'
 
-    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+    expect { FlightOffers::ResponseParser.parse(parsed_response, flight_search) }.to raise_error(FlightOffers::ResponseParser::Error)
   end
 
   it 'does not create the flight offer if the record is not saved' do
     allow_any_instance_of(FlightOffer).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
 
-    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+    expect { FlightOffers::ResponseParser.parse(parsed_response, flight_search) }.to raise_error(FlightOffers::ResponseParser::Error)
   end
 
   it 'does not create the flight offer if the record is not found' do
     allow(Airport).to receive(:find_by).and_return(nil)
 
-    expect { FlightOfferParser.parse(parsed_response, flight_search) }.to raise_error(FlightOfferParser::Error)
+    expect { FlightOffers::ResponseParser.parse(parsed_response, flight_search) }.to raise_error(FlightOffers::ResponseParser::Error)
   end
 
   it 'raises an error when there is a record not found' do
@@ -117,8 +117,8 @@ RSpec.describe FlightOfferParser do
 
     expect(Rails.logger).to receive(:error).with('Record not found: ActiveRecord::RecordNotFound')
     expect do
-      FlightOfferParser.parse(parsed_response,
+      FlightOffers::ResponseParser.parse(parsed_response,
                               flight_search)
-    end.to raise_error(FlightOfferParser::Error, 'Required record not found: ActiveRecord::RecordNotFound')
+    end.to raise_error(FlightOffers::ResponseParser::Error, 'Required record not found: ActiveRecord::RecordNotFound')
   end
 end

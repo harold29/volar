@@ -12,4 +12,6 @@ class Payment < ApplicationRecord
   validates :payment_datetime, presence: true
   validates :refunded_reason, length: { maximum: 255 }
   validates :refunded_amount, numericality: true
+
+  enum payment_status: %i[pending confirmed paid refunded failed]
 end

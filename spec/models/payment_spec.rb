@@ -65,11 +65,6 @@ RSpec.describe Payment, type: :model do
     expect(payment).to_not be_valid
   end
 
-  it 'is not valid with a payment_status not a number' do
-    payment = build(:payment, payment_status: 'a')
-    expect(payment).to_not be_valid
-  end
-
   it 'is not valid with a payment_amount not a number' do
     payment = build(:payment, payment_amount: 'a')
     expect(payment).to_not be_valid

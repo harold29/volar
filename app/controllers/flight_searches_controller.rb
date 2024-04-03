@@ -11,7 +11,7 @@ class FlightSearchesController < ApplicationController
     @flight_search = flight_finder.search_flights
 
     render :show, status: :created, location: @flight_search
-  rescue FlightFinder::Error => e
+  rescue FlightOffers::Finder::Error => e
     render json: e.message, status: :unprocessable_entity
   end
 
@@ -22,7 +22,7 @@ class FlightSearchesController < ApplicationController
   end
 
   def flight_finder
-    FlightFinder.new(current_user, flight_search_params)
+    FlightOffers::Finder.new(current_user, flight_search_params)
   end
 
   def flight_search_params

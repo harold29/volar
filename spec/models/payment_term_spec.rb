@@ -121,15 +121,15 @@ RSpec.describe PaymentTerm, type: :model do
     end
   end
 
-  describe '#calculate_installment_amounts' do
+  describe '#calculate_installments_amounts' do
     let(:payment_term) { build(:payment_term, payment_period_in_days: 5, interest_rate: 0.1) }
 
     it 'returns an array of installment amounts' do
-      expect(payment_term.calculate_installment_amounts(100, Date.today + 20)).to eq([27, 27, 27, 29].map(&:to_d))
+      expect(payment_term.calculate_installments_amounts(100, Date.today + 20)).to eq([27, 27, 27, 29].map(&:to_d))
     end
 
     it 'returns an array of installment amounts with the last installment amount increased' do
-      expect(payment_term.calculate_installment_amounts(100, Date.today + 31)).to eq([18, 18, 18, 18, 18, 20].map(&:to_d))
+      expect(payment_term.calculate_installments_amounts(100, Date.today + 31)).to eq([18, 18, 18, 18, 18, 20].map(&:to_d))
     end
   end
 end

@@ -21,8 +21,8 @@ RSpec.describe PaymentPlan, type: :model do
     expect(build(:payment_plan, installments_number: nil, departure_at: nil)).to_not be_valid
   end
 
-  it 'is not valid without installment_amounts' do
-    expect(build(:payment_plan, installment_amounts: nil, flight_offer: nil)).to_not be_valid
+  it 'is not valid without installments_amounts' do
+    expect(build(:payment_plan, installments_amounts: nil, flight_offer: nil)).to_not be_valid
   end
 
   it 'is not valid without active' do
@@ -48,5 +48,29 @@ RSpec.describe PaymentPlan, type: :model do
 
   it 'is not valid without last_ticketing_datetime' do
     expect(build(:payment_plan, last_ticketing_datetime: nil, flight_offer: nil)).to_not be_valid
+  end
+
+  context '#complete!' do
+    it 'updates payment_plan_status to completed' do
+      payment_plan = create(:payment_plan)
+      payment_plan.complete!
+      expect(payment_plan.payment_plan_status).to eq('completed')
+    end
+  end
+
+  context '#fail!' do
+    it 'updates failed_at' do
+      payment_plan = create(:payment_plan)
+      payment_plan.fail!
+      expect(payment_plan.failed_at).to be_present
+    end
+  end
+
+  context '#cancel!' do
+    it 'updates payment_plan_status to cancelled' do
+      payment_plan = create(:payment_plan)
+      payment_plan.cancel!
+      expect(payment_plan.payment_plan_status).to eq('cancelled')
+    end
   end
 end

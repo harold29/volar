@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'amadeus/errors'
 
-RSpec.describe FlightFinder do
+RSpec.describe FlightOffers::Finder do
   describe '#search_flights' do
     let(:us_currency) { create(:currency, code: 'USD') }
     let(:flight_finder_params) do
@@ -93,38 +93,38 @@ RSpec.describe FlightFinder do
         allow_any_instance_of(Amadeus::Client).to receive_message_chain(:get_flight_offers)
           .and_raise(Amadeus::ResponseError.new(response))
 
-        expect { flight_finder.search_flights }.to raise_error(FlightFinder::FlightRetrievingError)
+        expect { flight_finder.search_flights }.to raise_error(FlightOffers::Finder::FlightRetrievingError)
       end
 
       it 'raises an error when the record is invalid' do
         allow_any_instance_of(FlightSearch).to receive(:save!).and_raise(ActiveRecord::RecordInvalid)
 
-        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+        expect { flight_finder.search_flights }.to raise_error(FlightOffers::Finder::Error)
       end
 
       it 'raises an error when the record is not saved' do
         allow_any_instance_of(FlightSearch).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
 
-        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+        expect { flight_finder.search_flights }.to raise_error(FlightOffers::Finder::Error)
       end
 
       it 'raises an error when the record is not found' do
         allow(Airport).to receive(:find_by).and_return(nil)
 
-        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+        expect { flight_finder.search_flights }.to raise_error(FlightOffers::Finder::Error)
       end
 
       it 'raises an error when there is an unhandled error' do
-        allow_any_instance_of(FlightOfferParser).to receive(:parse_offer_params).and_raise(StandardError)
+        allow_any_instance_of(FlightOffers::ResponseParser).to receive(:parse_offer_params).and_raise(StandardError)
 
-        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error)
+        expect { flight_finder.search_flights }.to raise_error(FlightOffers::Finder::Error)
       end
 
       it 'raises an error when there is a record not found' do
-        allow(FlightOfferParser).to receive(:parse).and_raise(ActiveRecord::RecordNotFound)
+        allow(FlightOffers::ResponseParser).to receive(:parse).and_raise(ActiveRecord::RecordNotFound)
 
         expect(Rails.logger).to receive(:error).with('Record not found: ActiveRecord::RecordNotFound')
-        expect { flight_finder.search_flights }.to raise_error(FlightFinder::Error, 'Required record not found: ActiveRecord::RecordNotFound')
+        expect { flight_finder.search_flights }.to raise_error(FlightOffers::Finder::Error, 'Required record not found: ActiveRecord::RecordNotFound')
       end
     end
   end
