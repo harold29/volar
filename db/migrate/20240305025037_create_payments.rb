@@ -11,6 +11,7 @@ class CreatePayments < ActiveRecord::Migration[7.1]
       t.datetime :confirmed_at
       t.boolean :approved
       t.boolean :declined
+      t.datetime :declined_at
       t.boolean :refunded
       t.datetime :refunded_at
       t.decimal :refunded_amount

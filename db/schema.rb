@@ -68,16 +68,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "booking_datetime"
     t.integer "booking_status", default: 0
-    t.decimal "booking_amount"
+    t.decimal "booking_amount_due", default: "0.0"
     t.uuid "booking_currency_id", null: false
     t.boolean "booking_confirmed", default: false
     t.datetime "booking_confirmation_datetime"
     t.string "booking_confirmation_number"
     t.string "payment_type"
     t.uuid "payment_plan_id", null: false
-    t.integer "total_installments"
-    t.decimal "installments_amount"
-    t.integer "payments_completed"
+    t.integer "total_installments", default: 0
+    t.decimal "installments_amounts", precision: 10, scale: 2, default: [], array: true
+    t.integer "installments_number", default: 0
+    t.integer "installments_paid", default: 0
+    t.datetime "price_confirmed_at"
+    t.datetime "completed_at"
+    t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["booking_currency_id"], name: "index_bookings_on_booking_currency_id"
@@ -230,11 +234,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.date "return_at"
     t.uuid "installments_currency_id", null: false
     t.integer "installments_number"
-    t.decimal "installment_amounts", precision: 10, scale: 2, default: [], array: true
+    t.decimal "installments_amounts", precision: 10, scale: 2, default: [], array: true
+    t.decimal "amount_due", default: "0.0"
     t.datetime "last_ticketing_datetime"
     t.uuid "flight_offer_id", null: false
     t.boolean "active", default: false
     t.boolean "selected", default: false
+    t.integer "payment_plan_status", default: 0
+    t.datetime "completed_at"
+    t.datetime "failed_at"
+    t.datetime "cancelled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "payment_term_id"
@@ -278,6 +287,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.datetime "confirmed_at"
     t.boolean "approved"
     t.boolean "declined"
+    t.datetime "declined_at"
     t.boolean "refunded"
     t.datetime "refunded_at"
     t.decimal "refunded_amount"

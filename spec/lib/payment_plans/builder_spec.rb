@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PaymentPlanBuilder do
+RSpec.describe PaymentPlans::Builder do
   describe '#initialize' do
     let(:user) { create(:user) }
     let(:flight_offers) { [] }
@@ -74,7 +74,7 @@ RSpec.describe PaymentPlanBuilder do
       expect(payment_plan.departure_at.to_s).to eq(request_params[:departureDate])
       expect(payment_plan.return_at.to_s).to eq(request_params[:returnDate])
       expect(payment_plan.installments_number).to eq(payment_plan.payment_term.number_of_installments_from_date(request_params[:departureDate]))
-      expect(payment_plan.installment_amounts).to eq(payment_plan.payment_term.calculate_installment_amounts(payment_plan.flight_offer.price_total,
+      expect(payment_plan.installments_amounts).to eq(payment_plan.payment_term.calculate_installments_amounts(payment_plan.flight_offer.price_total,
                                                                                                              request_params[:departureDate]))
       expect(payment_plan.last_ticketing_datetime.to_s).to eq('2024-03-09 00:00:00 UTC')
       expect(payment_plan.flight_offer).to be_a(FlightOffer)

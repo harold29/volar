@@ -51,9 +51,9 @@ class PaymentTerm < ApplicationRecord
     number_of_installments(days_until_last_installment)
   end
 
-  def calculate_installment_amounts(amount, date)
+  def calculate_installments_amounts(amount, date)
     amount = amount.to_d
-    installment_amounts = []
+    installments_amounts = []
     increased_amount = amount * (1 + interest_rate.to_d)
     num_installments = number_of_installments(days_until_last_installment(date))
 
@@ -62,10 +62,10 @@ class PaymentTerm < ApplicationRecord
     num_installments.to_i.times do |_i|
       installment_amount = base_installment_amount
 
-      installment_amounts << installment_amount
+      installments_amounts << installment_amount
     end
 
-    adjust_installments(installment_amounts)
+    adjust_installments(installments_amounts)
   end
 
   private
@@ -92,14 +92,14 @@ class PaymentTerm < ApplicationRecord
     num_installments
   end
 
-  def adjust_installments(installment_amounts)
-    return installment_amounts if installment_amounts.sum.zero? || installment_amounts.sum.negative? || installment_amounts.size.zero?
+  def adjust_installments(installments_amounts)
+    return installments_amounts if installments_amounts.sum.zero? || installments_amounts.sum.negative? || installments_amounts.size.zero?
 
-    installment_amounts.map!(&:to_d)
+    installments_amounts.map!(&:to_d)
 
-    rounded_installments = installment_amounts.map(&:floor)
+    rounded_installments = installments_amounts.map(&:floor)
 
-    total_difference = installment_amounts.sum - rounded_installments.sum
+    total_difference = installments_amounts.sum - rounded_installments.sum
 
     rounded_installments[-1] += total_difference
     rounded_installments[-1] = rounded_installments[-1].ceil
