@@ -1,5 +1,6 @@
 class FlightOffer < ApplicationRecord
   TRAVEL_CLASSES = %w[ECONOMY PREMIUM_ECONOMY BUSINESS FIRST].freeze
+  FARE_TYPES = %w[PUBLISHED NEGOTIATED CORPORATE].freeze
 
   belongs_to :currency
   belongs_to :flight_search
@@ -16,10 +17,12 @@ class FlightOffer < ApplicationRecord
             :last_ticketing_date,
             :last_ticketing_datetime,
             :number_of_bookable_seats,
-            :price_total, presence: true
-  validates :currency, presence: true
+            :price_total,
+            :currency, presence: true
 
   validates :confirmed, inclusion: { in: [true, false] }
+
+  validates :pricing_options_fare_type, inclusion: { in: FARE_TYPES }
 
   scope :ordered, -> { order(internal_id: :asc) }
   scope :ordered_first, -> { order(internal_id: :asc).first }

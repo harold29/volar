@@ -5,6 +5,8 @@ class CreateAdditionalServices < ActiveRecord::Migration[7.1]
       t.string :service_type
       t.string :service_description
       t.decimal :service_amount
+      t.integer :quantity, default: 0
+      t.boolean :selected_by_user, default: false
 
       t.timestamps
     end

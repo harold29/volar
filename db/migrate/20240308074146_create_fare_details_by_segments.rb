@@ -1,7 +1,7 @@
 class CreateFareDetailsBySegments < ActiveRecord::Migration[7.1]
   def change
     create_table :fare_details_by_segments, id: :uuid do |t|
-      t.references :traveler_pricing, null: false, foreign_key: true, type: :uuid
+      t.belongs_to :traveler_pricing, null: false, foreign_key: true, type: :uuid
       t.string :segment_internal_id
       t.string :cabin
       t.string :fare_basis

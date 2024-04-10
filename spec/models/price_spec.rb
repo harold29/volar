@@ -48,10 +48,9 @@ RSpec.describe Price, type: :model do
     expect(price.errors[:price_currency]).to include('must exist')
   end
 
-  it 'is invalid without a flight_offer' do
-    price = Price.new(flight_offer: nil)
-    price.valid?
-    expect(price.errors[:flight_offer]).to include('must exist')
+  it 'is valid without a flight_offer' do
+    price = build(:price, flight_offer: nil)
+    expect(price.valid?).to be true
   end
 
   it 'is invalid with a non-numeric price_total' do

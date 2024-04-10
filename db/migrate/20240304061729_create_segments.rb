@@ -6,6 +6,8 @@ class CreateSegments < ActiveRecord::Migration[7.1]
       t.references :arrival_airport, null: false, foreign_key: { to_table: :airports }, type: :uuid
       t.datetime :departure_at
       t.datetime :arrival_at
+      t.string :departure_terminal
+      t.string :arrival_terminal
       t.references :carrier, null: false, foreign_key: true, type: :uuid
       t.string :flight_number
       t.string :aircraft_code

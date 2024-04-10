@@ -6,6 +6,7 @@ class CreateAmenities < ActiveRecord::Migration[7.1]
       t.boolean :is_chargeable
       t.string :amenity_type
       t.string :amenity_provider_name
+      t.boolean :selected_by_customer, default: false
 
       t.timestamps
     end
