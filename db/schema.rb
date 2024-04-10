@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_08_044644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.string "service_type"
     t.string "service_description"
     t.decimal "service_amount"
+    t.integer "quantity", default: 0
+    t.boolean "selected_by_user", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["price_id"], name: "index_additional_services_on_price_id"
@@ -60,6 +62,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.boolean "is_chargeable"
     t.string "amenity_type"
     t.string "amenity_provider_name"
+    t.boolean "selected_by_customer", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["fare_details_by_segment_id"], name: "index_amenities_on_fare_details_by_segment_id"
@@ -165,6 +168,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.decimal "price_total"
     t.boolean "payment_card_required"
     t.boolean "confirmed", default: false
+    t.string "validating_airline_codes", default: [], array: true
+    t.string "pricing_options_fare_type", default: [], array: true
+    t.boolean "pricing_options_included_checked_bags_only"
+    t.boolean "pricing_options_refundable_fare"
+    t.boolean "pricing_options_no_restriction_fare"
+    t.boolean "pricing_options_no_penalty_fare"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "currency_id", null: false
@@ -304,7 +313,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   end
 
   create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "flight_offer_id", null: false
+    t.uuid "flight_offer_id"
     t.decimal "price_total"
     t.decimal "price_grand_total"
     t.uuid "price_currency_id"
@@ -313,9 +322,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.decimal "refundable_taxes", default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "traveler_pricing_id"
     t.index ["billing_currency_id"], name: "index_prices_on_billing_currency_id"
     t.index ["flight_offer_id"], name: "index_prices_on_flight_offer_id"
     t.index ["price_currency_id"], name: "index_prices_on_price_currency_id"
+    t.index ["traveler_pricing_id"], name: "index_prices_on_traveler_pricing_id"
   end
 
   create_table "profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -339,6 +350,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
     t.uuid "arrival_airport_id", null: false
     t.datetime "departure_at"
     t.datetime "arrival_at"
+    t.string "departure_terminal"
+    t.string "arrival_terminal"
     t.uuid "carrier_id", null: false
     t.string "flight_number"
     t.string "aircraft_code"
@@ -367,13 +380,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   end
 
   create_table "taxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "flight_offer_id", null: false
+    t.uuid "price_id", null: false
     t.string "tax_code"
     t.string "tax_description"
     t.decimal "tax_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["flight_offer_id"], name: "index_taxes_on_flight_offer_id"
+    t.index ["price_id"], name: "index_taxes_on_price_id"
   end
 
   create_table "telephones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -482,6 +495,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   add_foreign_key "prices", "currencies", column: "billing_currency_id"
   add_foreign_key "prices", "currencies", column: "price_currency_id"
   add_foreign_key "prices", "flight_offers"
+  add_foreign_key "prices", "traveler_pricings"
   add_foreign_key "profiles", "users"
   add_foreign_key "segments", "airports", column: "arrival_airport_id"
   add_foreign_key "segments", "airports", column: "departure_airport_id"
@@ -489,7 +503,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_30_072345) do
   add_foreign_key "segments", "itineraries"
   add_foreign_key "stops", "airports"
   add_foreign_key "stops", "segments"
-  add_foreign_key "taxes", "flight_offers"
+  add_foreign_key "taxes", "prices"
   add_foreign_key "telephones", "users"
   add_foreign_key "traveler_pricings", "currencies", column: "price_currency_id"
   add_foreign_key "traveler_pricings", "flight_offers"

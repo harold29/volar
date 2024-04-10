@@ -1,5 +1,6 @@
 class FlightSearch < ApplicationRecord
-  before_validation :set_currencies,
+  before_validation :reload_flight_offers,
+                    :set_currencies,
                     :set_max_stops,
                     :set_price_average,
                     :set_max_price, if: -> { :flight_offers.present? }
@@ -19,6 +20,12 @@ class FlightSearch < ApplicationRecord
   validates :price_average, numericality: true, presence: true
   validates :max_price, numericality: true
   validates :max_price_currency, presence: true
+
+  def reload_flight_offers
+    return if flight_offers.present?
+
+    flight_offers.reload
+  end
 
   def set_currencies
     return if flight_offers.blank?

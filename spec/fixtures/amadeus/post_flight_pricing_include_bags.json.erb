@@ -1,0 +1,436 @@
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "paymentCardRequired": false,
+                "lastTicketingDate": "2024-04-07",
+                "itineraries": [
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "<%= locals[:origin] %>",
+                                    "terminal": "1",
+                                    "at": "<%= locals[:departure_date] %>T07:40:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "2024-04-20T09:10:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "443",
+                                "aircraft": {
+                                    "code": "32Q"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT2H30M",
+                                "id": "3",
+                                "numberOfStops": 0,
+                                "co2Emissions": [
+                                    {
+                                        "weight": 112,
+                                        "weightUnit": "KG",
+                                        "cabin": "ECONOMY"
+                                    }
+                                ]
+                            },
+                            {
+                                "departure": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "2024-04-20T12:30:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "<%= locals[:destination] %>",
+                                    "at": "2024-04-20T16:10:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "171",
+                                "aircraft": {
+                                    "code": "339"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT8H40M",
+                                "id": "4",
+                                "numberOfStops": 0,
+                                "co2Emissions": [
+                                    {
+                                        "weight": 279,
+                                        "weightUnit": "KG",
+                                        "cabin": "ECONOMY"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "<%= locals[:destination] %>",
+                                    "at": "2024-05-04T18:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "2024-05-05T07:25:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "172",
+                                "aircraft": {
+                                    "code": "339"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT8H5M",
+                                "id": "5",
+                                "numberOfStops": 0,
+                                "co2Emissions": [
+                                    {
+                                        "weight": 279,
+                                        "weightUnit": "KG",
+                                        "cabin": "ECONOMY"
+                                    }
+                                ]
+                            },
+                            {
+                                "departure": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "2024-05-05T10:25:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "<%= locals[:origin] %>",
+                                    "terminal": "1",
+                                    "at": "2024-05-05T13:50:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "432",
+                                "aircraft": {
+                                    "code": "32Q"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT2H25M",
+                                "id": "6",
+                                "numberOfStops": 0,
+                                "co2Emissions": [
+                                    {
+                                        "weight": 111,
+                                        "weightUnit": "KG",
+                                        "cabin": "ECONOMY"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "EUR",
+                    "total": "1534.74",
+                    "base": "560.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "FORM_OF_PAYMENT"
+                        }
+                    ],
+                    "grandTotal": "1534.74",
+                    "billingCurrency": "EUR"
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "TP"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "767.37",
+                            "base": "280.00",
+                            "taxes": [
+                                {
+                                    "amount": "2.80",
+                                    "code": "EU"
+                                },
+                                {
+                                    "amount": "4.51",
+                                    "code": "IZ"
+                                },
+                                {
+                                    "amount": "12.49",
+                                    "code": "PT"
+                                },
+                                {
+                                    "amount": "3.00",
+                                    "code": "O4"
+                                },
+                                {
+                                    "amount": "11.91",
+                                    "code": "QX"
+                                },
+                                {
+                                    "amount": "31.45",
+                                    "code": "YP"
+                                },
+                                {
+                                    "amount": "330.00",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "63.00",
+                                    "code": "AK"
+                                },
+                                {
+                                    "amount": "21.89",
+                                    "code": "FR"
+                                },
+                                {
+                                    "amount": "4.00",
+                                    "code": "J9"
+                                },
+                                {
+                                    "amount": "2.32",
+                                    "code": "C2"
+                                }
+                            ],
+                            "refundableTaxes": "153.37"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "4",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "6",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "767.37",
+                            "base": "280.00",
+                            "taxes": [
+                                {
+                                    "amount": "2.80",
+                                    "code": "EU"
+                                },
+                                {
+                                    "amount": "4.51",
+                                    "code": "IZ"
+                                },
+                                {
+                                    "amount": "12.49",
+                                    "code": "PT"
+                                },
+                                {
+                                    "amount": "3.00",
+                                    "code": "O4"
+                                },
+                                {
+                                    "amount": "11.91",
+                                    "code": "QX"
+                                },
+                                {
+                                    "amount": "31.45",
+                                    "code": "YP"
+                                },
+                                {
+                                    "amount": "330.00",
+                                    "code": "YQ"
+                                },
+                                {
+                                    "amount": "63.00",
+                                    "code": "AK"
+                                },
+                                {
+                                    "amount": "21.89",
+                                    "code": "FR"
+                                },
+                                {
+                                    "amount": "4.00",
+                                    "code": "J9"
+                                },
+                                {
+                                    "amount": "2.32",
+                                    "code": "C2"
+                                }
+                            ],
+                            "refundableTaxes": "153.37"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "4",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            },
+                            {
+                                "segmentId": "6",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "bookingRequirements": {
+            "emailAddressRequired": true,
+            "mobilePhoneNumberRequired": true
+        }
+    },
+    "included": {
+        "bags": {
+            "1": {
+                "quantity": 1,
+                "name": "CHECKED_BAG",
+                "price": {
+                    "amount": "75.00",
+                    "currencyCode": "EUR"
+                },
+                "bookableByItinerary": true,
+                "segmentIds": [
+                    "3",
+                    "4",
+                    "5",
+                    "6"
+                ],
+                "travelerIds": [
+                    "1",
+                    "2"
+                ]
+            },
+            "2": {
+                "quantity": 2,
+                "name": "CHECKED_BAG",
+                "price": {
+                    "amount": "175.00",
+                    "currencyCode": "EUR"
+                },
+                "bookableByItinerary": true,
+                "segmentIds": [
+                    "3",
+                    "4",
+                    "5",
+                    "6"
+                ],
+                "travelerIds": [
+                    "1",
+                    "2"
+                ]
+            }
+        }
+    },
+    "dictionaries": {
+        "locations": {
+            "<%= locals[:destination] %>": {
+                "cityCode": "<%= locals[:destination] %>",
+                "countryCode": "VE"
+            },
+            "LIS": {
+                "cityCode": "LIS",
+                "countryCode": "PT"
+            },
+            "<%= locals[:origin] %>": {
+                "cityCode": "PAR",
+                "countryCode": "FR"
+            }
+        }
+    }
+}

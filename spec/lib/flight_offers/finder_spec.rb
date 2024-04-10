@@ -6,7 +6,7 @@ RSpec.describe FlightOffers::Finder do
     let(:us_currency) { create(:currency, code: 'USD') }
     let(:flight_finder_params) do
       {
-        origin: 'LHR',
+        origin: 'EZE',
         destination: 'CDG',
         departure_date: '2025-01-01',
         return_date: '2025-01-10',
@@ -21,7 +21,7 @@ RSpec.describe FlightOffers::Finder do
     end
     let(:request_params) do
       {
-        originLocationCode: 'LHR',
+        originLocationCode: 'EZE',
         destinationLocationCode: 'CDG',
         departureDate: '2025-01-01',
         returnDate: '2025-01-10',
@@ -62,7 +62,7 @@ RSpec.describe FlightOffers::Finder do
         flight_finder.search_flights
 
         expect(FlightOffer.ordered_first.internal_id).to eq('1')
-        expect(FlightOffer.ordered_first.source).to eq('LHR')
+        expect(FlightOffer.ordered_first.source).to eq('GDS')
         expect(FlightOffer.ordered_first.instant_ticketing_required).to eq(false)
         expect(FlightOffer.ordered_first.non_homogeneous).to eq(false)
         expect(FlightOffer.ordered_first.one_way).to eq(false)

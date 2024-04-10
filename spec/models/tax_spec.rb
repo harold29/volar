@@ -5,8 +5,8 @@ RSpec.describe Tax, type: :model do
     expect(build(:tax)).to be_valid
   end
 
-  it 'is not valid without a flight_offer' do
-    tax = build(:tax, flight_offer: nil)
+  it 'is not valid without a price' do
+    tax = build(:tax, price: nil)
     expect(tax).to_not be_valid
   end
 

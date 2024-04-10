@@ -6,6 +6,8 @@ FactoryBot.define do
     association :carrier
     association :departure_airport, factory: :airport
     association :arrival_airport, factory: :airport
+    departure_terminal { FFaker::NatoAlphabet.code }
+    arrival_terminal { FFaker::NatoAlphabet.code }
     flight_number { FFaker::Number.number.to_s }
     aircraft_code { FFaker::NatoAlphabet.code }
     duration { '8H4M5S' }

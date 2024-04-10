@@ -25,6 +25,44 @@ RSpec.shared_context 'get flight offer response' do
   end
 end
 
+RSpec.shared_context 'post flight pricing response no include' do
+  let(:rheaders) { { "Content-Type": 'application/json' } }
+  let(:oauth_response) do
+    {
+      "type": 'amadeusOAuth2Token',
+      "username": 'test@test.com',
+      "application_name": 'volartestapp',
+      "client_id": '12345',
+      "token_type": 'Bearer',
+      "access_token": 'token',
+      "expires_in": 1799,
+      "state": 'approved',
+      "scope": ''
+    }
+  end
+
+  before do
+    response = render_custom_response('amadeus/post_flight_pricing_no_include.json.erb', general_parameters)
+
+    stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
+      .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
+
+    pricing_path = 'https://test.api.amadeus.com/v1/shopping/flight-offers/pricing'
+
+    if include_bags
+      pricing_path += '?include=bags'
+    elsif include_additional_services
+      pricing_path += '?include=additional_services'
+    end
+
+    stub_request(:post, pricing_path)
+      .with(body: mocked_request_params.to_json)
+      .to_return(status: 200,
+                 body: response,
+                 headers: rheaders)
+  end
+end
+
 RSpec.shared_context 'post flight offer response' do
   let(:rheaders) { { "Content-Type": 'application/vnd.amadeus+json' } }
   let(:oauth_response) do
