@@ -8,5 +8,9 @@ FactoryBot.define do
     flight_class { FFaker::Lorem.word }
     segment_internal_id { rand(1..10).to_s }
     included_checked_bags { rand(1..5) }
+
+    after(:create) do |fare_details_by_segment|
+      create_list(:amenity, 3, fare_details_by_segment:)
+    end
   end
 end

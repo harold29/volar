@@ -13,4 +13,8 @@ class Segment < ApplicationRecord
   scope :ordered, -> { order(internal_id: :asc) }
 
   accepts_nested_attributes_for :stops
+
+  def internal_id_integer
+    internal_id.to_i
+  end
 end
