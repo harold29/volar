@@ -125,7 +125,7 @@ RSpec.describe FlightOffers::ResponseParser do
     expect(Rails.logger).to receive(:error).with('Record not found: ActiveRecord::RecordNotFound')
     expect do
       FlightOffers::ResponseParser.parse(parsed_response,
-                              flight_search)
+                                         flight_search)
     end.to raise_error(FlightOffers::ResponseParser::Error, 'Required record not found: ActiveRecord::RecordNotFound')
   end
 end

@@ -8,7 +8,8 @@ module FlightPricing
       {
         data: {
           type: 'flight-offers-pricing',
-          flightOffers: flight_offers
+          flightOffers: ActiveModelSerializers::SerializableResource.new(flight_offer_objects,
+                                                                         each_serializer: FlightPricing::FlightOfferSerializer)
         }
       }
     end
