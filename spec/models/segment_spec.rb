@@ -88,4 +88,11 @@ RSpec.describe Segment, type: :model do
     segment.valid?
     expect(segment.errors[:stops_number]).to include('must be an integer')
   end
+
+  describe '#internal_id_integer' do
+    it 'returns the internal_id as an integer' do
+      segment = Segment.new(internal_id: '1')
+      expect(segment.internal_id_integer).to eq(1)
+    end
+  end
 end
