@@ -19,7 +19,7 @@ RSpec.describe 'FlightSearches', type: :request do
         infants: 1,
         travelClass: 'ECONOMY',
         nonStop: false,
-        currencyCode: 'USD',
+        currencyCode: 'USD'
       }
     end
     let(:flight_finder_params) do
@@ -51,11 +51,11 @@ RSpec.describe 'FlightSearches', type: :request do
       }
     end
 
-
     let(:user) { create(:user) }
 
     it 'creates a new flight search' do
       user
+
       post flight_searches_url, params: { flight_search: flight_finder_params }, as: :json
       expect(response).to be_created
     end
@@ -63,24 +63,22 @@ RSpec.describe 'FlightSearches', type: :request do
     it 'creates a new flight search with valid attributes' do
       user
       post flight_searches_url,
-            params: {
-              flight_search: {
-                origin: 'LHR',
-                destination: 'CDG',
-                departure_date: Date.today.to_s,
-                return_date: (Date.today + 1.week).to_s,
-                adults: 2,
-                children: 1,
-                infants: 1,
-                travel_class: 'ECONOMY',
-                nonstop: false,
-                currency_id: us_currency.id
-              }
-            }, as: :json
+           params: {
+             flight_search: {
+               origin: 'LHR',
+               destination: 'CDG',
+               departure_date: Date.today.to_s,
+               return_date: (Date.today + 1.week).to_s,
+               adults: 2,
+               children: 1,
+               infants: 1,
+               travel_class: 'ECONOMY',
+               nonstop: false,
+               currency_id: us_currency.id
+             }
+           }, as: :json
       expect(response).to be_created
     end
-
-
 
     # it 'does not create a new flight search with invalid attributes' do
     #   user

@@ -13,8 +13,6 @@ module FlightOffers
       with_error_handler do
         raise ParametersError, 'Invalid request parameters' unless valid_request_params?
 
-        # potato = Amadeus::RequestParamsSerializer.serialize(flight_finder_params)
-        # response = amadeus_client.shopping.flight_offers_search.get(request)
         response = amadeus_client.get_flight_offers(flight_finder_params)
 
         flight_search = FlightSearch.new(flight_finder_params)
@@ -93,10 +91,6 @@ module FlightOffers
     end
 
     def amadeus_client
-      # @client ||= Amadeus::Client.new(
-      #   client_id: ENV['AMADEUS_CLIENT_ID'],
-      #   client_secret: ENV['AMADEUS_CLIENT_SECRET']
-      # )
       @amadeus_client ||= Amadeus::Client.new
     end
   end

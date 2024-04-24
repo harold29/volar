@@ -24,7 +24,7 @@ gem 'pundit'
 # gem 'amadeus', '5.2.3', github: 'harold29/amadeus-ruby'
 gem 'faraday', '2.9.0'
 gem 'rack', '3.0.9.1'
-gem "rack-cors"
+gem 'rack-cors'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '>= 4.0.1'
 
@@ -53,6 +53,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'ffaker'
+  gem 'pry-byebug'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'rubocop', require: false
 end
