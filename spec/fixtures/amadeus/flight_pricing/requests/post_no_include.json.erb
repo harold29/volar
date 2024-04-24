@@ -1,0 +1,605 @@
+{
+    "data": {
+        "type": "flight-offers-pricing",
+        "flightOffers": [
+            {
+                "type": "flight-offer",
+                "id": "1",
+                "source": "GDS",
+                "instantTicketingRequired": false,
+                "nonHomogeneous": false,
+                "oneWay": false,
+                "lastTicketingDate": "2024-04-07",
+                "lastTicketingDateTime": "2024-04-07",
+                "numberOfBookableSeats": 9,
+                "itineraries": [
+                    {
+                        "duration": "PT14H30M",
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "<%= locals[:origin] %>",
+                                    "terminal": "1",
+                                    "at": "<%= locals[:departure_date] %>T07:40:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "<%= locals[:departure_date] %>T09:10:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "443",
+                                "aircraft": {
+                                    "code": "32Q"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT2H30M",
+                                "id": "3",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            },
+                            {
+                                "departure": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "<%= locals[:departure_date] %>T12:30:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "<%= locals[:destination] %>",
+                                    "at": "<%= locals[:departure_date] %>T16:10:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "171",
+                                "aircraft": {
+                                    "code": "339"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT8H40M",
+                                "id": "4",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            }
+                        ]
+                    },
+                    {
+                        "duration": "PT13H30M",
+                        "segments": [
+                            {
+                                "departure": {
+                                    "iataCode": "<%= locals[:destination] %>",
+                                    "at": "<%= locals[:departure_date] %>T18:20:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "2024-05-05T07:25:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "172",
+                                "aircraft": {
+                                    "code": "339"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT8H5M",
+                                "id": "5",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            },
+                            {
+                                "departure": {
+                                    "iataCode": "LIS",
+                                    "terminal": "1",
+                                    "at": "2024-05-05T10:25:00"
+                                },
+                                "arrival": {
+                                    "iataCode": "<%= locals[:origin] %>",
+                                    "terminal": "1",
+                                    "at": "2024-05-05T13:50:00"
+                                },
+                                "carrierCode": "TP",
+                                "number": "432",
+                                "aircraft": {
+                                    "code": "32Q"
+                                },
+                                "operating": {
+                                    "carrierCode": "TP"
+                                },
+                                "duration": "PT2H25M",
+                                "id": "6",
+                                "numberOfStops": 0,
+                                "blacklistedInEU": false
+                            }
+                        ]
+                    }
+                ],
+                "price": {
+                    "currency": "EUR",
+                    "total": "1534.74",
+                    "base": "560.00",
+                    "fees": [
+                        {
+                            "amount": "0.00",
+                            "type": "SUPPLIER"
+                        },
+                        {
+                            "amount": "0.00",
+                            "type": "TICKETING"
+                        }
+                    ],
+                    "grandTotal": "1534.74",
+                    "additionalServices": [
+                        {
+                            "amount": "150.00",
+                            "type": "CHECKED_BAGS"
+                        }
+                    ]
+                },
+                "pricingOptions": {
+                    "fareType": [
+                        "PUBLISHED"
+                    ],
+                    "includedCheckedBagsOnly": false
+                },
+                "validatingAirlineCodes": [
+                    "TP"
+                ],
+                "travelerPricings": [
+                    {
+                        "travelerId": "1",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "767.37",
+                            "base": "280.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "4",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "6",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "travelerId": "2",
+                        "fareOption": "STANDARD",
+                        "travelerType": "ADULT",
+                        "price": {
+                            "currency": "EUR",
+                            "total": "767.37",
+                            "base": "280.00"
+                        },
+                        "fareDetailsBySegment": [
+                            {
+                                "segmentId": "3",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "4",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "5",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "segmentId": "6",
+                                "cabin": "ECONOMY",
+                                "fareBasis": "UL0DSI01",
+                                "brandedFare": "DISCOUNT",
+                                "brandedFareLabel": "DISCOUNT",
+                                "class": "U",
+                                "includedCheckedBags": {
+                                    "quantity": 0
+                                },
+                                "amenities": [
+                                    {
+                                        "description": "FIRST BAG UP TO 23KG AND 158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SECOND BAG UP TO 23KG AND158CM",
+                                        "isChargeable": true,
+                                        "amenityType": "BAGGAGE",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "EXTRA LEG ROOM OR FRONT SEAT",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "SEAT RESERVATION",
+                                        "isChargeable": true,
+                                        "amenityType": "PRE_RESERVED_SEAT",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    },
+                                    {
+                                        "description": "MEAL 1",
+                                        "isChargeable": false,
+                                        "amenityType": "MEAL",
+                                        "amenityProvider": {
+                                            "name": "BrandedFare"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

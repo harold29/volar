@@ -15,7 +15,7 @@ RSpec.shared_context 'get flight offer response' do
   end
 
   before do
-    response = render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params)
+    response = render_custom_response('amadeus/flight_offers/responses/get.json.erb', flight_finder_params)
 
     stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
       .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
@@ -42,7 +42,7 @@ RSpec.shared_context 'post flight pricing response no include' do
   end
 
   before do
-    response = render_custom_response('amadeus/post_flight_pricing_no_include.json.erb', general_parameters)
+    response = render_custom_response('amadeus/flight_pricing/responses/post_no_include.json.erb', general_parameters)
 
     stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
       .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
@@ -80,7 +80,7 @@ RSpec.shared_context 'post flight offer response' do
   end
 
   before do
-    response = render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params)
+    response = render_custom_response('amadeus/flight_offers/get.json.erb', flight_finder_params)
 
     stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
       .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
@@ -89,6 +89,44 @@ RSpec.shared_context 'post flight offer response' do
       .with(body: request_params.to_json)
       .to_return(status: 200,
                  body: response,
+                 headers: rheaders)
+  end
+end
+
+RSpec.shared_context 'post flight offer request and response no include' do
+  let(:rheaders) { { "Content-Type": 'application/json' } }
+  let(:oauth_response) do
+    {
+      "type": 'amadeusOAuth2Token',
+      "username": 'test@test.com',
+      "application_name": 'volartestapp',
+      "client_id": '12345',
+      "token_type": 'Bearer',
+      "access_token": 'token',
+      "expires_in": 1799,
+      "state": 'approved',
+      "scope": ''
+    }
+  end
+  let(:fixed_request) { render_custom_response('amadeus/flight_pricing/requests/post_no_include.json.erb', general_parameters) }
+  let(:fixed_response) { render_custom_response('amadeus/flight_pricing/responses/post_no_include.json.erb', general_parameters) }
+
+  before do
+    stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
+      .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
+
+    pricing_path = 'https://test.api.amadeus.com/v1/shopping/flight-offers/pricing'
+
+    if include_bags
+      pricing_path += '?include=bags'
+    elsif include_additional_services
+      pricing_path += '?include=additional_services'
+    end
+
+    stub_request(:post, pricing_path)
+      .with(body: fixed_request)
+      .to_return(status: 200,
+                 body: fixed_response,
                  headers: rheaders)
   end
 end
@@ -137,6 +175,8 @@ RSpec.shared_context 'set countries - currencies - airport - carrier' do
     create(:country, name: 'Argentina', code: 'AR', phone_code: '+54', language: 'Spanish', continent: 'South America', time_zone: 'UTC-3')
     create(:country, name: 'Turkey', code: 'TR', phone_code: '+90', language: 'Turkish', continent: 'Asia', time_zone: 'UTC+3')
     create(:country, name: 'France', code: 'FR', phone_code: '+33', language: 'French', continent: 'Europe', time_zone: 'UTC+1')
+    create(:country, name: 'Venezuela', code: 'VE', phone_code: '+58', language: 'Spanish', continent: 'America', time_zone: 'UTC+4')
+    create(:country, name: 'Portugal', code: 'PT', phone_code: '+351', language: 'Portuguese', continent: 'Europe', time_zone: 'UTC+1')
 
     create(:currency, name: 'US Dollar', code: 'USD', symbol: '$', country: Country.find_by(name: 'United States'))
     create(:currency, name: 'Euro', code: 'EUR', symbol: '€', country: Country.find_by(name: 'European Union'))
@@ -189,6 +229,10 @@ RSpec.shared_context 'set countries - currencies - airport - carrier' do
                      country: Country.find_by(name: 'Turkey'))
     create(:airport, name: 'Leathrow Airport', city: 'London', iata_code: 'LHR', icao_code: 'EGLL', time_zone: 'Europe/London',
                      country: Country.find_by(name: 'United Kingdom'))
+    create(:airport, name: 'Caracas - Maiquetia', city: 'Caracas', iata_code: 'CCS', icao_code: 'EGLL', time_zone: 'America/Caracas',
+                     country: Country.find_by(name: 'Venezuela'))
+    create(:airport, name: 'Lisboa', city: 'Lisboa', iata_code: 'LIS', icao_code: 'EGLL', time_zone: 'America/Caracas',
+                     country: Country.find_by(name: 'Portugal'))
 
     create(:carrier, name: 'American Airlines', code: 'AA')
     create(:carrier, name: 'Delta Air Lines', code: 'DL')
@@ -201,6 +245,7 @@ RSpec.shared_context 'set countries - currencies - airport - carrier' do
     create(:carrier, name: 'Air Canada', code: 'AC')
     create(:carrier, name: 'Swiss International Air Lines', code: 'LX')
     create(:carrier, name: 'Turkish Airlines', code: 'TK')
+    create(:carrier, name: 'TP Airlines', code: 'TP')
   end
 end
 

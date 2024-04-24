@@ -51,19 +51,19 @@ module FlightOffers
       end
     end
 
-    %i[airport currency carrier].each do |key|
-      define_method("#{key}") do |code|
-        variable_name = "@#{key}"
-        object = instance_variable_get(variable_name)
+    # %i[airport currency carrier].each do |key|
+    #   define_method("#{key}") do |code|
+    #     variable_name = "@#{key}"
+    #     object = instance_variable_get(variable_name)
 
-        search_attribute = key == :airport ? :iata_code : :code
+    #     search_attribute = key == :airport ? :iata_code : :code
 
-        return object if object.present? && object.send(search_attribute) == code
+    #     return object if object.present? && object.send(search_attribute) == code
 
-        object = key.to_s.capitalize.constantize.find_by(search_attribute => code)
-        instance_variable_set(variable_name, object)
-      end
-    end
+    #     object = key.to_s.capitalize.constantize.find_by(search_attribute => code)
+    #     instance_variable_set(variable_name, object)
+    #   end
+    # end
 
     def parse_offer_params
       response.map do |flight_offer_data|
