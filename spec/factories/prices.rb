@@ -14,7 +14,7 @@ FactoryBot.define do
     end
   end
 
-  factory :price_with_traveler_pricing do
+  factory :price_with_traveler_pricing, class: Price do
     price_total { FFaker::Number.decimal }
     price_grand_total { FFaker::Number.decimal }
     association :price_currency, factory: :currency
@@ -25,7 +25,7 @@ FactoryBot.define do
 
     after(:create) do |price|
       create_list(:additional_service, 3, price:)
-      create_list(:fee, 3, price:)
+      create_list(:tax, 3, price:)
     end
   end
 end

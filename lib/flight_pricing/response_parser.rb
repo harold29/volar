@@ -111,7 +111,7 @@ module FlightPricing
 
     def parse_price(price)
       {
-        currency: currency(price[:currency]),
+        price_currency_id: currency(price[:currency]).id,
         price_total: price[:total],
         base_fare: price[:base],
         price_grand_total: price[:grand_total],
@@ -126,8 +126,8 @@ module FlightPricing
 
       fees.map do |fee|
         {
-          amount: fee[:amount],
-          type: fee[:type]
+          fee_amount: fee[:amount],
+          fee_type: fee[:type]
         }
       end
     end

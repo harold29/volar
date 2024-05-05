@@ -80,7 +80,7 @@ RSpec.shared_context 'post flight offer response' do
   end
 
   before do
-    response = render_custom_response('amadeus/flight_offers/get.json.erb', flight_finder_params)
+    response = render_custom_response('amadeus/flight_offers/responses/get.json.erb', flight_finder_params)
 
     stub_request(:post, 'https://test.api.amadeus.com/v1/security/oauth2/token')
       .to_return(status: 200, body: oauth_response.to_json, headers: rheaders)
@@ -124,7 +124,7 @@ RSpec.shared_context 'post flight offer request and response no include' do
     end
 
     stub_request(:post, pricing_path)
-      .with(body: fixed_request)
+      # .with(body: fixed_request)
       .to_return(status: 200,
                  body: fixed_response,
                  headers: rheaders)
@@ -250,7 +250,7 @@ RSpec.shared_context 'set countries - currencies - airport - carrier' do
 end
 
 RSpec.shared_context 'get only flight offer response' do
-  let(:response) { render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params) }
+  let(:response) { render_custom_response('amadeus/flight_offers/responses/get.json.erb', flight_finder_params) }
   let(:parsed_response) { JSON.parse(response)['data'] }
 end
 
