@@ -51,11 +51,12 @@ RSpec.describe FlightPricing::ResponseParser do
         price = parsed_response.first[:price_attributes]
         response_price = response_data['price']
 
+        # binding.pry
         expect(price).to include({
                                    price_total: response_price['total'],
                                    base_fare: response_price['base'],
                                    price_grand_total: response_price['grandTotal'],
-                                   currency: a_kind_of(Currency),
+                                   price_currency_id: a_kind_of(String),
                                    fees_attributes: a_kind_of(Array)
                                  })
       end
@@ -71,8 +72,8 @@ RSpec.describe FlightPricing::ResponseParser do
           response_fee = response_fees[index]
 
           expect(fee).to include({
-                                   amount: response_fee['amount'],
-                                   type: response_fee['type']
+                                   fee_amount: response_fee['amount'],
+                                   fee_type: response_fee['type']
                                  })
         end
       end
@@ -137,7 +138,7 @@ RSpec.describe FlightPricing::ResponseParser do
 
         expect(price).to include({
                                    price_total: response_traveler_pricing_price['total'],
-                                   currency: a_kind_of(Currency),
+                                   price_currency_id: a_kind_of(String),
                                    base_fare: response_traveler_pricing_price['base'],
                                    refundable_taxes: response_traveler_pricing_price['refundableTaxes'],
                                    taxes_attributes: a_kind_of(Array)

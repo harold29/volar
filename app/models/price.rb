@@ -14,7 +14,7 @@ class Price < ApplicationRecord
 
   validates :price_total, :price_grand_total, :base_fare, :refundable_taxes, numericality: true
 
-  accepts_nested_attributes_for :fees, :additional_services
+  accepts_nested_attributes_for :fees, :additional_services, :taxes
 
   private
 

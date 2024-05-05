@@ -59,7 +59,7 @@ RSpec.describe Amadeus::Client do
     end
 
     it 'returns the correct data' do
-      flight_offers = JSON.parse(render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params))['data']
+      flight_offers = JSON.parse(render_custom_response('amadeus/flight_offers/responses/get.json.erb', flight_finder_params))['data']
       expect(client.get_flight_offers(flight_finder_params).data).to eq(flight_offers)
     end
 
@@ -180,7 +180,7 @@ RSpec.describe Amadeus::Client do
       end
 
       it 'returns the correct data' do
-        flight_pricing = JSON.parse(render_custom_response('amadeus/post_flight_pricing_no_include.json.erb', general_parameters))['data']
+        flight_pricing = JSON.parse(render_custom_response('amadeus/flight_pricing/responses/post_no_include.json.erb', general_parameters))['data']
         expect(client.post_flight_pricing(request_params).data).to eq(flight_pricing)
       end
     end
@@ -210,7 +210,7 @@ RSpec.describe Amadeus::Client do
       it 'returns the correct data' do
         flight_pricing = JSON.parse(
           render_custom_response(
-            'amadeus/post_flight_pricing_no_include.json.erb',
+            'amadeus/flight_pricing/responses/post_no_include.json.erb',
             general_parameters
           )
         )['data'] # TODO: add adequate file to handle bags inclusion
@@ -243,7 +243,7 @@ RSpec.describe Amadeus::Client do
       it 'returns the correct data' do
         flight_pricing = JSON.parse(
           render_custom_response(
-            'amadeus/post_flight_pricing_no_include.json.erb',
+            'amadeus/flight_pricing/responses/post_no_include.json.erb',
             general_parameters
           )
         )['data'] # TODO: add adequate file to handle additional services inclusion
@@ -297,7 +297,7 @@ RSpec.describe Amadeus::Client do
     end
 
     it 'returns the correct data' do
-      flight_offers = JSON.parse(render_custom_response('amadeus/get_flight_offer_response.json.erb', flight_finder_params))['data']
+      flight_offers = JSON.parse(render_custom_response('amadeus/flight_offers/responses/get.json.erb', flight_finder_params))['data']
       expect(client.post_flight_offers(flight_finder_params).data).to eq(flight_offers)
     end
   end

@@ -22,10 +22,12 @@ FactoryBot.define do
 
     after(:build) do |flight_offer|
       create(:price, flight_offer:)
-      create_list(:traveler_pricing, 3, flight_offer:)
+      # create_list(:traveler_pricing, 3, flight_offer:)
     end
 
     after(:create) do |flight_offer|
+      create_list(:traveler_pricing, 3, flight_offer:)
+
       create_list(:itinerary, 3, flight_offer:)
     end
   end

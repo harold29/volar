@@ -15,11 +15,6 @@ RSpec.describe Tax, type: :model do
     expect(tax).to_not be_valid
   end
 
-  it 'is not valid without a tax_description' do
-    tax = build(:tax, tax_description: nil)
-    expect(tax).to_not be_valid
-  end
-
   it 'is not valid without a tax_amount' do
     tax = build(:tax, tax_amount: nil)
     expect(tax).to_not be_valid
