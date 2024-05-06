@@ -129,7 +129,12 @@ RSpec.describe FlightPricing::Validator do
 
               it 'updates tax amount' do
                 expect { validated }.to change {
-                                          flight_offer.reload.traveler_pricings[0].price.taxes.find_by(tax_code: response_data['travelerPricings'][0]['price']['taxes'][0]['code']).tax_amount.to_f
+                                          flight_offer.reload.traveler_pricings[0]
+                                                      .find_by(
+                                                        traveler_internal_id: response_data['travelerPricings']['travelerId']
+                                                      ).price.taxes.find_by(
+                                                        tax_code: response_data['travelerPricings'][0]['price']['taxes'][0]['code']
+                                                      ).tax_amount.to_f
                                         }.to(response_data['travelerPricings'][0]['price']['taxes'][0]['amount'].to_f)
               end
 
