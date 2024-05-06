@@ -83,8 +83,6 @@ RSpec.describe FlightPricing::Validator do
 
             it 'updates base' do
               # Prone to be flaky
-              # flight_offer.reload.traveler_pricings.fing_by(traveler_internal_id: response_data['travelerPricings'][0]["travelerId"])
-              # binding.pry
               expect { validated }.to change {
                                         flight_offer.reload.traveler_pricings.find_by(traveler_internal_id: response_data['travelerPricings'][0]['travelerId']).price.base_fare.to_f
                                       }.to(response_data['travelerPricings'][0]['price']['base'].to_f)

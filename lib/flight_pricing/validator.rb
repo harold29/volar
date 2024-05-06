@@ -80,7 +80,6 @@ module FlightPricing
     end
 
     def inside_ticketing_period?
-      # flight_offer.first.last_ticketing_datetime > Time.now # TODO: one single flight offer?
       flight_offers.map { |offer| offer.last_ticketing_datetime > Time.now }.all?
     end
 
