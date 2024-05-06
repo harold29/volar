@@ -85,7 +85,7 @@ RSpec.describe 'FlightSearches', type: :request do
                travel_class: 'ECONOMY',
                nonstop: false,
                currency_id: us_currency.id,
-               one_way: false/
+               one_way: false
              }
            }
       expect(response).to redirect_to(flight_search_url(FlightSearch.last))

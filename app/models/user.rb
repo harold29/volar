@@ -7,8 +7,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :confirmable, :lockable, :lockable, :trackable,
-         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+         :confirmable, :lockable, :lockable, :trackable
+         #, jwt_revocation_strategy: JwtDenylist
 
   private
 
