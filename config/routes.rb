@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :payment_terms
   resources :flight_offers
   resources :carriers
-  resources :flight_searches, only: %i[index show create]
+  resources :flight_searches, only: %i[index show new create]
 
   # get 'flights_search', to: 'flights_search#search'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

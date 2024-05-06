@@ -34,7 +34,7 @@ RSpec.describe '/carriers', type: :request do
   describe 'GET /index' do
     it 'renders a successful response' do
       Carrier.create! valid_attributes
-      get carriers_url, as: :json
+      get carriers_url
       expect(response).to be_successful
     end
   end
@@ -42,7 +42,22 @@ RSpec.describe '/carriers', type: :request do
   describe 'GET /show' do
     it 'renders a successful response' do
       carrier = Carrier.create! valid_attributes
-      get carrier_url(carrier), as: :json
+      get carrier_url(carrier)
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'GET /new' do
+    it 'renders a successful response' do
+      get new_carrier_url
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'GET /edit' do
+    it 'render a successful response' do
+      carrier = Carrier.create! valid_attributes
+      get edit_carrier_url(carrier)
       expect(response).to be_successful
     end
   end
@@ -51,25 +66,25 @@ RSpec.describe '/carriers', type: :request do
     context 'with valid parameters' do
       it 'creates a new Carrier' do
         expect do
-          post carriers_url, params: { carrier: valid_attributes }, as: :json
+          post carriers_url, params: { carrier: valid_attributes }
         end.to change(Carrier, :count).by(1)
       end
 
-      it 'returns 201' do
-        post carriers_url, params: { carrier: valid_attributes }, as: :json
-        expect(response).to be_created
+      it 'redirects to the created carrier' do
+        post carriers_url, params: { carrier: valid_attributes }
+        expect(response).to redirect_to(carrier_url(Carrier.last))
       end
     end
 
     context 'with invalid parameters' do
       it 'does not create a new Carrier' do
         expect do
-          post carriers_url, params: { carrier: invalid_attributes }, as: :json
+          post carriers_url, params: { carrier: invalid_attributes }
         end.to change(Carrier, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post carriers_url, params: { carrier: invalid_attributes }, as: :json
+        post carriers_url, params: { carrier: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -87,25 +102,25 @@ RSpec.describe '/carriers', type: :request do
 
       it 'updates the requested carrier' do
         carrier = Carrier.create! valid_attributes
-        patch carrier_url(carrier), params: { carrier: new_attributes }, as: :json
+        patch carrier_url(carrier), params: { carrier: new_attributes }
         carrier.reload
 
         expect(carrier.name).to eq('Name2')
         expect(carrier.logo).to eq('Logo2')
       end
 
-      it 'returns 200' do
+      it 'redirects to the carrier' do
         carrier = Carrier.create! valid_attributes
-        patch carrier_url(carrier), params: { carrier: new_attributes }, as: :json
+        patch carrier_url(carrier), params: { carrier: new_attributes }
         carrier.reload
-        expect(response).to be_successful
+        expect(response).to redirect_to(carrier_url(carrier))
       end
     end
 
     context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         carrier = Carrier.create! valid_attributes
-        patch carrier_url(carrier), params: { carrier: invalid_attributes }, as: :json
+        patch carrier_url(carrier), params: { carrier: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -119,10 +134,10 @@ RSpec.describe '/carriers', type: :request do
       end.to change(Carrier, :count).by(-1)
     end
 
-    it 'returns 200' do
+    it 'redirects to the carriers list' do
       carrier = Carrier.create! valid_attributes
-      delete carrier_url(carrier), as: :json
-      expect(response).to be_successful
+      delete carrier_url(carrier)
+      expect(response).to redirect_to(carriers_url)
     end
   end
 end

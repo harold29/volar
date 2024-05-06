@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Carriers</h1>
+
+<div id="carriers">
+  <% @carriers.each do |carrier| %>
+    <%= render carrier %>
+    <p>
+      <%= link_to "Show this carrier", carrier %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New carrier", new_carrier_path %>

@@ -1,5 +1,5 @@
 class FlightOffersController < ApplicationController
-  before_action :set_flight_offer, only: %i[show update destroy]
+  before_action :set_flight_offer, only: %i[show edit update destroy]
 
   # GET /flight_offers or /flight_offers.json
   def index
@@ -9,23 +9,39 @@ class FlightOffersController < ApplicationController
   # GET /flight_offers/1 or /flight_offers/1.json
   def show; end
 
+  # GET /flight_offers/new
+  def new
+    @flight_offer = FlightOffer.new
+  end
+
+  # GET /flight_offers/1/edit
+  def edit; end
+
   # POST /flight_offers or /flight_offers.json
   def create
     @flight_offer = FlightOffer.new(flight_offer_params)
 
-    if @flight_offer.save
-      render :show, status: :created, location: @flight_offer
-    else
-      render json: @flight_offer.errors, status: :unprocessable_entity
+    respond_to do |format|
+      if @flight_offer.save
+        format.html { redirect_to flight_offer_url(@flight_offer), notice: 'Flight offer was successfully created.' }
+        format.json { render :show, status: :created, location: @flight_offer }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @flight_offer.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /flight_offers/1 or /flight_offers/1.json
   def update
-    if @flight_offer.update(flight_offer_params)
-      render :show, status: :ok, location: @flight_offer
-    else
-      render json: @flight_offer.errors, status: :unprocessable_entity
+    respond_to do |format|
+      if @flight_offer.update(flight_offer_params)
+        format.html { redirect_to flight_offer_url(@flight_offer), notice: 'Flight offer was successfully updated.' }
+        format.json { render :show, status: :ok, location: @flight_offer }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @flight_offer.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -33,7 +49,10 @@ class FlightOffersController < ApplicationController
   def destroy
     @flight_offer.destroy!
 
-    render json: { message: 'Flight offer was successfully destroyed.' }, head: :no_content
+    respond_to do |format|
+      format.html { redirect_to flight_offers_url, notice: 'Flight offer was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private
