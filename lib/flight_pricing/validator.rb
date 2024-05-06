@@ -3,18 +3,18 @@ module FlightPricing
     Error = Class.new(StandardError)
     ExpiredOfferError = Class.new(Error)
 
-    def self.validate(flight_offers)
-      new(flight_offers).validate
+    def self.validate(flight_offers_ids)
+      new(flight_offers_ids).validate
     end
 
-    def initialize(flight_offers)
-      @flight_offers = flight_offers
+    def initialize(flight_offers_ids)
+      @flight_offers_ids = flight_offers_ids
     end
 
     def validate
-      raise ExpiredOfferError unless inside_ticketing_period?
-
       with_errors_handler do
+        raise ExpiredOfferError unless inside_ticketing_period?
+
         response = amadeus_client.post_flight_pricing(build_request_params)
         parsed_response = ResponseParser.parse(response.data, flight_offers)
 
@@ -24,7 +24,11 @@ module FlightPricing
 
     private
 
-    attr_reader :flight_offers
+    attr_reader :flight_offers_ids
+
+    def flight_offers
+      @flight_offers = FlightOffer.find(flight_offers_ids)
+    end
 
     def with_errors_handler
       yield
@@ -37,6 +41,9 @@ module FlightPricing
     rescue ActiveRecord::RecordNotFound => e
       Rails.logger.error("Record not found: #{e.message}")
       raise Error, "Required record not found: #{e.message}"
+    rescue ExpiredOfferError => e
+      Rails.logger.error("Expired offer: #{e.message}")
+      raise
     rescue StandardError => e
       Rails.logger.error("Error building payment plans: #{e.message}")
       raise Error, "Unhandled error: #{e.message}, backtrace: #{e.backtrace}"
@@ -77,6 +84,8 @@ module FlightPricing
           traveler_pricing.price.update(response_traveler_pricing[:price_attributes])
         end
       end
+
+      flight_offers
     end
 
     def inside_ticketing_period?

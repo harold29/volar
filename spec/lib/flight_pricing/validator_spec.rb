@@ -29,7 +29,7 @@ RSpec.describe FlightPricing::Validator do
 
     let(:response_data) { JSON.parse(fixed_response)['data']['flightOffers'].first }
 
-    let(:validated) { described_class.validate([flight_offer]) }
+    let(:validated) { described_class.validate([flight_offer.id]) }
 
     context '#validate' do
       describe 'when response is valid' do
@@ -129,9 +129,10 @@ RSpec.describe FlightPricing::Validator do
 
               it 'updates tax amount' do
                 expect { validated }.to change {
-                                          flight_offer.reload.traveler_pricings[0]
+                                          flight_offer.reload.traveler_pricings
                                                       .find_by(
-                                                        traveler_internal_id: response_data['travelerPricings']['travelerId']
+                                                        traveler_internal_id: response_data['travelerPricings'][0]['travelerId'].to_i,
+                                                        flight_offer_id: flight_offer.id
                                                       ).price.taxes.find_by(
                                                         tax_code: response_data['travelerPricings'][0]['price']['taxes'][0]['code']
                                                       ).tax_amount.to_f
