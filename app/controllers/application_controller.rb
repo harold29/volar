@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  include RackSessionFixController
-  include ActionController::MimeResponds
+  # include RackSessionFixController
 
   def not_found!
     raise ActionController::RoutingError, 'Not Found'

@@ -230,14 +230,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_08_044644) do
     t.index ["flight_offer_id"], name: "index_itineraries_on_flight_offer_id"
   end
 
-  create_table "jwt_denylist", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "jti"
-    t.datetime "exp"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["jti"], name: "index_jwt_denylist_on_jti"
-  end
-
   create_table "payment_plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "departure_at"
     t.date "return_at"

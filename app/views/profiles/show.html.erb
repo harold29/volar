@@ -1,0 +1,38 @@
+<h1>Profile Details</h1>
+
+<p>
+  <strong>First Name:</strong>
+  <%= @profile.first_name %>
+</p>
+
+<p>
+  <strong>Last Name:</strong>
+  <%= @profile.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @profile.user.email %>
+</p>
+
+<p>
+  <strong>Phone Number 1:</strong>
+  <%= @profile.phone_number_1 %>
+</p>
+
+<p>
+  <strong>Phone Number 2:</strong>
+  <%= @profile.phone_number_2 %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @profile.gender %>
+</p>
+
+<p>
+  <strong>Birthdate:</strong>
+  <%= @profile.birthdate.strftime("%d/%m/%Y") if @profile.birthdate %>
+</p>
+
+<%# <%= link_to 'Edit Profile', edit_profile_path(@profile) %> %>

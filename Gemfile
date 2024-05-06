@@ -9,18 +9,30 @@ gem 'rails', '~> 7.1.3'
 
 gem 'active_model_serializers', '~> 0.10.12'
 
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem 'sprockets-rails'
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
 
+# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+gem 'importmap-rails'
+
+# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+gem 'turbo-rails'
+
+# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem 'stimulus-rails'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
 gem 'pundit'
 
-# gem 'actionpack', '7.1.3.1'
+gem 'actionpack', '7.1.3.1'
 # gem 'amadeus', '5.2.3', github: 'harold29/amadeus-ruby'
 gem 'faraday', '2.9.0'
 gem 'rack', '3.0.9.1'
@@ -73,12 +85,10 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
-  # gem 'rails-controller-testing'
+  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   gem 'webmock', '3.23.0'
 end
 
 gem 'devise', '~> 4.9'
-gem 'devise-jwt'
-gem 'jwt'

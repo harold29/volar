@@ -14,7 +14,7 @@ RSpec.describe '/profiles', type: :request do
       end
 
       it 'renders a successful response' do
-        get show_profile_url, as: :json
+        get show_profile_url
 
         expect(response).to be_successful
       end
@@ -28,9 +28,38 @@ RSpec.describe '/profiles', type: :request do
       end
 
       it 'renders a successful response' do
-        get show_profile_url, as: :json
+        get show_profile_url
 
         expect(response).to be_not_found
+      end
+    end
+  end
+
+  describe 'GET /new' do
+    context 'when user is authenticated' do
+      let(:user) { create(:user) }
+
+      before do
+        sign_in user
+        get new_profile_path
+      end
+
+      it 'responds with 200 (ok)' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        get new_profile_path
+      end
+
+      it 'redirects to the sign-in page' do
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
@@ -57,13 +86,13 @@ RSpec.describe '/profiles', type: :request do
 
       it 'creates a new Profile' do
         expect do
-          post profile_url, params: { profile: valid_attributes }, as: :json
+          post profile_url, params: { profile: valid_attributes }
         end.to change(Profile, :count).by(1)
       end
 
       it 'Returns 201' do
-        post profile_url, params: { profile: valid_attributes }, as: :json
-        expect(response).to be_created
+        post profile_url, params: { profile: valid_attributes }
+        expect(response).to redirect_to(profile_path(Profile.last))
       end
     end
 
@@ -87,12 +116,12 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does not create a new Profile' do
             expect do
-              post profile_url, params: { profile: invalid_attributes }, as: :json
+              post profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response with errors for the new profile' do
-            post profile_url, params: { profile: invalid_attributes }, as: :json
+            post profile_url, params: { profile: invalid_attributes }
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
@@ -115,12 +144,12 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does not create a new Profile' do
             expect do
-              post profile_url, params: { profile: invalid_attributes }, as: :json
+              post profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response with errors for the new profile' do
-            post profile_url, params: { profile: invalid_attributes }, as: :json
+            post profile_url, params: { profile: invalid_attributes }
 
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -144,12 +173,12 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does not create a new Profile' do
             expect do
-              post profile_url, params: { profile: invalid_attributes }, as: :json
+              post profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response with errors for the new profile' do
-            post profile_url, params: { profile: invalid_attributes }, as: :json
+            post profile_url, params: { profile: invalid_attributes }
 
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -173,14 +202,14 @@ RSpec.describe '/profiles', type: :request do
 
           it 'creates a new Profile' do
             expect do
-              post profile_url, params: { profile: non_complete_attrs }, as: :json
+              post profile_url, params: { profile: non_complete_attrs }
             end.to change(Profile, :count).by(1)
           end
 
-          it 'returns 201' do
-            post profile_url, params: { profile: non_complete_attrs }, as: :json
+          it 'redirects to new Profile' do
+            post profile_url, params: { profile: non_complete_attrs }
 
-            expect(response).to be_created
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
         end
 
@@ -202,14 +231,14 @@ RSpec.describe '/profiles', type: :request do
 
           it 'creates a new Profile' do
             expect do
-              post profile_url, params: { profile: non_complete_attrs }, as: :json
+              post profile_url, params: { profile: non_complete_attrs }
             end.to change(Profile, :count).by(1)
           end
 
-          it 'returns 201' do
-            post profile_url, params: { profile: non_complete_attrs }, as: :json
+          it 'redirects to new Profile' do
+            post profile_url, params: { profile: non_complete_attrs }
 
-            expect(response).to be_created
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
         end
 
@@ -231,14 +260,14 @@ RSpec.describe '/profiles', type: :request do
 
           it 'creates a new Profile' do
             expect do
-              post profile_url, params: { profile: non_complete_attrs }, as: :json
+              post profile_url, params: { profile: non_complete_attrs }
             end.to change(Profile, :count).by(1)
           end
 
-          it 'returns 201' do
-            post profile_url, params: { profile: non_complete_attrs }, as: :json
+          it 'redirects to new Profile' do
+            post profile_url, params: { profile: non_complete_attrs }
 
-            expect(response).to be_created
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
         end
       end
@@ -258,9 +287,52 @@ RSpec.describe '/profiles', type: :request do
       end
 
       it 'renders a JSON error unauthorized' do
-        post profile_url, params: { profile: valid_attributes }, as: :json
+        post profile_url, params: { profile: valid_attributes }
 
-        expect(response).to be_unauthorized
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
+
+  describe 'GET /edit' do
+    context 'when user is authenticated' do
+      let(:user) { create(:user) }
+      let!(:profile) { create(:profile, user:) }
+
+      before do
+        sign_in user
+        get edit_profile_path
+      end
+
+      it 'responds with 200 (ok)' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'when user is authenticated but has no profile' do
+      let(:user) { create(:user) }
+
+      before do
+        sign_in user
+        get edit_profile_path
+      end
+
+      it 'redirects to the profile creation page' do
+        expect(response).to redirect_to(new_profile_path)
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        get edit_profile_path
+      end
+
+      it 'redirects to the sign-in page' do
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
@@ -288,18 +360,18 @@ RSpec.describe '/profiles', type: :request do
 
       it 'updates the existing Profile' do
         expect do
-          patch profile_url, params: { profile: valid_attributes }, as: :json
+          patch profile_url, params: { profile: valid_attributes }
         end.to change(Profile, :count).by(0)
       end
 
-      it 'return 200' do
-        patch profile_url, params: { profile: valid_attributes }, as: :json
+      it 'renders a JSON response with the updated profile' do
+        patch profile_url, params: { profile: valid_attributes }
 
-        expect(response).to be_successful
+        expect(response).to redirect_to(profile_path(Profile.last))
       end
 
       it 'updates profile' do
-        patch profile_url, params: { profile: valid_attributes }, as: :json
+        patch profile_url, params: { profile: valid_attributes }
 
         updated_profile = Profile.find_by_id(profile.id)
 
@@ -332,18 +404,18 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: invalid_attributes }, as: :json
+              patch profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
-          it 'returns 200' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+          it 'renders a JSON response without errors' do
+            patch profile_url, params: { profile: invalid_attributes }
 
-            expect(response).to be_successful
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
 
             updated_profile = Profile.find_by_id(profile.id)
 
@@ -374,18 +446,18 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: invalid_attributes }, as: :json
+              patch profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
-          it 'returns 200' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+          it 'renders a JSON response without errors' do
+            patch profile_url, params: { profile: invalid_attributes }
 
-            expect(response).to be_successful
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
 
             updated_profile = Profile.find_by_id(profile.id)
 
@@ -416,18 +488,18 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: invalid_attributes }, as: :json
+              patch profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
-          it 'returns 200' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+          it 'renders a JSON response without errors' do
+            patch profile_url, params: { profile: invalid_attributes }
 
-            expect(response).to be_successful
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
 
             updated_profile = Profile.find_by_id(profile.id)
 
@@ -458,17 +530,17 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: non_complete_attrs }, as: :json
+              patch profile_url, params: { profile: non_complete_attrs }
             end.to change(Profile, :count).by(0)
           end
 
-          it 'returns 200' do
-            patch profile_url, params: { profile: non_complete_attrs }, as: :json
-            expect(response).to be_successful
+          it 'renders a JSON response without errors' do
+            patch profile_url, params: { profile: non_complete_attrs }
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: non_complete_attrs }, as: :json
+            patch profile_url, params: { profile: non_complete_attrs }
 
             updated_profile = Profile.find_by_id(profile.id)
 
@@ -499,17 +571,17 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: non_complete_attrs }, as: :json
+              patch profile_url, params: { profile: non_complete_attrs }
             end.to change(Profile, :count).by(0)
           end
 
-          it 'returns 200' do
-            patch profile_url, params: { profile: non_complete_attrs }, as: :json
-            expect(response).to be_successful
+          it 'renders a JSON response without errors' do
+            patch profile_url, params: { profile: non_complete_attrs }
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: non_complete_attrs }, as: :json
+            patch profile_url, params: { profile: non_complete_attrs }
 
             updated_profile = Profile.find_by_id(profile.id)
 
@@ -540,17 +612,17 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: non_complete_attrs }, as: :json
+              patch profile_url, params: { profile: non_complete_attrs }
             end.to change(Profile, :count).by(0)
           end
 
-          it 'returns 200' do
-            patch profile_url, params: { profile: non_complete_attrs }, as: :json
-            expect(response).to be_successful
+          it 'renders a JSON response without errors' do
+            patch profile_url, params: { profile: non_complete_attrs }
+            expect(response).to redirect_to(profile_path(Profile.last))
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: non_complete_attrs }, as: :json
+            patch profile_url, params: { profile: non_complete_attrs }
 
             updated_profile = Profile.find_by_id(profile.id)
 
@@ -584,12 +656,12 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does not update the Profile' do
             expect do
-              patch profile_url, params: { profile: invalid_attributes }, as: :json
+              patch profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
           it 'raises an unprocessable entity' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
 
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -614,12 +686,12 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does not update the Profile' do
             expect do
-              patch profile_url, params: { profile: invalid_attributes }, as: :json
+              patch profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
           it 'raises an unprocessable entity' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
 
             expect(response).to have_http_status(:unprocessable_entity)
           end
@@ -644,17 +716,17 @@ RSpec.describe '/profiles', type: :request do
 
           it 'does update the Profile' do
             expect do
-              patch profile_url, params: { profile: invalid_attributes }, as: :json
+              patch profile_url, params: { profile: invalid_attributes }
             end.to change(Profile, :count).by(0)
           end
 
           it 'renders a JSON response without errors' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
             expect(response).to have_http_status(:unprocessable_entity)
           end
 
           it 'updates profile' do
-            patch profile_url, params: { profile: invalid_attributes }, as: :json
+            patch profile_url, params: { profile: invalid_attributes }
 
             updated_profile = Profile.find_by_id(profile.id)
 
