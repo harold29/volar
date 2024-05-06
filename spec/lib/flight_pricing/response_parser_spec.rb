@@ -51,7 +51,6 @@ RSpec.describe FlightPricing::ResponseParser do
         price = parsed_response.first[:price_attributes]
         response_price = response_data['price']
 
-        # binding.pry
         expect(price).to include({
                                    price_total: response_price['total'],
                                    base_fare: response_price['base'],
